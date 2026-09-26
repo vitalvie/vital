@@ -5,14 +5,13 @@
 </p>
 
 <p align="center">
-  <img src="public/mockups/vital-hero.png" alt="Vital" width="49%">
-  <img src="public/mockups/alan-hero.png" alt="Vital x Alan" width="49%">
+  <img src="public/mockups/vital-demo.png" alt="Vital demo: Apple Watch voice assistant with Body Battery and conversation panel" width="100%">
 </p>
 
 <p align="left">
-  <img src="https://badgen.net/badge/python/3.12+/3776AB?icon=pypi" alt="Python 3.12+">
-  <img src="https://badgen.net/badge/state/Refactoring/yellow" alt="State: Refactoring">
-  <img src="https://badgen.net/badge/swift/Soon/F05138" alt="Swift: Soon">
+  <img src="https://badgen.net/badge/TanStack/Start/FF4154" alt="TanStack Start">
+  <img src="https://badgen.net/badge/TypeScript/6/3178C6?icon=typescript" alt="TypeScript 6">
+  <img src="https://badgen.net/badge/state/Hackathon%20demo/5C59F3" alt="State: Hackathon demo">
   <img src="https://badgen.net/badge/license/AGPL%203.0/green" alt="License: AGPL-3.0">
   <br><br>
   <a href="https://mistral.ai"><img src="public/badges/m-orange.svg" alt="Mistral AI" height="32"></a>
@@ -30,8 +29,8 @@
 
 ## Status
 
-Active post-hackathon refactor.  
-Cleaning up the codebase, opening contributions, and building the team to take Vital further !
+Hackathon demo. Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.  
+Not open to contributions.
 
 ## License
 
