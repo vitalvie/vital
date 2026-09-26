@@ -31,7 +31,7 @@ export function Watch({
 	const cancellable = status === "listening" || status === "speaking";
 
 	return (
-		<div className="flex origin-top flex-col items-center max-sm:-mb-24 max-sm:scale-[0.8]">
+		<div className="-mb-44 flex origin-top scale-[0.7] flex-col items-center min-[400px]:-mb-28 min-[400px]:scale-[0.8] sm:mb-0 sm:scale-100">
 			<Band />
 			<div className="relative">
 				<div className="rounded-[80px] bg-linear-to-br from-titanium-light to-titanium p-4 shadow-[0_30px_60px_rgba(40,40,48,0.25)]">

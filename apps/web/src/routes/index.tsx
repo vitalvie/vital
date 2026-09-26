@@ -111,17 +111,17 @@ function Home() {
 			</header>
 
 			<section className="flex flex-col gap-2 text-center">
-				<h1 className="text-[32px] leading-10 font-medium text-heading">
+				<h1 className="text-[26px] leading-8 font-medium text-heading sm:text-[32px] sm:leading-10">
 					Your health, explained out loud.
 				</h1>
 				<p className="leading-6">
-					Ask anything about your sleep, recovery or energy.
-					<br />
+					Ask anything about your sleep, recovery or energy.{" "}
+					<br className="max-sm:hidden" />
 					Vital answers using your own data, compared to your usual.
 				</p>
 			</section>
 
-			<div className="grid items-start gap-10 lg:grid-cols-[auto_1fr] lg:gap-16">
+			<div className="grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-16">
 				<div className="flex justify-center lg:sticky lg:top-6">
 					<Watch
 						status={status}

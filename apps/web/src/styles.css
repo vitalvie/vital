@@ -60,6 +60,17 @@
 	}
 }
 
+@layer base {
+	button:not(:disabled),
+	[role="button"]:not([aria-disabled="true"]) {
+		cursor: pointer;
+	}
+
+	button:disabled {
+		cursor: not-allowed;
+	}
+}
+
 body {
 	margin: 0;
 	background: var(--color-cream);
