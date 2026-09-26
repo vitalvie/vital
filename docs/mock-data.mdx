@@ -1,0 +1,29 @@
+---
+title: Mock data
+description: "Synthetic HealthKit-shaped data used by the demo."
+---
+
+The demo uses 14 days of synthetic data in `apps/web/src/data/mock-health.ts`. Dates are relative, so the last entry is always today.
+
+## Shape
+
+| Field | HealthKit type | Unit |
+|-------|----------------|------|
+| `sleepHours` | `HKCategoryTypeIdentifier.sleepAnalysis` | hours asleep |
+| `hrvMs` | `HKQuantityTypeIdentifier.heartRateVariabilitySDNN` | ms |
+| `restingHr` | `HKQuantityTypeIdentifier.restingHeartRate` | bpm |
+| `steps` | `HKQuantityTypeIdentifier.stepCount` | count |
+| `activeEnergyKcal` | `HKQuantityTypeIdentifier.activeEnergyBurned` | kcal |
+
+## Demo story
+
+Twelve ordinary days, then:
+
+- **Yesterday:** a big training day (16,800 steps, 1,150 kcal)
+- **Last night:** a short night (5.4 h), low HRV (34 ms), elevated resting heart rate (62 bpm)
+
+The result is a low Body Battery (35), which gives the assistant something interesting to say.
+
+<Tip>
+  To demo a different story, edit the last entries of the `samples` array. Keep values realistic.
+</Tip>

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Vital",
+  "colors": {
+    "primary": "#6C5CE7",
+    "light": "#A29BFE",
+    "dark": "#5A4BD1"
+  },
+  "favicon": "/vital-logo.png",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Getting Started",
+        "pages": ["introduction", "quickstart"]
+      },
+      {
+        "group": "Product",
+        "pages": ["voice-assistant", "body-battery", "design-system"]
+      },
+      {
+        "group": "Engineering",
+        "pages": ["architecture", "mock-data"]
+      },
+      {
+        "group": "References",
+        "pages": ["resources"]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/vital-logo.png",
+    "dark": "/vital-logo.png"
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/vitalvie/vital"
+    }
+  }
+}

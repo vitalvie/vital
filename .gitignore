@@ -1,0 +1,34 @@
+# Node
+node_modules/
+dist/
+.output/
+.tanstack/
+.nitro/
+*.local
+
+# Env
+.env
+
+# Mintlify
+docs/node_modules/
+docs/package.json
+docs/package-lock.json
+
+# Claude Code
+.claude/settings.local.json
+.claude/rules/authorship.md
+.claude/scheduled_tasks.lock
+.mcp.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Legacy Python tooling (local only)
+.venv/
+.ruff_cache/
+__pycache__/
