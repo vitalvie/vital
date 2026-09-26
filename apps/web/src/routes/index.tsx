@@ -3,7 +3,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
 import { AskBar } from "#/components/ask-bar";
 import { BodyBatteryCard } from "#/components/body-battery-card";
-import { Orb, type Status } from "#/components/orb";
+import type { Status } from "#/components/orb";
+import { Watch } from "#/components/watch";
 import { mockHealth } from "#/data/mock-health";
 import {
 	canRecord,
@@ -17,13 +18,6 @@ import { askVital } from "#/server/ask";
 import { synthesize, transcribe } from "#/server/voice";
 
 export const Route = createFileRoute("/")({ component: Home });
-
-const STATUS_LABEL: Record<Status, string> = {
-	idle: "Tap the orb and ask about your health",
-	listening: "Listening… tap to send",
-	thinking: "Thinking…",
-	speaking: "Speaking… tap to stop",
-};
 
 const energy = computeEnergy(mockHealth);
 
@@ -93,8 +87,18 @@ function Home() {
 		}
 	}
 
+	function onCancel() {
+		if (status === "speaking") return stopAudio();
+		if (status === "listening" && recording.current) {
+			recording.current.stop();
+			recording.current = null;
+			setLevel(undefined);
+			setStatus("idle");
+		}
+	}
+
 	return (
-		<main className="mx-auto flex min-h-screen max-w-xl flex-col gap-10 px-6 py-6">
+		<main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-10 px-6 py-6">
 			<header className="flex items-center justify-between">
 				<img
 					src="/vital-logo.png"
@@ -117,42 +121,53 @@ function Home() {
 				</p>
 			</section>
 
-			<BodyBatteryCard energy={energy} />
+			<div className="grid items-start gap-10 lg:grid-cols-[auto_1fr] lg:gap-16">
+				<div className="flex justify-center lg:sticky lg:top-6">
+					<Watch
+						status={status}
+						level={level}
+						battery={energy.score}
+						voice={voice}
+						onOrb={onOrb}
+						onCancel={onCancel}
+					/>
+				</div>
 
-			<section className="flex flex-col items-center gap-6 py-4">
-				<Orb
-					status={status}
-					level={level}
-					disabled={!voice && status === "idle"}
-					onClick={onOrb}
-				/>
-				<p className="text-sm text-caption">
-					{voice || status !== "idle"
-						? STATUS_LABEL[status]
-						: "Mic needs HTTPS or localhost"}
-				</p>
-			</section>
-
-			{(question || error) && (
-				<section className="flex flex-col items-center gap-3 text-center">
-					{question && (
-						<p key={question} className="animate-fade-up text-sm text-caption">
-							“{question}”
-						</p>
-					)}
-					{answer && (
-						<p
-							key={answer}
-							className="animate-fade-up text-xl leading-8 text-heading"
-						>
-							{answer}
-						</p>
-					)}
-					{error && <p className="animate-fade-up text-bad">{error}</p>}
-				</section>
-			)}
-
-			<AskBar onAsk={run} />
+				<div className="flex flex-col gap-8">
+					<section className="flex min-h-40 flex-col justify-center gap-3 rounded-3xl bg-white p-6 shadow-soft">
+						{question || error ? (
+							<>
+								{question && (
+									<p
+										key={question}
+										className="animate-fade-up text-sm text-caption"
+									>
+										“{question}”
+									</p>
+								)}
+								{status === "thinking" && !answer && (
+									<p className="text-caption">Thinking…</p>
+								)}
+								{answer && (
+									<p
+										key={answer}
+										className="animate-fade-up text-xl leading-8 text-heading"
+									>
+										{answer}
+									</p>
+								)}
+								{error && <p className="animate-fade-up text-bad">{error}</p>}
+							</>
+						) : (
+							<p className="text-center text-caption">
+								Tap the watch and ask how you're doing.
+							</p>
+						)}
+					</section>
+					<AskBar onAsk={run} />
+					<BodyBatteryCard energy={energy} />
+				</div>
+			</div>
 
 			<footer className="mt-auto text-center text-xs leading-5 text-caption">
 				Vital is not a medical device and does not give diagnoses. For health

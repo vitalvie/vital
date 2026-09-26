@@ -7,11 +7,18 @@ type Props = {
 	status: Status;
 	level?: () => number;
 	disabled?: boolean;
+	className?: string;
 	onClick: () => void;
 };
 
 // The voice orb is the main control: tap to talk, tap to send, tap to stop.
-export function Orb({ status, level, disabled, onClick }: Props) {
+export function Orb({
+	status,
+	level,
+	disabled,
+	className = "size-40",
+	onClick,
+}: Props) {
 	const ref = useRef<HTMLButtonElement>(null);
 
 	useEffect(() => {
@@ -41,12 +48,12 @@ export function Orb({ status, level, disabled, onClick }: Props) {
 			onClick={onClick}
 			disabled={disabled}
 			aria-label={busy ? "Stop" : "Ask Vital"}
-			className="orb relative size-40 rounded-full text-white outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 disabled:opacity-40"
+			className={`orb relative rounded-full text-white outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 disabled:opacity-40 ${className}`}
 		>
 			<span className="orb-glow" />
 			<span className="orb-core" />
 			<span className="relative flex items-center justify-center">
-				{busy ? <StopIcon size={32} /> : <MicIcon size={36} />}
+				{busy ? <StopIcon size={28} /> : <MicIcon size={32} />}
 			</span>
 		</button>
 	);

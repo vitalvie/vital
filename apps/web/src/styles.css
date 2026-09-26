@@ -34,6 +34,12 @@
 	--color-bad: #c9202e;
 	--color-bad-bg: #ffe8e9;
 
+	/* Watch mockup */
+	--color-titanium-light: #e4e1db;
+	--color-titanium: #a8a39b;
+	--color-band: #ff6d39;
+	--color-screen: #0b0b12;
+
 	/* Elevation */
 	--shadow-soft: 0 8px 24px rgba(40, 40, 48, 0.06);
 	--shadow-brand: 0 16px 40px rgba(92, 89, 243, 0.35);
