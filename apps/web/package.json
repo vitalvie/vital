@@ -12,6 +12,7 @@
 		"check": "biome check",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
+		"eval": "vitest run --config vitest.eval.config.ts",
 		"deploy": "vite build && wrangler deploy"
 	},
 	"dependencies": {
