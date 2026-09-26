@@ -9,9 +9,19 @@
   Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.
 </p>
 
-<p align="center">
-  <img src="public/mockups/vital-demo.png" alt="Vital demo: Apple Watch voice assistant with Body Battery and conversation panel" width="100%">
-</p>
+<table border="0" cellspacing="0" cellpadding="8"><tr>
+  <td align="center" valign="top" width="45%">
+    <img src="public/mockups/demo-watch.png" alt="Apple Watch mockup with the voice orb speaking">
+    <br><sub><b>Tap the watch and talk.</b> The orb listens, thinks, then answers out loud with Voxtral.</sub>
+  </td>
+  <td align="center" valign="top" width="55%">
+    <img src="public/mockups/demo-battery.png" alt="Body Battery card at 35% with sleep, HRV and resting heart rate tiles">
+    <br><sub><b>Body Battery.</b> Today's sleep, HRV and resting heart rate, compared to your usual.</sub>
+    <br><br>
+    <img src="public/mockups/demo-conversation.png" alt="Ask Vital panel with a question and a short answer">
+    <br><sub><b>Ask Vital.</b> A short, friendly answer grounded in your own data. Type or pick a question if you prefer.</sub>
+  </td>
+</tr></table>
 
 <p align="left">
   <img src="https://badgen.net/badge/TanStack/Start/FF4154" alt="TanStack Start">
