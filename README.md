@@ -4,7 +4,7 @@
   <em>Talk to your body.</em>
 </p>
 
-<p align="center">
+<p align="left">
   Hackathon demo.<br>
   Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.
 </p>
