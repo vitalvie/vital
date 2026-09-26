@@ -15,6 +15,10 @@
   Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.
 </p>
 
+<p align="left">
+  <a href="https://vital.dhicham-pro.workers.dev"><b>Give it a try →</b></a>
+</p>
+
 <table border="0" cellspacing="0" cellpadding="8"><tr>
   <td align="center" valign="top" width="45%">
     <img src="public/mockups/demo-watch.png" alt="Apple Watch mockup with the voice orb speaking">
