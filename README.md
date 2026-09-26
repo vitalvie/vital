@@ -45,6 +45,12 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000), tap the watch and ask a question. The mic works on `localhost` or HTTPS; otherwise, type a question.
 
+### Change the mocked data
+
+Edit [`apps/web/src/data/mock-health.ts`](apps/web/src/data/mock-health.ts): 14 days of HealthKit-shaped samples (sleep, HRV, resting heart rate, steps, active energy), oldest first. The last entry is "today" and is compared to the days before. The page reloads on save, and the Body Battery score and answers follow the new data.
+
+If you change the demo story, update the expected score in `apps/web/src/lib/energy.test.ts` so `pnpm test` stays green.
+
 ## License
 
 [AGPL-3.0](LICENSE)
