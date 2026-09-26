@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
 import { BodyBatteryCard } from "#/components/body-battery-card";
 import { Conversation } from "#/components/conversation";
+import { Logo } from "#/components/logo";
 import type { Status } from "#/components/orb";
 import { Watch } from "#/components/watch";
 import { mockHealth } from "#/data/mock-health";
@@ -100,11 +101,7 @@ function Home() {
 	return (
 		<main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-10 px-5 py-6 sm:gap-12 sm:px-8 sm:py-8 lg:gap-16">
 			<header className="flex items-center justify-between">
-				<img
-					src="/vital-logo.png"
-					alt="Vital, built for Alan"
-					className="h-8 w-auto"
-				/>
+				<Logo />
 				<span className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700">
 					Demo data
 				</span>
