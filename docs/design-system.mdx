@@ -65,8 +65,9 @@ Components live in `apps/web/src/components/`. One file per component, kebab-cas
 |-----------|------|------|
 | `Watch` | `watch.tsx` | Apple Watch Ultra-style frame hosting the voice UI: battery, clock, orb, status, level dots, cancel |
 | `Orb` | `orb.tsx` | Voice control and state indicator, shown on the watch screen |
-| `BodyBatteryCard` | `body-battery-card.tsx` | Flat battery, score, and three contributor tiles |
-| `AskBar` | `ask-bar.tsx` | Suggestion chips and pill-shaped text input |
+| `BodyBatteryCard` | `body-battery-card.tsx` | Level pill, flat battery, score, one-line summary, three contributor tiles |
+| `Conversation` | `conversation.tsx` | Chat panel: header with live status, question bubble, answer, ask bar |
+| `AskBar` | `ask-bar.tsx` | Suggestion chips and pill-shaped text input, used inside `Conversation` |
 | Icons | `icons.tsx` | Stroke icons, 2 px, `currentColor` |
 
 ### Orb states
@@ -82,16 +83,15 @@ The status line under the orb says what is happening. The red cancel button appe
 
 ## Layout
 
-`max-w-5xl`, mobile-first. Two columns from `lg`, stacked below. The watch scales to 80% under `sm` and 70% under 400 px:
+`max-w-5xl`, mobile-first. Two columns from `lg`, stacked below in the order intro, watch, battery, conversation. The right column is left-aligned and every card uses `rounded-3xl` with the same padding (`p-4 sm:p-6`/`p-5 sm:p-6`). The watch scales to 80% under `sm` and 70% under 400 px:
 
 ```
 Header          logo · "Demo data" pill
-Intro           title + two-line subtitle, centered
-┌───────────────┬──────────────────────────────┐
-│ Watch         │ Answer card (question + answer) │
-│ (sticky)      │ Ask bar (chips + input)         │
-│               │ Body Battery card               │
-└───────────────┴──────────────────────────────┘
+┌───────────────┬──────────────────────────────────┐
+│ Watch         │ Intro (eyebrow, title, subtitle) │
+│ (sticky,      │ Body Battery card                │
+│  spans rows)  │ Conversation panel               │
+└───────────────┴──────────────────────────────────┘
 Footer          medical disclaimer
 ```
 

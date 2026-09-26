@@ -17,14 +17,14 @@ export function AskBar({ onAsk }: { onAsk: (text: string) => void }) {
 	}
 
 	return (
-		<div className="flex flex-col items-center gap-3">
-			<div className="flex flex-wrap justify-center gap-2">
+		<div className="flex flex-col gap-3">
+			<div className="flex flex-wrap gap-2">
 				{SUGGESTIONS.map((s) => (
 					<button
 						key={s.text}
 						type="button"
 						onClick={() => onAsk(s.text)}
-						className={`rounded-full px-4 py-2 text-sm font-medium text-heading transition duration-200 hover:-translate-y-0.5 hover:shadow-soft ${s.color}`}
+						className={`rounded-full px-3.5 py-1.5 text-sm font-medium text-heading transition duration-200 hover:-translate-y-0.5 hover:shadow-soft ${s.color}`}
 					>
 						{s.text}
 					</button>
@@ -32,7 +32,7 @@ export function AskBar({ onAsk }: { onAsk: (text: string) => void }) {
 			</div>
 			<form
 				onSubmit={onSubmit}
-				className="flex w-full items-center rounded-full border border-line bg-white p-1.5 pl-5 shadow-soft transition focus-within:border-indigo-300"
+				className="flex w-full items-center rounded-full border border-line bg-cream p-1.5 pl-5 transition focus-within:border-indigo-300 focus-within:bg-white"
 			>
 				<input
 					value={draft}

@@ -67,3 +67,21 @@ export function computeEnergy(days: DailyHealth[]): Energy {
 
 	return { score, contributors, today, yesterday };
 }
+
+export type EnergyLevel = "Low" | "Moderate" | "Good";
+
+export function energyLevel(score: number): EnergyLevel {
+	return score < 30 ? "Low" : score < 60 ? "Moderate" : "Good";
+}
+
+// One friendly sentence naming the two biggest drains, if any.
+export function energySummary(contributors: Contributor[]): string {
+	const drains = contributors
+		.filter((c) => c.impact < 0)
+		.sort((a, b) => a.impact - b.impact)
+		.slice(0, 2)
+		.map((c) => c.label.replace(/^[A-Z][a-z]/, (m) => m.toLowerCase()));
+	return drains.length
+		? `Your ${drains.join(" and ")} ${drains.length > 1 ? "are" : "is"} pulling you down today.`
+		: "You're recovered and ready to go.";
+}

@@ -10,7 +10,7 @@ Voice-first health assistant — hackathon demo. Ask a question out loud, get a 
 
 ```
 apps/web/          # TanStack Start app (React + TypeScript + Tailwind)
-  src/components/  # UI components (Watch, Orb, BodyBatteryCard, AskBar, icons)
+  src/components/  # UI components (Watch, Orb, BodyBatteryCard, Conversation, AskBar, icons)
   src/data/        # Mocked HealthKit data
   src/lib/         # Body Battery score, audio record/playback helpers
   src/server/      # Server functions (Mistral SDK: chat, Voxtral STT/TTS)
