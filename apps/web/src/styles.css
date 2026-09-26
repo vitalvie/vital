@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+	--color-brand: #6c5ce7;
+	--color-brand-light: #a29bfe;
+}
+
+body {
+	margin: 0;
+	background: #0b0b12;
+	color: #f4f4f8;
+	font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}

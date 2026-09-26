@@ -1,0 +1,12 @@
+{
+	"name": "vital",
+	"private": true,
+	"packageManager": "pnpm@10.33.0",
+	"scripts": {
+		"dev": "pnpm --filter web dev",
+		"build": "pnpm --filter web build",
+		"check": "pnpm --filter web check && pnpm --filter web typecheck",
+		"docs": "cd docs && npx -y -p node@22 -p mint@latest -- mint dev",
+		"docs:check": "cd docs && npx -y -p node@22 -p mint@latest -- mint broken-links"
+	}
+}
