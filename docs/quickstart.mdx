@@ -1,0 +1,49 @@
+---
+title: Quickstart
+description: "Run the Vital demo locally in two minutes."
+---
+
+## Requirements
+
+- Node.js 22+
+- pnpm 10+
+- A [Mistral API key](https://console.mistral.ai/)
+- Chrome, Edge, or Safari for voice
+
+## Run the app
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    pnpm install
+    ```
+  </Step>
+  <Step title="Add your Mistral key">
+    ```bash
+    cp apps/web/.env.example apps/web/.env
+    ```
+    Then set `MISTRAL_API_KEY` in `apps/web/.env`. Optionally set `MISTRAL_MODEL` (defaults to `mistral-small-latest`).
+  </Step>
+  <Step title="Start">
+    ```bash
+    pnpm dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000), tap the mic, and ask a question.
+  </Step>
+</Steps>
+
+## Commands
+
+Run from the repo root.
+
+| Command | What it does |
+|---------|--------------|
+| `pnpm dev` | Start the web app on port 3000 |
+| `pnpm build` | Production build |
+| `pnpm check` | Lint and format check (Biome), then type check |
+| `pnpm docs` | Preview these docs locally (Mintlify, runs on Node 22) |
+| `pnpm docs:check` | Check the docs for broken links |
+
+<Tip>
+  No microphone or unsupported browser? Use the suggested questions or the text box. The answer is still read aloud.
+</Tip>

@@ -1,0 +1,31 @@
+---
+title: Voice assistant
+description: "How a spoken question becomes a spoken answer."
+---
+
+## Flow
+
+1. **Listen.** The browser's `SpeechRecognition` turns the user's voice into text.
+2. **Ask.** The text goes to the `askVital` server function.
+3. **Ground.** The server builds a context from the health data and the Body Battery score, then calls Mistral.
+4. **Speak.** The browser's `speechSynthesis` reads the answer aloud. Tapping the mic while it speaks stops it.
+
+## Answer rules
+
+The system prompt in `apps/web/src/server/ask.ts` keeps answers demo-friendly and safe:
+
+- 2 to 3 short sentences, plain text, because they're read aloud
+- Uses the user's real numbers compared to their own baseline
+- One practical suggestion for today
+- Never diagnoses or names medical conditions, and suggests a professional when something looks concerning
+- Says so when the data can't answer the question
+
+## Example
+
+> **You:** Should I train hard today?
+>
+> **Vital:** Your Body Battery is 35. You slept 5.4 hours against your usual 7.5, and your HRV is well below your average. A light walk or mobility session would suit you better than a hard workout today.
+
+<Note>
+  Speech recognition support varies by browser. Chrome, Edge, and Safari work. Firefox doesn't, so use the text box there.
+</Note>

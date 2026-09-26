@@ -7,20 +7,24 @@
     "light": "#A29BFE",
     "dark": "#5A4BD1"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/vital-logo.png",
   "navigation": {
     "groups": [
       {
         "group": "Getting Started",
-        "pages": [
-          "introduction"
-        ]
+        "pages": ["introduction", "quickstart"]
+      },
+      {
+        "group": "Product",
+        "pages": ["voice-assistant", "body-battery"]
+      },
+      {
+        "group": "Engineering",
+        "pages": ["architecture", "mock-data"]
       },
       {
         "group": "References",
-        "pages": [
-          "resources"
-        ]
+        "pages": ["resources"]
       }
     ]
   },
@@ -30,7 +34,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/spideystreet/Vital"
+      "github": "https://github.com/vitalvie/vital"
     }
   }
 }

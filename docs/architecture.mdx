@@ -1,0 +1,54 @@
+---
+title: Architecture
+description: "One monorepo, one web app, one server function."
+---
+
+## Repository layout
+
+```
+apps/
+  web/                 TanStack Start app (React + TypeScript)
+    src/
+      data/            Mocked HealthKit data
+      lib/             Body Battery score, Web Speech helpers
+      server/          Server functions (Mistral call)
+      routes/          Pages (file-based routing)
+docs/                  This Mintlify site
+public/                Static assets used by the README
+```
+
+The repo is a pnpm workspace. New apps go under `apps/`.
+
+## Request flow
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant B as Browser
+  participant S as askVital (server)
+  participant M as Mistral API
+  U->>B: Speaks a question
+  B->>B: SpeechRecognition to text
+  B->>S: askVital(question)
+  S->>S: Mock data + Body Battery to context
+  S->>M: Chat completion
+  M-->>S: Short answer
+  S-->>B: Answer text
+  B->>U: speechSynthesis reads it aloud
+```
+
+## Decisions
+
+- **No separate backend.** TanStack Start server functions keep the Mistral key on the server, with no extra service to run.
+- **Browser voice APIs.** Free, no keys, good enough for a demo.
+- **Mocked data.** Browsers can't read HealthKit, so the data is synthetic but shaped like HealthKit types.
+- **Server builds the context.** The client only sends the question. The server loads the data itself.
+
+## Environment variables
+
+| Variable | Required | Default |
+|----------|----------|---------|
+| `MISTRAL_API_KEY` | Yes | |
+| `MISTRAL_MODEL` | No | `mistral-small-latest` |
+
+Set them in `apps/web/.env`. Never commit that file.
