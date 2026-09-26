@@ -36,7 +36,7 @@ export const askVital = createServerFn({ method: "POST" })
 	})
 	.handler(async ({ data: question }) => {
 		const res = await mistral().chat.complete({
-			model: process.env.MISTRAL_MODEL ?? "mistral-small-latest",
+			model: process.env.MISTRAL_MODEL || "mistral-small-latest",
 			temperature: 0.4,
 			messages: [
 				{ role: "system", content: SYSTEM_PROMPT },
