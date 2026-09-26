@@ -29,7 +29,7 @@ export const synthesize = createServerFn({ method: "POST" })
 		const res = await mistral().audio.speech.complete({
 			model: "voxtral-mini-tts-2603",
 			input: text,
-			voiceId: process.env.VOXTRAL_VOICE ?? "en_paul_cheerful",
+			voiceId: process.env.VOXTRAL_VOICE || "gb_jane_neutral",
 			responseFormat: "mp3",
 		});
 		return res.audioData;
