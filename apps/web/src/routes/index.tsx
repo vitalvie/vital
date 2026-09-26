@@ -1,12 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { BodyBatteryCard } from "#/components/body-battery-card";
 import { Conversation } from "#/components/conversation";
+import { DemoDataPanel } from "#/components/demo-data-panel";
+import { SlidersIcon } from "#/components/icons";
 import { Logo } from "#/components/logo";
 import type { Status } from "#/components/orb";
 import { Watch } from "#/components/watch";
-import { mockHealth } from "#/data/mock-health";
+import {
+	DEFAULT_TODAY,
+	mockHealth,
+	type TodaySignals,
+	withToday,
+} from "#/data/mock-health";
 import {
 	canRecord,
 	playMp3,
@@ -20,8 +27,6 @@ import { synthesize, transcribe } from "#/server/voice";
 
 export const Route = createFileRoute("/")({ component: Home });
 
-const energy = computeEnergy(mockHealth);
-
 function Home() {
 	const ask = useServerFn(askVital);
 	const toText = useServerFn(transcribe);
@@ -33,6 +38,10 @@ function Home() {
 	const [answer, setAnswer] = useState("");
 	const [error, setError] = useState("");
 	const [voice, setVoice] = useState(false);
+	const [today, setToday] = useState<TodaySignals>(DEFAULT_TODAY);
+	const [editing, setEditing] = useState(false);
+	const days = useMemo(() => withToday(mockHealth, today), [today]);
+	const energy = useMemo(() => computeEnergy(days), [days]);
 
 	useEffect(() => setVoice(canRecord()), []);
 
@@ -51,7 +60,7 @@ function Home() {
 		setQuestion(text);
 		setAnswer("");
 		setStatus("thinking");
-		const reply = await ask({ data: text });
+		const reply = await ask({ data: { question: text, today } });
 		setAnswer(reply);
 		setStatus("speaking");
 		await playMp3(await toSpeech({ data: reply }));
@@ -102,9 +111,16 @@ function Home() {
 		<main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-10 px-5 py-6 sm:gap-12 sm:px-8 sm:py-8 lg:gap-16">
 			<header className="flex items-center justify-between">
 				<Logo />
-				<span className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700">
+				<button
+					type="button"
+					aria-expanded={editing}
+					aria-controls="demo-data"
+					onClick={() => setEditing((open) => !open)}
+					className="flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700 transition hover:bg-indigo-100 focus-visible:outline-2 focus-visible:outline-indigo-500"
+				>
+					<SlidersIcon />
 					Demo data
-				</span>
+				</button>
 			</header>
 
 			<div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-x-16 lg:gap-y-6">
@@ -121,7 +137,21 @@ function Home() {
 					</p>
 				</section>
 
-				<div className="flex justify-center lg:sticky lg:top-6 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:self-start">
+				{editing && (
+					<div className="lg:col-start-2">
+						<DemoDataPanel
+							id="demo-data"
+							days={days}
+							today={today}
+							onChange={setToday}
+							onClose={() => setEditing(false)}
+						/>
+					</div>
+				)}
+
+				<div
+					className={`flex justify-center lg:sticky lg:top-6 lg:col-start-1 lg:row-start-1 lg:self-start ${editing ? "lg:row-span-4" : "lg:row-span-3"}`}
+				>
 					<Watch
 						status={status}
 						level={level}
