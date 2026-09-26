@@ -180,6 +180,7 @@ function Home() {
 			<footer className="mt-auto text-center text-xs leading-5 text-caption">
 				Vital is not a medical device and does not give diagnoses. For health
 				concerns, talk to a healthcare professional.
+				<span className="block">v{__APP_VERSION__}</span>
 			</footer>
 		</main>
 	);
