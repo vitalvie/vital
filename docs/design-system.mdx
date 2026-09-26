@@ -7,8 +7,8 @@ Vital's interface borrows its palette and type from [alan.com](https://alan.com)
 
 ## Principles
 
-1. **Voice first.** The orb is the main control. Everything else supports it.
-2. **One screen, one task.** Header, data card, orb, answer, ask bar. No extra panels.
+1. **Voice first.** The giant watch, and the orb on its screen, is the main control. Everything else supports it.
+2. **One screen, one task.** Watch on one side, conversation and data on the other. No extra panels.
 3. **Calm and soft.** Pastel surfaces, rounded shapes, gentle motion. No harsh borders or pure black.
 4. **Honest data.** Always show the user's number next to their usual. Never diagnose.
 5. **Smooth, not flashy.** Motion explains state changes and respects `prefers-reduced-motion`.
@@ -30,7 +30,10 @@ All tokens live in `apps/web/src/styles.css` under `@theme`, so they work as Tai
 | `indigo-50` / `blue-50` | `#f0f3ff` / `#ebf5ff` | Card gradient |
 | `peach` | `#fff3e5` | Floating highlight bubble |
 | `pink-50`, `teal-50` | `#ffe7f0`, `#ebfaf9` | Suggestion chips |
-| `good` / `warn` / `bad` | `#367940` / `#ff9359` / `#c9202e` | Status, battery fill |
+| `good` / `warn` / `bad` | `#367940` / `#ff9359` / `#c9202e` | Status, battery fill, cancel button |
+| `titanium-light` / `titanium` | `#e4e1db` / `#a8a39b` | Watch case |
+| `band` | `#ff6d39` | Watch band |
+| `screen` | `#0b0b12` | Watch screen |
 
 ### Type
 
@@ -60,7 +63,8 @@ Components live in `apps/web/src/components/`. One file per component, kebab-cas
 
 | Component | File | Role |
 |-----------|------|------|
-| `Orb` | `orb.tsx` | Voice control and state indicator |
+| `Watch` | `watch.tsx` | Apple Watch Ultra-style frame hosting the voice UI: battery, clock, orb, status, level dots, cancel |
+| `Orb` | `orb.tsx` | Voice control and state indicator, shown on the watch screen |
 | `BodyBatteryCard` | `body-battery-card.tsx` | Flat battery, score, and three contributor tiles |
 | `AskBar` | `ask-bar.tsx` | Suggestion chips and pill-shaped text input |
 | Icons | `icons.tsx` | Stroke icons, 2 px, `currentColor` |
@@ -74,19 +78,20 @@ Components live in `apps/web/src/components/`. One file per component, kebab-cas
 | `thinking` | Fast spinning halo | Nothing |
 | `speaking` | Quick pulse, stop icon | Stop playback |
 
-The status line under the orb always says what a tap will do.
+The status line under the orb says what is happening. The red cancel button appears while listening (discards the recording) or speaking (stops playback).
 
 ## Layout
 
-A single centered column, `max-w-xl`, with `gap-10` between sections:
+`max-w-5xl`, two columns on desktop, stacked on mobile (the watch scales down below `sm`):
 
 ```
 Header          logo · "Demo data" pill
 Intro           title + two-line subtitle, centered
-Data card       Body Battery + contributors
-Orb             + status line
-Answer          question (caption) + answer (large), fades in
-Ask bar         chips + text input
+┌───────────────┬──────────────────────────────┐
+│ Watch         │ Answer card (question + answer) │
+│ (sticky)      │ Ask bar (chips + input)         │
+│               │ Body Battery card               │
+└───────────────┴──────────────────────────────┘
 Footer          medical disclaimer
 ```
 
