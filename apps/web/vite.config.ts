@@ -5,5 +5,6 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
 	resolve: { tsconfigPaths: true },
+	server: { allowedHosts: [".ts.net"] },
 	plugins: [tailwindcss(), tanstackStart(), viteReact()],
 });
