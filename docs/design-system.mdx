@@ -1,0 +1,99 @@
+---
+title: Design system
+description: "Tokens, components, and rules that keep Vital's interface clean and smooth."
+---
+
+Vital's interface borrows its palette and type from [alan.com](https://alan.com) and its layout from modern voice assistants: one glowing orb, generous whitespace, and very little chrome.
+
+## Principles
+
+1. **Voice first.** The orb is the main control. Everything else supports it.
+2. **One screen, one task.** Header, data card, orb, answer, ask bar. No extra panels.
+3. **Calm and soft.** Pastel surfaces, rounded shapes, gentle motion. No harsh borders or pure black.
+4. **Honest data.** Always show the user's number next to their usual. Never diagnose.
+5. **Smooth, not flashy.** Motion explains state changes and respects `prefers-reduced-motion`.
+
+## Tokens
+
+All tokens live in `apps/web/src/styles.css` under `@theme`, so they work as Tailwind classes (`bg-cream`, `text-heading`, `shadow-soft`). Never hardcode colors in components.
+
+### Color
+
+| Token | Hex | Use |
+|-------|-----|-----|
+| `cream` | `#fffcf5` | Page background |
+| `heading` | `#282830` | Titles, key numbers |
+| `paragraph` | `#464754` | Body text |
+| `caption` | `#656779` | Labels, hints, status |
+| `line` | `#dbe2f4` | Input borders |
+| `indigo-500` | `#5c59f3` | Primary actions, orb core |
+| `indigo-50` / `blue-50` | `#f0f3ff` / `#ebf5ff` | Card gradient |
+| `peach` | `#fff3e5` | Floating highlight bubble |
+| `pink-50`, `teal-50` | `#ffe7f0`, `#ebfaf9` | Suggestion chips |
+| `good` / `warn` / `bad` | `#367940` / `#ff9359` / `#c9202e` | Status, battery fill |
+
+### Type
+
+Font: **Alan Sans** from Google Fonts, weights 400, 500 and 700.
+
+| Role | Style |
+|------|-------|
+| Page title | 32/40, medium, `heading` |
+| Answer | `text-xl`, leading 8, `heading` |
+| Key number | `text-4xl`, bold, `heading` |
+| Body | 16/24, `paragraph` |
+| Label, status | `text-sm` or `text-xs`, `caption` |
+
+### Shape, elevation, motion
+
+| Token | Value |
+|-------|-------|
+| Radius | Cards `rounded-3xl`, tiles `rounded-2xl`, chips and inputs `rounded-full` |
+| `shadow-soft` | Resting elevation for bubbles, chips on hover, the ask bar |
+| `shadow-brand` | Indigo glow under the orb |
+| `ease-smooth` | `cubic-bezier(0.22, 1, 0.36, 1)` for every transition |
+| `animate-fade-up` | 500 ms entrance for new text |
+
+## Components
+
+Components live in `apps/web/src/components/`. One file per component, kebab-case filenames.
+
+| Component | File | Role |
+|-----------|------|------|
+| `Orb` | `orb.tsx` | Voice control and state indicator |
+| `BodyBatteryCard` | `body-battery-card.tsx` | Flat battery, score, and three contributor tiles |
+| `AskBar` | `ask-bar.tsx` | Suggestion chips and pill-shaped text input |
+| Icons | `icons.tsx` | Stroke icons, 2 px, `currentColor` |
+
+### Orb states
+
+| Status | Visual | Tap does |
+|--------|--------|----------|
+| `idle` | Slow breathing, faint halo | Start recording |
+| `listening` | Bright halo, scales with live mic volume | Send the recording |
+| `thinking` | Fast spinning halo | Nothing |
+| `speaking` | Quick pulse, stop icon | Stop playback |
+
+The status line under the orb always says what a tap will do.
+
+## Layout
+
+A single centered column, `max-w-xl`, with `gap-10` between sections:
+
+```
+Header          logo · "Demo data" pill
+Intro           title + two-line subtitle, centered
+Data card       Body Battery + contributors
+Orb             + status line
+Answer          question (caption) + answer (large), fades in
+Ask bar         chips + text input
+Footer          medical disclaimer
+```
+
+## Rules
+
+- Reuse tokens and components before adding new ones. Add a token in `styles.css` rather than a one-off color.
+- Keep copy short, friendly, and non-clinical. Suggest a professional when something looks concerning.
+- Every interactive element needs a visible focus state and an accessible name.
+- New motion uses `ease-smooth` and is disabled under `prefers-reduced-motion`.
+- No extra UI libraries. Tailwind and plain React only.

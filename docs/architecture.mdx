@@ -9,6 +9,7 @@ description: "One monorepo, one web app, a few server functions."
 apps/
   web/                 TanStack Start app (React + TypeScript)
     src/
+      components/      UI components (Orb, BodyBatteryCard, AskBar, icons)
       data/            Mocked HealthKit data
       lib/             Body Battery score, audio record/playback helpers
       server/          Server functions (Mistral SDK: chat, Voxtral STT and TTS)
@@ -50,7 +51,7 @@ sequenceDiagram
 - **No separate backend.** TanStack Start server functions keep the Mistral key on the server, with no extra service to run.
 - **Mistral end to end.** Voxtral for speech in and out, Mistral chat for the answer, all through the official SDK.
 - **Mocked data.** Browsers can't read HealthKit, so the data is synthetic but shaped like HealthKit types.
-- **Alan-inspired design.** Alan Sans font (Google Fonts), cream background, indigo primary, soft gradient cards. Tokens live in `apps/web/src/styles.css`.
+- **Alan-inspired design system.** Alan Sans, pastel tokens, and a voice orb as the main control. See [Design system](/design-system).
 - **Server builds the context.** The client only sends the question. The server loads the data itself.
 
 ## Environment variables

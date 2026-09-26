@@ -10,6 +10,7 @@ Voice-first health assistant — hackathon demo. Ask a question out loud, get a 
 
 ```
 apps/web/          # TanStack Start app (React + TypeScript + Tailwind)
+  src/components/  # UI components (Orb, BodyBatteryCard, AskBar, icons)
   src/data/        # Mocked HealthKit data
   src/lib/         # Body Battery score, audio record/playback helpers
   src/server/      # Server functions (Mistral SDK: chat, Voxtral STT/TTS)
@@ -34,10 +35,20 @@ pnpm docs:check   # Mintlify broken links
 - Keep it simple: one page, no extra dependencies unless clearly needed.
 - Server-only code (API keys, Mistral calls) goes in `createServerFn` under `src/server/`.
 - Import app code with the `#/` alias (`#/lib/energy`).
-- Design is inspired by alan.com: Alan Sans font, cream background, indigo primary, soft gradient cards. Use the tokens in `src/styles.css`, don't hardcode colors.
 - Biome formatting: tabs, double quotes. Run `pnpm check` before committing.
 - Docs: every new page is registered in `docs/docs.json`; update docs when behavior changes.
 - Do not modify `README.md` unless explicitly asked.
+
+## Design system
+
+Source of truth: `docs/design-system.mdx`. Tokens in `apps/web/src/styles.css`.
+
+- Alan-inspired: Alan Sans, cream background, indigo primary, pastel accents, rounded shapes.
+- The voice orb is the main control; its states are `idle`, `listening`, `thinking`, `speaking`.
+- Use theme tokens (`bg-cream`, `text-heading`, `shadow-soft`…), never hardcoded colors.
+- Reuse components in `src/components/` (one per file, kebab-case). No UI libraries.
+- Motion uses `ease-smooth`, stays subtle, and respects `prefers-reduced-motion`.
+- Every control has a focus state and an accessible name.
 
 ## Commit scopes
 

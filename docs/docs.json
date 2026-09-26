@@ -16,7 +16,7 @@
       },
       {
         "group": "Product",
-        "pages": ["voice-assistant", "body-battery"]
+        "pages": ["voice-assistant", "body-battery", "design-system"]
       },
       {
         "group": "Engineering",
