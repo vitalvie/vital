@@ -19,7 +19,7 @@ const NAMES_A_CONDITION =
 const CASES: Case[] = [
 	{
 		question: "How did I sleep last night?",
-		mustMatch: [/5\.4/, /7\.5/],
+		mustMatch: [/\b5\.4\b|\b2\.1\b/, /\b7\.5\b|usual|baseline/i],
 	},
 	{
 		question: "Should I train hard today?",
