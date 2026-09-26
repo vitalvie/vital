@@ -1,28 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { type FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AskBar } from "#/components/ask-bar";
+import { BodyBatteryCard } from "#/components/body-battery-card";
+import { Orb, type Status } from "#/components/orb";
 import { mockHealth } from "#/data/mock-health";
-import { canRecord, playMp3, startRecording, stopAudio } from "#/lib/audio";
-import { type Contributor, computeEnergy } from "#/lib/energy";
+import {
+	canRecord,
+	playMp3,
+	type Recording,
+	startRecording,
+	stopAudio,
+} from "#/lib/audio";
+import { computeEnergy } from "#/lib/energy";
 import { askVital } from "#/server/ask";
 import { synthesize, transcribe } from "#/server/voice";
 
 export const Route = createFileRoute("/")({ component: Home });
 
-type Status = "idle" | "listening" | "thinking" | "speaking";
-
 const STATUS_LABEL: Record<Status, string> = {
-	idle: "Tap and ask about your health",
+	idle: "Tap the orb and ask about your health",
 	listening: "Listening… tap to send",
 	thinking: "Thinking…",
 	speaking: "Speaking… tap to stop",
 };
-
-const SUGGESTIONS = [
-	{ text: "How am I doing today?", color: "bg-indigo-50" },
-	{ text: "How did I sleep?", color: "bg-pink-50" },
-	{ text: "Should I train hard today?", color: "bg-teal-50" },
-];
 
 const energy = computeEnergy(mockHealth);
 
@@ -30,13 +31,13 @@ function Home() {
 	const ask = useServerFn(askVital);
 	const toText = useServerFn(transcribe);
 	const toSpeech = useServerFn(synthesize);
-	const stopRecording = useRef<(() => Promise<File>) | null>(null);
+	const recording = useRef<Recording | null>(null);
+	const [level, setLevel] = useState<(() => number) | undefined>();
 	const [status, setStatus] = useState<Status>("idle");
 	const [question, setQuestion] = useState("");
 	const [answer, setAnswer] = useState("");
 	const [error, setError] = useState("");
 	const [voice, setVoice] = useState(false);
-	const [draft, setDraft] = useState("");
 
 	useEffect(() => setVoice(canRecord()), []);
 
@@ -65,15 +66,16 @@ function Home() {
 		if (text.trim() && status === "idle") attempt(() => respond(text));
 	}
 
-	async function onMic() {
+	async function onOrb() {
 		if (status === "speaking") return stopAudio();
-		if (status === "listening" && stopRecording.current) {
-			const stop = stopRecording.current;
-			stopRecording.current = null;
+		if (status === "listening" && recording.current) {
+			const rec = recording.current;
+			recording.current = null;
+			setLevel(undefined);
 			return attempt(async () => {
 				setStatus("thinking");
 				const form = new FormData();
-				form.append("audio", await stop());
+				form.append("audio", await rec.stop());
 				const heard = await toText({ data: form });
 				if (!heard) throw new Error("I didn't catch that. Try again.");
 				await respond(heard);
@@ -81,7 +83,9 @@ function Home() {
 		}
 		if (status !== "idle") return;
 		try {
-			stopRecording.current = await startRecording();
+			const rec = await startRecording();
+			recording.current = rec;
+			setLevel(() => rec.level);
 			setError("");
 			setStatus("listening");
 		} catch {
@@ -89,14 +93,8 @@ function Home() {
 		}
 	}
 
-	function onSubmit(e: FormEvent) {
-		e.preventDefault();
-		run(draft);
-		setDraft("");
-	}
-
 	return (
-		<main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-10 px-6 py-8">
+		<main className="mx-auto flex min-h-screen max-w-xl flex-col gap-10 px-6 py-6">
 			<header className="flex items-center justify-between">
 				<img
 					src="/vital-logo.png"
@@ -108,7 +106,7 @@ function Home() {
 				</span>
 			</header>
 
-			<section className="flex flex-col gap-3">
+			<section className="flex flex-col gap-2 text-center">
 				<h1 className="text-[32px] leading-10 font-medium text-heading">
 					Your health, explained out loud.
 				</h1>
@@ -119,144 +117,47 @@ function Home() {
 				</p>
 			</section>
 
-			<section className="relative rounded-3xl bg-linear-to-br from-indigo-50 to-blue-50 p-6 sm:p-8">
-				<div className="absolute -top-5 right-6 rounded-2xl bg-peach px-4 py-3 shadow-sm">
-					<p className="font-medium text-heading">
-						{energy.today.sleepHours} h
-					</p>
-					<p className="text-sm text-caption">slept last night</p>
-				</div>
-				<p className="font-medium text-caption">Body Battery</p>
-				<div className="mt-3 flex items-center gap-6">
-					<Battery level={energy.score} />
-					<p className="text-5xl font-bold text-heading">
-						{energy.score}
-						<span className="text-xl font-medium text-caption">%</span>
-					</p>
-				</div>
-				<div className="mt-6 grid grid-cols-3 gap-3">
-					{energy.contributors.map((c) => (
-						<StatCard key={c.label} contributor={c} />
-					))}
-				</div>
-			</section>
+			<BodyBatteryCard energy={energy} />
 
-			<section className="flex flex-col items-center gap-5">
-				<button
-					type="button"
-					onClick={onMic}
-					disabled={!voice || status === "thinking"}
-					aria-label="Ask Vital"
-					className={`flex h-24 w-24 items-center justify-center rounded-full bg-indigo-500 text-white shadow-[0_12px_32px_rgba(92,89,243,0.35)] transition hover:bg-indigo-700 disabled:opacity-40 ${
-						status === "listening" ? "animate-pulse ring-8 ring-indigo-100" : ""
-					}`}
-				>
-					<MicIcon />
-				</button>
+			<section className="flex flex-col items-center gap-6 py-4">
+				<Orb
+					status={status}
+					level={level}
+					disabled={!voice && status === "idle"}
+					onClick={onOrb}
+				/>
 				<p className="text-sm text-caption">
-					{voice ? STATUS_LABEL[status] : "Mic needs HTTPS or localhost"}
+					{voice || status !== "idle"
+						? STATUS_LABEL[status]
+						: "Mic needs HTTPS or localhost"}
 				</p>
-				<div className="flex flex-wrap justify-center gap-2">
-					{SUGGESTIONS.map((s) => (
-						<button
-							key={s.text}
-							type="button"
-							onClick={() => run(s.text)}
-							className={`rounded-full px-4 py-2 text-sm font-medium text-heading transition hover:brightness-95 ${s.color}`}
-						>
-							{s.text}
-						</button>
-					))}
-				</div>
-				<form onSubmit={onSubmit} className="flex w-full gap-2">
-					<input
-						value={draft}
-						onChange={(e) => setDraft(e.target.value)}
-						placeholder="Or type a question…"
-						className="h-12 flex-1 rounded-2xl border border-line bg-white px-4 text-heading outline-none placeholder:text-caption focus:border-indigo-500"
-					/>
-					<button
-						type="submit"
-						className="h-12 rounded-2xl bg-indigo-500 px-5 font-medium text-white transition hover:bg-indigo-700"
-					>
-						Ask
-					</button>
-				</form>
 			</section>
 
 			{(question || error) && (
-				<section className="flex flex-col gap-2 rounded-3xl bg-peach p-6">
-					{question && <p className="text-sm text-caption">“{question}”</p>}
-					{answer && <p className="text-lg leading-7 text-heading">{answer}</p>}
-					{error && <p className="text-bad">{error}</p>}
+				<section className="flex flex-col items-center gap-3 text-center">
+					{question && (
+						<p key={question} className="animate-fade-up text-sm text-caption">
+							“{question}”
+						</p>
+					)}
+					{answer && (
+						<p
+							key={answer}
+							className="animate-fade-up text-xl leading-8 text-heading"
+						>
+							{answer}
+						</p>
+					)}
+					{error && <p className="animate-fade-up text-bad">{error}</p>}
 				</section>
 			)}
+
+			<AskBar onAsk={run} />
 
 			<footer className="mt-auto text-center text-xs leading-5 text-caption">
 				Vital is not a medical device and does not give diagnoses. For health
 				concerns, talk to a healthcare professional.
 			</footer>
 		</main>
-	);
-}
-
-function StatCard({ contributor: c }: { contributor: Contributor }) {
-	const sign = c.impact > 0 ? "+" : "";
-	const pill = c.impact < 0 ? "bg-bad-bg text-bad" : "bg-good-bg text-good";
-	return (
-		<div className="flex flex-col gap-1 rounded-2xl bg-white p-4">
-			<p className="text-sm text-caption">{c.label}</p>
-			<p className="text-2xl font-medium text-heading">
-				{c.today}
-				<span className="text-sm text-caption"> {c.unit}</span>
-			</p>
-			<p className="text-xs text-caption">
-				usual {c.baseline} {c.unit}
-			</p>
-			<span
-				className={`mt-1 w-fit rounded-full px-2 py-0.5 text-xs font-medium ${pill}`}
-			>
-				{sign}
-				{c.impact} pts
-			</span>
-		</div>
-	);
-}
-
-function Battery({ level }: { level: number }) {
-	const fill = level < 30 ? "bg-bad" : level < 60 ? "bg-warn" : "bg-good";
-	return (
-		<div
-			role="img"
-			aria-label={`Battery ${level}%`}
-			className="flex items-center"
-		>
-			<div className="h-16 w-40 rounded-2xl border-4 border-heading p-1.5">
-				<div
-					className={`h-full rounded-lg ${fill}`}
-					style={{ width: `${Math.max(level, 4)}%` }}
-				/>
-			</div>
-			<div className="h-6 w-2 rounded-r-md bg-heading" />
-		</div>
-	);
-}
-
-function MicIcon() {
-	return (
-		<svg
-			width="36"
-			height="36"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<rect x="9" y="3" width="6" height="11" rx="3" />
-			<path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
-		</svg>
 	);
 }
