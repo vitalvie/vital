@@ -4,8 +4,14 @@
   <em>Talk to your body.</em>
 </p>
 
+> Built for the [**Alan × Mistral AI Health Hack**](https://luma.com/t7rspaka) — April 11, 2026, Paris.
+
+<table border="0" cellspacing="0" cellpadding="0"><tr>
+  <td align="center" valign="middle"><img src="public/mockups/alan-tweet.png" alt="Alan tweet: on a hâte de voir ça" width="480"></td>
+  <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="118"></a></td>
+</tr></table>
+
 <p align="left">
-  Hackathon demo.<br>
   Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.
 </p>
 
@@ -34,13 +40,6 @@
 </p>
 
 ---
-
-> Built for the [**Alan × Mistral AI Health Hack**](https://luma.com/t7rspaka) — April 11, 2026, Paris.
-
-<table border="0" cellspacing="0" cellpadding="0"><tr>
-  <td align="center" valign="middle"><img src="public/mockups/alan-tweet.png" alt="Alan tweet: on a hâte de voir ça" width="480"></td>
-  <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="118"></a></td>
-</tr></table>
 
 ## Quick start
 
