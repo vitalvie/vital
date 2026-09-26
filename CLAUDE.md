@@ -38,6 +38,7 @@ pnpm docs:check   # Mintlify broken links
 - Import app code with the `#/` alias (`#/lib/energy`).
 - Biome formatting: tabs, double quotes. Run `pnpm check` and `pnpm test` before committing.
 - Pure logic in `src/lib/` gets a `*.test.ts` next to it.
+- CI (`.github/workflows/ci.yml`) runs check, test, build and docs broken links on every PR.
 - Docs: every new page is registered in `docs/docs.json`; update docs when behavior changes.
 - Do not modify `README.md` unless explicitly asked.
 
