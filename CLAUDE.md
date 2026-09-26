@@ -11,8 +11,8 @@ Voice-first health assistant — hackathon demo. Ask a question out loud, get a 
 ```
 apps/web/          # TanStack Start app (React + TypeScript + Tailwind)
   src/data/        # Mocked HealthKit data
-  src/lib/         # Body Battery score, Web Speech helpers
-  src/server/      # Server functions (Mistral call)
+  src/lib/         # Body Battery score, audio record/playback helpers
+  src/server/      # Server functions (Mistral SDK: chat, Voxtral STT/TTS)
   src/routes/      # File-based routes
 docs/              # Mintlify docs (product + engineering)
 public/            # Static assets used by README.md
@@ -50,6 +50,7 @@ pnpm docs:check   # Mintlify broken links
 ## Key constraints
 
 - No medical diagnosis — always recommend a professional
-- No secrets in code — env vars only (`MISTRAL_API_KEY`, `MISTRAL_MODEL`)
+- No secrets in code — env vars only (`MISTRAL_API_KEY`, `MISTRAL_MODEL`, `VOXTRAL_VOICE`)
+- All Mistral calls go through `@mistralai/mistralai` on the server (`src/server/mistral.ts`)
 - Code and comments in English
 - Health data is mocked and shaped like Apple HealthKit types

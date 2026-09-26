@@ -1,14 +1,20 @@
 ---
 title: Voice assistant
-description: "How a spoken question becomes a spoken answer."
+description: "How a spoken question becomes a spoken answer, with Mistral Voxtral."
 ---
 
 ## Flow
 
-1. **Listen.** The browser's `SpeechRecognition` turns the user's voice into text.
-2. **Ask.** The text goes to the `askVital` server function.
-3. **Ground.** The server builds a context from the health data and the Body Battery score, then calls Mistral.
-4. **Speak.** The browser's `speechSynthesis` reads the answer aloud. Tapping the mic while it speaks stops it.
+1. **Record.** Tap the mic to start, tap again to send. The browser records with `MediaRecorder`.
+2. **Transcribe.** The `transcribe` server function sends the audio to **Voxtral Mini Transcribe** (`voxtral-mini-latest`).
+3. **Answer.** The `askVital` server function builds a context from the health data and the Body Battery score, then calls Mistral chat.
+4. **Speak.** The `synthesize` server function turns the answer into speech with **Voxtral TTS** (`voxtral-mini-tts-2603`). The browser plays the MP3. Tapping the mic while it speaks stops it.
+
+All Mistral calls use the official SDK (`@mistralai/mistralai`) on the server. The API key never reaches the browser.
+
+## Voice
+
+Voxtral TTS uses a preset voice, `en_paul_cheerful` by default. Change it with `VOXTRAL_VOICE` in `apps/web/.env`. Other presets include `en_paul_neutral`, `gb_jane_neutral`, `gb_oliver_confident`, and `fr_marie_happy`.
 
 ## Answer rules
 
@@ -27,5 +33,5 @@ The system prompt in `apps/web/src/server/ask.ts` keeps answers demo-friendly an
 > **Vital:** Your Body Battery is 35. You slept 5.4 hours against your usual 7.5, and your HRV is well below your average. A light walk or mobility session would suit you better than a hard workout today.
 
 <Note>
-  Speech recognition support varies by browser. Chrome, Edge, and Safari work. Firefox doesn't, so use the text box there.
+  Browsers only allow the microphone on HTTPS or `localhost`. On a plain HTTP address, use the suggested questions or the text box. The answer is still spoken by Voxtral.
 </Note>

@@ -1,6 +1,6 @@
 ---
 title: Architecture
-description: "One monorepo, one web app, one server function."
+description: "One monorepo, one web app, a few server functions."
 ---
 
 ## Repository layout
@@ -10,8 +10,8 @@ apps/
   web/                 TanStack Start app (React + TypeScript)
     src/
       data/            Mocked HealthKit data
-      lib/             Body Battery score, Web Speech helpers
-      server/          Server functions (Mistral call)
+      lib/             Body Battery score, audio record/playback helpers
+      server/          Server functions (Mistral SDK: chat, Voxtral STT and TTS)
       routes/          Pages (file-based routing)
 docs/                  This Mintlify site
 public/                Static assets used by the README
@@ -25,22 +25,30 @@ The repo is a pnpm workspace. New apps go under `apps/`.
 sequenceDiagram
   participant U as User
   participant B as Browser
-  participant S as askVital (server)
+  participant S as Server functions
   participant M as Mistral API
   U->>B: Speaks a question
-  B->>B: SpeechRecognition to text
+  B->>B: MediaRecorder captures audio
+  B->>S: transcribe(audio)
+  S->>M: Voxtral Mini Transcribe
+  M-->>S: Question text
+  S-->>B: Question text
   B->>S: askVital(question)
   S->>S: Mock data + Body Battery to context
   S->>M: Chat completion
   M-->>S: Short answer
   S-->>B: Answer text
-  B->>U: speechSynthesis reads it aloud
+  B->>S: synthesize(answer)
+  S->>M: Voxtral TTS
+  M-->>S: MP3 audio
+  S-->>B: MP3 audio
+  B->>U: Plays the answer
 ```
 
 ## Decisions
 
 - **No separate backend.** TanStack Start server functions keep the Mistral key on the server, with no extra service to run.
-- **Browser voice APIs.** Free, no keys, good enough for a demo.
+- **Mistral end to end.** Voxtral for speech in and out, Mistral chat for the answer, all through the official SDK.
 - **Mocked data.** Browsers can't read HealthKit, so the data is synthetic but shaped like HealthKit types.
 - **Alan-inspired design.** Alan Sans font (Google Fonts), cream background, indigo primary, soft gradient cards. Tokens live in `apps/web/src/styles.css`.
 - **Server builds the context.** The client only sends the question. The server loads the data itself.
@@ -51,5 +59,6 @@ sequenceDiagram
 |----------|----------|---------|
 | `MISTRAL_API_KEY` | Yes | |
 | `MISTRAL_MODEL` | No | `mistral-small-latest` |
+| `VOXTRAL_VOICE` | No | `en_paul_cheerful` |
 
 Set them in `apps/web/.env`. Never commit that file.
