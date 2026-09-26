@@ -10,7 +10,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "biome check",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"@mistralai/mistralai": "^2.7.0",
@@ -28,6 +29,7 @@
 		"@types/react-dom": "^19.2.0",
 		"@vitejs/plugin-react": "^6.0.1",
 		"typescript": "^6.0.2",
-		"vite": "^8.0.0"
+		"vite": "^8.0.0",
+		"vitest": "^5.0.2"
 	}
 }

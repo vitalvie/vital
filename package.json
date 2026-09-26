@@ -6,6 +6,7 @@
 		"dev": "pnpm --filter web dev",
 		"build": "pnpm --filter web build",
 		"check": "pnpm --filter web check && pnpm --filter web typecheck",
+		"test": "pnpm --filter web test",
 		"docs": "cd docs && npx -y -p node@22 -p mint@latest -- mint dev",
 		"docs:check": "cd docs && npx -y -p node@22 -p mint@latest -- mint broken-links"
 	}

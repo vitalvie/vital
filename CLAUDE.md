@@ -25,6 +25,7 @@ public/            # Static assets used by README.md
 pnpm install
 pnpm dev          # web app on :3000 (needs apps/web/.env, see .env.example)
 pnpm check        # Biome + TypeScript
+pnpm test         # Vitest (src/**/*.test.ts)
 pnpm build
 pnpm docs         # Mintlify preview (Node 22 via npx)
 pnpm docs:check   # Mintlify broken links
@@ -35,7 +36,8 @@ pnpm docs:check   # Mintlify broken links
 - Keep it simple: one page, no extra dependencies unless clearly needed.
 - Server-only code (API keys, Mistral calls) goes in `createServerFn` under `src/server/`.
 - Import app code with the `#/` alias (`#/lib/energy`).
-- Biome formatting: tabs, double quotes. Run `pnpm check` before committing.
+- Biome formatting: tabs, double quotes. Run `pnpm check` and `pnpm test` before committing.
+- Pure logic in `src/lib/` gets a `*.test.ts` next to it.
 - Docs: every new page is registered in `docs/docs.json`; update docs when behavior changes.
 - Do not modify `README.md` unless explicitly asked.
 
