@@ -13,7 +13,7 @@ Your answer will be read aloud, so:
 function healthContext(): string {
 	const { score, contributors, yesterday } = computeEnergy(mockHealth);
 	return JSON.stringify({
-		energyScore: score,
+		bodyBattery: score,
 		contributors,
 		yesterday: {
 			steps: yesterday.steps,

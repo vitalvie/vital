@@ -103,10 +103,13 @@ function Home() {
 					<p className="text-sm text-caption">slept last night</p>
 				</div>
 				<p className="font-medium text-caption">Body Battery</p>
-				<p className="mt-1 text-7xl font-bold text-indigo-500">
-					{energy.score}
-					<span className="text-2xl font-medium text-caption">/100</span>
-				</p>
+				<div className="mt-3 flex items-center gap-6">
+					<Battery level={energy.score} />
+					<p className="text-5xl font-bold text-heading">
+						{energy.score}
+						<span className="text-xl font-medium text-caption">%</span>
+					</p>
+				</div>
 				<div className="mt-6 grid grid-cols-3 gap-3">
 					{energy.contributors.map((c) => (
 						<StatCard key={c.label} contributor={c} />
@@ -192,6 +195,25 @@ function StatCard({ contributor: c }: { contributor: Contributor }) {
 				{sign}
 				{c.impact} pts
 			</span>
+		</div>
+	);
+}
+
+function Battery({ level }: { level: number }) {
+	const fill = level < 30 ? "bg-bad" : level < 60 ? "bg-warn" : "bg-good";
+	return (
+		<div
+			role="img"
+			aria-label={`Battery ${level}%`}
+			className="flex items-center"
+		>
+			<div className="h-16 w-40 rounded-2xl border-4 border-heading p-1.5">
+				<div
+					className={`h-full rounded-lg ${fill}`}
+					style={{ width: `${Math.max(level, 4)}%` }}
+				/>
+			</div>
+			<div className="h-6 w-2 rounded-r-md bg-heading" />
 		</div>
 	);
 }
