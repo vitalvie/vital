@@ -53,6 +53,7 @@ sequenceDiagram
 - **Mocked data.** Browsers can't read HealthKit, so the data is synthetic but shaped like HealthKit types.
 - **Alan-inspired design system.** Alan Sans, pastel tokens, and a voice orb as the main control. See [Design system](/design-system).
 - **Server builds the context.** The client only sends the question. The server loads the data itself.
+- **Cloudflare Workers.** `@cloudflare/vite-plugin` runs dev, preview and production in the Workers runtime. `@opentelemetry/api` is installed only because the Mistral SDK imports it and Workers bundle everything.
 
 ## Environment variables
 
@@ -62,4 +63,4 @@ sequenceDiagram
 | `MISTRAL_MODEL` | No | `mistral-small-latest` |
 | `VOXTRAL_VOICE` | No | `gb_jane_neutral` |
 
-Set them in `apps/web/.env`. Never commit that file.
+Set them in `apps/web/.env` locally. In production, add them as Worker secrets (`wrangler secret put MISTRAL_API_KEY`). Never commit `.env`.
