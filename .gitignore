@@ -8,6 +8,8 @@ dist/
 
 # Env
 .env
+.dev.vars
+.wrangler/
 
 # Mintlify
 docs/node_modules/
