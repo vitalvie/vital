@@ -17,5 +17,6 @@
 - [ ] Code and comments are in English
 - [ ] No secrets or credentials committed (`.env`, API keys, tokens)
 - [ ] `pnpm check` and `pnpm test` pass, and `pnpm docs:check` if `docs/` touched
+- [ ] `pnpm eval` passes if the prompt, model or `assistant.ts` changed
 - [ ] Docs updated if behavior changed
 - [ ] No medical diagnosis / clinical-advice language in UX copy

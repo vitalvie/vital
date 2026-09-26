@@ -1,5 +1,6 @@
 {
 	"name": "web",
+	"version": "1.0.0",
 	"private": true,
 	"type": "module",
 	"imports": {
@@ -11,10 +12,13 @@
 		"preview": "vite preview",
 		"check": "biome check",
 		"typecheck": "tsc --noEmit",
-		"test": "vitest run"
+		"test": "vitest run",
+		"deploy": "./scripts/deploy.sh",
+		"eval": "vitest run --config vitest.eval.config.ts"
 	},
 	"dependencies": {
 		"@mistralai/mistralai": "^2.7.0",
+		"@opentelemetry/api": "^1.9.1",
 		"@tailwindcss/vite": "^4.1.18",
 		"@tanstack/react-router": "^1.170.39",
 		"@tanstack/react-start": "^1.168.58",
@@ -24,12 +28,14 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.5",
+		"@cloudflare/vite-plugin": "^1.60.2",
 		"@types/node": "^22.10.2",
 		"@types/react": "^19.2.0",
 		"@types/react-dom": "^19.2.0",
 		"@vitejs/plugin-react": "^6.0.1",
 		"typescript": "^6.0.2",
 		"vite": "^8.0.0",
-		"vitest": "^5.0.2"
+		"vitest": "^5.0.2",
+		"wrangler": "^4.141.0"
 	}
 }

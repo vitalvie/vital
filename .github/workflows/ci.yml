@@ -25,6 +25,23 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+  eval:
+    # Live guardrail evals against Mistral. Secrets are not available to fork PRs.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: test -n "$MISTRAL_API_KEY" || (echo "MISTRAL_API_KEY secret is missing" && exit 1)
+      - run: pnpm eval
+
   docs:
     runs-on: ubuntu-latest
     steps:

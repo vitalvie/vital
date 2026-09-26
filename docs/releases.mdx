@@ -1,0 +1,54 @@
+---
+title: Releases
+description: "Versioning, tagging and deploying to Cloudflare Workers."
+---
+
+Vital follows [semantic versioning](https://semver.org/). The version lives in `apps/web/package.json` and shows in the page footer.
+
+| Change | Bump |
+|--------|------|
+| Fix, copy or style tweak | Patch (`1.0.1`) |
+| New feature | Minor (`1.1.0`) |
+| Breaking change | Major (`2.0.0`) |
+
+## Ship a release
+
+<Steps>
+  <Step title="Bump the version">
+    On a branch from `develop`, update `version` in `apps/web/package.json`, then merge the PR once CI (including evals) is green.
+  </Step>
+  <Step title="Merge develop into main">
+    Open a PR from `develop` to `main` and merge it with a merge commit.
+  </Step>
+  <Step title="Tag and publish">
+    ```bash
+    git checkout main && git pull
+    git tag v1.1.0 && git push origin v1.1.0
+    gh release create v1.1.0 --generate-notes
+    ```
+  </Step>
+  <Step title="Deploy">
+    ```bash
+    pnpm run deploy
+    ```
+    The script refuses to run unless you're on a clean `main` whose `HEAD` carries the tag matching the version. The Worker version is tagged the same way.
+  </Step>
+</Steps>
+
+## First-time setup
+
+```bash
+cd apps/web
+pnpm exec wrangler login
+pnpm exec wrangler secret put MISTRAL_API_KEY
+```
+
+The URL is public and every question uses your Mistral key, so set a spending limit in the [Mistral console](https://console.mistral.ai/).
+
+## Roll back
+
+```bash
+cd apps/web
+pnpm exec wrangler deployments list
+pnpm exec wrangler rollback <version-id>
+```

@@ -15,6 +15,10 @@
   Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.
 </p>
 
+<p align="left">
+  <a href="https://vital.dhicham-pro.workers.dev"><b>Give it a try →</b></a>
+</p>
+
 <table border="0" cellspacing="0" cellpadding="8"><tr>
   <td align="center" valign="top" width="45%">
     <img src="public/mockups/demo-watch.png" alt="Apple Watch mockup with the voice orb speaking">
@@ -56,9 +60,9 @@ Open [http://localhost:3000](http://localhost:3000), tap the watch and ask a que
 
 ### Change the mocked data
 
-Edit [`apps/web/src/data/mock-health.ts`](apps/web/src/data/mock-health.ts): 14 days of HealthKit-shaped samples (sleep, HRV, resting heart rate, steps, active energy), oldest first. The last entry is "today" and is compared to the days before. The page reloads on save, and the Body Battery score and answers follow the new data.
+In the app, click **Demo data** in the header: pick a preset or move the sliders for last night's sleep, HRV and resting heart rate, and Vital answers with those numbers.
 
-If you change the demo story, update the expected score in `apps/web/src/lib/energy.test.ts` so `pnpm test` stays green.
+To change the 14-day history or the presets, edit [`apps/web/src/data/mock-health.ts`](apps/web/src/data/mock-health.ts), then update the expected scores in the tests so `pnpm test` stays green.
 
 ## License
 

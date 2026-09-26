@@ -44,8 +44,14 @@ Run from the repo root.
 | `pnpm build` | Production build |
 | `pnpm check` | Lint and format check (Biome), then type check |
 | `pnpm test` | Unit tests (Vitest) |
+| `pnpm eval` | Live guardrail evals against Mistral (needs `MISTRAL_API_KEY`) |
+| `pnpm run deploy` | Deploy a tagged release from `main` to Cloudflare Workers |
 | `pnpm docs` | Preview these docs locally (Mintlify, runs on Node 22) |
 | `pnpm docs:check` | Check the docs for broken links |
+
+## Deploy
+
+The app runs on Cloudflare Workers (free plan). See [Releases](/releases) for versioning, deploy and rollback.
 
 <Tip>
   No microphone or unsupported browser? Use the suggested questions or the text box. The answer is still read aloud.

@@ -20,7 +20,7 @@
       },
       {
         "group": "Engineering",
-        "pages": ["architecture", "mock-data"]
+        "pages": ["architecture", "mock-data", "safety", "releases"]
       },
       {
         "group": "References",

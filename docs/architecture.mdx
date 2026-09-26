@@ -9,10 +9,10 @@ description: "One monorepo, one web app, a few server functions."
 apps/
   web/                 TanStack Start app (React + TypeScript)
     src/
-      components/      UI components (Watch, Orb, BodyBatteryCard, Conversation, AskBar, Logo, icons)
-      data/            Mocked HealthKit data
+      components/      UI components (Watch, Orb, BodyBatteryCard, Conversation, AskBar, DemoDataPanel, Logo, icons)
+      data/            Mocked HealthKit data, demo presets
       lib/             Body Battery score, audio record/playback helpers
-      server/          Server functions (Mistral SDK: chat, Voxtral STT and TTS)
+      server/          Server functions and the assistant prompt (Mistral SDK: chat, Voxtral STT and TTS)
       routes/          Pages (file-based routing)
 docs/                  This Mintlify site
 public/                Static assets used by the README
@@ -34,7 +34,7 @@ sequenceDiagram
   S->>M: Voxtral Mini Transcribe
   M-->>S: Question text
   S-->>B: Question text
-  B->>S: askVital(question)
+  B->>S: askVital(question, demo values)
   S->>S: Mock data + Body Battery to context
   S->>M: Chat completion
   M-->>S: Short answer
@@ -52,7 +52,8 @@ sequenceDiagram
 - **Mistral end to end.** Voxtral for speech in and out, Mistral chat for the answer, all through the official SDK.
 - **Mocked data.** Browsers can't read HealthKit, so the data is synthetic but shaped like HealthKit types.
 - **Alan-inspired design system.** Alan Sans, pastel tokens, and a voice orb as the main control. See [Design system](/design-system).
-- **Server builds the context.** The client only sends the question. The server loads the data itself.
+- **Server builds the context.** The client sends the question and three demo values. The server clamps them, loads the rest of the data itself, and applies the guardrails in [Safety and evals](/safety).
+- **Cloudflare Workers.** `@cloudflare/vite-plugin` runs dev, preview and production in the Workers runtime. `@opentelemetry/api` is installed only because the Mistral SDK imports it and Workers bundle everything.
 
 ## Environment variables
 
@@ -62,4 +63,4 @@ sequenceDiagram
 | `MISTRAL_MODEL` | No | `mistral-small-latest` |
 | `VOXTRAL_VOICE` | No | `gb_jane_neutral` |
 
-Set them in `apps/web/.env`. Never commit that file.
+Set them in `apps/web/.env` locally. In production, add them as Worker secrets (`wrangler secret put MISTRAL_API_KEY`). Never commit `.env`.
