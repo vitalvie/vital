@@ -9,6 +9,11 @@ export const Route = createRootRoute({
 			{ title: "Vital — your health data works for you" },
 		],
 		links: [
+			{ rel: "preconnect", href: "https://fonts.gstatic.com" },
+			{
+				rel: "stylesheet",
+				href: "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;500;700&display=swap",
+			},
 			{ rel: "stylesheet", href: appCss },
 			{ rel: "icon", href: "/vital-logo.png" },
 		],

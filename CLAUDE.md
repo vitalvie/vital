@@ -34,6 +34,7 @@ pnpm docs:check   # Mintlify broken links
 - Keep it simple: one page, no extra dependencies unless clearly needed.
 - Server-only code (API keys, Mistral calls) goes in `createServerFn` under `src/server/`.
 - Import app code with the `#/` alias (`#/lib/energy`).
+- Design is inspired by alan.com: Alan Sans font, cream background, indigo primary, soft gradient cards. Use the tokens in `src/styles.css`, don't hardcode colors.
 - Biome formatting: tabs, double quotes. Run `pnpm check` before committing.
 - Docs: every new page is registered in `docs/docs.json`; update docs when behavior changes.
 - Do not modify `README.md` unless explicitly asked.

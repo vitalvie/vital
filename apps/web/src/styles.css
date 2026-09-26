@@ -1,13 +1,33 @@
 @import "tailwindcss";
 
+/* Palette and type inspired by alan.com */
 @theme {
-	--color-brand: #6c5ce7;
-	--color-brand-light: #a29bfe;
+	--font-sans: "Alan Sans", Helvetica, Arial, sans-serif;
+
+	--color-cream: #fffcf5;
+	--color-heading: #282830;
+	--color-paragraph: #464754;
+	--color-caption: #656779;
+	--color-line: #dbe2f4;
+
+	--color-indigo-50: #f0f3ff;
+	--color-indigo-100: #d6dbff;
+	--color-indigo-500: #5c59f3;
+	--color-indigo-700: #2f33a8;
+	--color-blue-50: #ebf5ff;
+	--color-peach: #fff3e5;
+	--color-pink-50: #ffe7f0;
+	--color-teal-50: #ebfaf9;
+	--color-good: #367940;
+	--color-good-bg: #ecf7e9;
+	--color-bad: #c9202e;
+	--color-bad-bg: #ffe8e9;
 }
 
 body {
 	margin: 0;
-	background: #0b0b12;
-	color: #f4f4f8;
-	font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+	background: var(--color-cream);
+	color: var(--color-paragraph);
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
 }
