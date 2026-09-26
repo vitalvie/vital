@@ -6,7 +6,7 @@ export const Route = createRootRoute({
 		meta: [
 			{ charSet: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
-			{ title: "Vital — your health data works for you" },
+			{ title: "Vital — Talk to your body" },
 		],
 		links: [
 			{ rel: "preconnect", href: "https://fonts.gstatic.com" },
