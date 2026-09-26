@@ -1,7 +1,12 @@
 <h1 align="center">Vital</h1>
 
 <p align="center">
-  <em>Finally, your health data works for you.</em>
+  <em>Talk to your body.</em>
+</p>
+
+<p align="center">
+  Hackathon demo.<br>
+  Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.
 </p>
 
 <p align="center">
@@ -27,10 +32,18 @@
   <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="118"></a></td>
 </tr></table>
 
-## Status
+## Quick start
 
-Hackathon demo. Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.  
-Not open to contributions.
+Requires Node.js 22+, pnpm 10+ (`corepack enable`) and a [Mistral API key](https://console.mistral.ai/).
+
+```bash
+git clone https://github.com/vitalvie/vital.git && cd vital
+pnpm install
+cp apps/web/.env.example apps/web/.env   # then set MISTRAL_API_KEY
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000), tap the watch and ask a question. The mic works on `localhost` or HTTPS; otherwise, type a question.
 
 ## License
 
