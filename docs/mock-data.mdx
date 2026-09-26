@@ -24,6 +24,18 @@ Twelve ordinary days, then:
 
 The result is a low Body Battery (35), which gives the assistant something interesting to say.
 
+## Demo data panel
+
+The **Demo data** button in the header opens a panel where anyone can change last night's sleep, HRV and resting heart rate with sliders, or pick a preset. The 14-day history under each slider highlights today.
+
+| Preset | Sleep | HRV | Resting HR | Body Battery |
+|--------|-------|-----|------------|--------------|
+| Short night (default) | 5.4 h | 34 ms | 62 bpm | 35, Moderate |
+| Well rested | 8.2 h | 58 ms | 53 bpm | 95, Good |
+| Stressful week | 4.8 h | 26 ms | 68 bpm | 24, Low |
+
+The browser sends these three values with each question. The server clamps them (`parseToday`) and swaps them into today's entry (`withToday`), so the answer matches what's on screen. Nothing is stored.
+
 <Tip>
-  To demo a different story, edit the last entries of the `samples` array. Keep values realistic.
+  To change the history or the default story, edit the `samples` array and `PRESETS` in `mock-health.ts`, then update the expected scores in the tests.
 </Tip>

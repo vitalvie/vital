@@ -68,6 +68,7 @@ Components live in `apps/web/src/components/`. One file per component, kebab-cas
 | `BodyBatteryCard` | `body-battery-card.tsx` | Level pill, flat battery, score, one-line summary, three contributor tiles |
 | `Conversation` | `conversation.tsx` | Chat panel: header with live status, question bubble, answer, ask bar |
 | `AskBar` | `ask-bar.tsx` | Suggestion chips and pill-shaped text input, used inside `Conversation` |
+| `DemoDataPanel` | `demo-data-panel.tsx` | Presets, sliders and 14-day bars to tweak last night's demo data |
 | `Logo` | `logo.tsx` | "vital" wordmark in Alan Sans with Alan's SVG logo, sharp at any size |
 | Icons | `icons.tsx` | Stroke icons, 2 px, `currentColor` |
 
@@ -87,9 +88,10 @@ The status line under the orb says what is happening. The red cancel button appe
 `max-w-5xl`, mobile-first. Two columns from `lg`, stacked below in the order intro, watch, battery, conversation. The right column is left-aligned and every card uses `rounded-3xl` with the same padding (`p-4 sm:p-6`/`p-5 sm:p-6`). The watch scales to 80% under `sm` and 70% under 400 px:
 
 ```
-Header          logo · "Demo data" pill
+Header          logo · "Demo data" button (toggles the panel)
 ┌───────────────┬──────────────────────────────────┐
 │ Watch         │ Intro (eyebrow, title, subtitle) │
+│               │ Demo data panel (when open)      │
 │ (sticky,      │ Body Battery card                │
 │  spans rows)  │ Conversation panel               │
 └───────────────┴──────────────────────────────────┘
