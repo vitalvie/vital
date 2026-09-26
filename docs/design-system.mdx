@@ -82,7 +82,7 @@ The status line under the orb says what is happening. The red cancel button appe
 
 ## Layout
 
-`max-w-5xl`, two columns on desktop, stacked on mobile (the watch scales down below `sm`):
+`max-w-5xl`, mobile-first. Two columns from `lg`, stacked below. The watch scales to 80% under `sm` and 70% under 400 px:
 
 ```
 Header          logo · "Demo data" pill
@@ -100,5 +100,7 @@ Footer          medical disclaimer
 - Reuse tokens and components before adding new ones. Add a token in `styles.css` rather than a one-off color.
 - Keep copy short, friendly, and non-clinical. Suggest a professional when something looks concerning.
 - Every interactive element needs a visible focus state and an accessible name.
+- Buttons show a pointer cursor; disabled buttons show `not-allowed` (global rule in `styles.css`).
+- Check layouts at 360, 768 and 1280 px with no horizontal scroll. Grid tracks use `minmax(0, 1fr)` so content can shrink.
 - New motion uses `ease-smooth` and is disabled under `prefers-reduced-motion`.
 - No extra UI libraries. Tailwind and plain React only.
