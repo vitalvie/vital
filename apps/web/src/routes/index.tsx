@@ -90,8 +90,9 @@ function Home() {
 					Your health, explained out loud.
 				</h1>
 				<p className="leading-6">
-					Ask anything about your sleep, recovery or energy. Vital answers using
-					your own data, compared to your usual.
+					Ask anything about your sleep, recovery or energy.
+					<br />
+					Vital answers using your own data, compared to your usual.
 				</p>
 			</section>
 
