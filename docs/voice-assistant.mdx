@@ -1,0 +1,37 @@
+---
+title: Voice assistant
+description: "How a spoken question becomes a spoken answer, with Mistral Voxtral."
+---
+
+## Flow
+
+1. **Record.** Tap the mic to start, tap again to send. The browser records with `MediaRecorder`.
+2. **Transcribe.** The `transcribe` server function sends the audio to **Voxtral Mini Transcribe** (`voxtral-mini-latest`).
+3. **Answer.** The `askVital` server function builds a context from the health data and the Body Battery score, then calls Mistral chat.
+4. **Speak.** The `synthesize` server function turns the answer into speech with **Voxtral TTS** (`voxtral-mini-tts-2603`). The browser plays the MP3. Tapping the mic while it speaks stops it.
+
+All Mistral calls use the official SDK (`@mistralai/mistralai`) on the server. The API key never reaches the browser.
+
+## Voice
+
+Voxtral TTS uses a preset voice, `gb_jane_neutral` by default. Change it with `VOXTRAL_VOICE` in `apps/web/.env`. Other presets include `en_paul_neutral`, `gb_jane_confident`, `gb_oliver_confident`, and `fr_marie_happy`.
+
+## Answer rules
+
+The system prompt in `apps/web/src/server/ask.ts` keeps answers demo-friendly and safe:
+
+- 2 to 3 short sentences, plain text, because they're read aloud
+- Uses the user's real numbers compared to their own baseline
+- One practical suggestion for today
+- Never diagnoses or names medical conditions, and suggests a professional when something looks concerning
+- Says so when the data can't answer the question
+
+## Example
+
+> **You:** Should I train hard today?
+>
+> **Vital:** Your Body Battery is 35. You slept 5.4 hours against your usual 7.5, and your HRV is well below your average. A light walk or mobility session would suit you better than a hard workout today.
+
+<Note>
+  Browsers only allow the microphone on HTTPS or `localhost`. To use another device, serve the app over HTTPS (for example `tailscale serve --bg 3000`). Otherwise, on a plain HTTP address, use the suggested questions or the text box. The answer is still spoken by Voxtral.
+</Note>

@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+/* Design tokens — see docs/design-system.mdx. Palette and type inspired by alan.com. */
+@theme {
+	--font-sans: "Alan Sans", Helvetica, Arial, sans-serif;
+
+	/* Surfaces and text */
+	--color-cream: #fffcf5;
+	--color-heading: #282830;
+	--color-paragraph: #464754;
+	--color-caption: #656779;
+	--color-line: #dbe2f4;
+
+	/* Brand */
+	--color-indigo-50: #f0f3ff;
+	--color-indigo-100: #d6dbff;
+	--color-indigo-300: #8c99fa;
+	--color-indigo-500: #5c59f3;
+	--color-indigo-700: #2f33a8;
+	--color-blue-50: #ebf5ff;
+
+	/* Pastel accents */
+	--color-peach: #fff3e5;
+	--color-peach-300: #ffbd7a;
+	--color-pink-50: #ffe7f0;
+	--color-pink-300: #ffaac8;
+	--color-teal-50: #ebfaf9;
+	--color-teal-300: #81dfd7;
+
+	/* Status */
+	--color-good: #367940;
+	--color-good-bg: #ecf7e9;
+	--color-warn: #ff9359;
+	--color-bad: #c9202e;
+	--color-bad-bg: #ffe8e9;
+
+	/* Watch mockup */
+	--color-titanium-light: #e4e1db;
+	--color-titanium: #a8a39b;
+	--color-band: #ff6d39;
+	--color-screen: #0b0b12;
+
+	/* Elevation */
+	--shadow-soft: 0 8px 24px rgba(40, 40, 48, 0.06);
+	--shadow-brand: 0 16px 40px rgba(92, 89, 243, 0.35);
+
+	/* Motion */
+	--ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+	--animate-fade-up: fade-up 500ms var(--ease-smooth) both;
+
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+}
+
+@layer base {
+	button:not(:disabled),
+	[role="button"]:not([aria-disabled="true"]) {
+		cursor: pointer;
+	}
+
+	button:disabled {
+		cursor: not-allowed;
+	}
+}
+
+body {
+	margin: 0;
+	background: var(--color-cream);
+	color: var(--color-paragraph);
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Voice orb. --level (0 to 1) is set from the live mic volume. */
+@layer components {
+	.orb {
+		--level: 0;
+		transform: scale(calc(1 + var(--level) * 0.22));
+		transition: transform 120ms ease-out;
+	}
+
+	.orb-glow {
+		position: absolute;
+		inset: -18%;
+		border-radius: 9999px;
+		background: conic-gradient(
+			var(--color-indigo-300),
+			var(--color-pink-300),
+			var(--color-peach-300),
+			var(--color-teal-300),
+			var(--color-indigo-300)
+		);
+		filter: blur(28px);
+		opacity: 0.45;
+		transition: opacity 400ms var(--ease-smooth);
+		animation: orb-spin 12s linear infinite;
+	}
+
+	.orb-core {
+		position: absolute;
+		inset: 0;
+		border-radius: 9999px;
+		background: radial-gradient(
+			circle at 32% 28%,
+			#ffffff 0%,
+			var(--color-indigo-100) 22%,
+			var(--color-indigo-500) 62%,
+			var(--color-indigo-700) 100%
+		);
+		box-shadow: var(--shadow-brand);
+		animation: orb-breathe 4s var(--ease-smooth) infinite;
+	}
+
+	.orb[data-status="listening"] .orb-glow {
+		opacity: 0.9;
+	}
+
+	.orb[data-status="thinking"] .orb-glow {
+		opacity: 0.8;
+		animation-duration: 1.6s;
+	}
+
+	.orb[data-status="speaking"] .orb-glow {
+		opacity: 0.75;
+	}
+
+	.orb[data-status="speaking"] .orb-core {
+		animation-duration: 1.2s;
+	}
+
+	@keyframes orb-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes orb-breathe {
+		50% {
+			transform: scale(1.04);
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.orb,
+	.orb-glow,
+	.orb-core {
+		animation: none;
+		transition: none;
+	}
+}

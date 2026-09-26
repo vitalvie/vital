@@ -1,17 +1,13 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
+# Node
+node_modules/
 dist/
-.venv/
-.env
+.output/
+.tanstack/
+.nitro/
+*.local
 
-# Swift / Xcode
-*.xcodeproj/xcuserdata/
-*.xcworkspace/xcuserdata/
-DerivedData/
-.build/
-*.swiftpm/xcode/
+# Env
+.env
 
 # Mintlify
 docs/node_modules/
@@ -21,6 +17,7 @@ docs/package-lock.json
 # Claude Code
 .claude/settings.local.json
 .claude/rules/authorship.md
+.claude/scheduled_tasks.lock
 .mcp.json
 
 # IDE
@@ -31,5 +28,7 @@ docs/package-lock.json
 .DS_Store
 Thumbs.db
 
-# Lint
+# Legacy Python tooling (local only)
+.venv/
 .ruff_cache/
+__pycache__/

@@ -1,0 +1,26 @@
+---
+title: Body Battery
+description: "A simple 0 to 100 daily energy score."
+---
+
+Body Battery tells you how much energy you have today, relative to **your own** recent baseline. It's a wellness indicator, not a medical measure.
+
+## Formula
+
+The score starts at **75**. Each contributor adds or removes points, then the total is clamped to 0 to 100.
+
+| Contributor | Compared to | Points | Range |
+|-------------|-------------|--------|-------|
+| Sleep | Average of the previous 13 nights | `(today − avg) × 6` per hour | −20 to +15 |
+| HRV (SDNN) | Average of the previous 13 days | `(today − avg) / avg × 50` | −20 to +15 |
+| Resting heart rate | Average of the previous 13 days | `(avg − today) × 2` per bpm | −15 to +10 |
+
+Lower resting heart rate and higher HRV than usual both add energy.
+
+## Source
+
+`apps/web/src/lib/energy.ts` exports `computeEnergy(days)`, which returns the score, each contributor's value, baseline, and impact, plus today's and yesterday's data.
+
+<Note>
+  This is a deliberately simplified daily version for the demo. It is not a continuous, minute-by-minute model.
+</Note>
