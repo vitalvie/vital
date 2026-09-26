@@ -26,6 +26,7 @@ pnpm install
 pnpm dev          # web app on :3000 (needs apps/web/.env, see .env.example)
 pnpm check        # Biome + TypeScript
 pnpm test         # Vitest (src/**/*.test.ts)
+pnpm run deploy   # Cloudflare Workers (apps/web/wrangler.jsonc)
 pnpm build
 pnpm docs         # Mintlify preview (Node 22 via npx)
 pnpm docs:check   # Mintlify broken links

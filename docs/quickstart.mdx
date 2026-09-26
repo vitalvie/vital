@@ -44,8 +44,22 @@ Run from the repo root.
 | `pnpm build` | Production build |
 | `pnpm check` | Lint and format check (Biome), then type check |
 | `pnpm test` | Unit tests (Vitest) |
+| `pnpm run deploy` | Build and deploy to Cloudflare Workers |
 | `pnpm docs` | Preview these docs locally (Mintlify, runs on Node 22) |
 | `pnpm docs:check` | Check the docs for broken links |
+
+## Deploy to Cloudflare
+
+The app runs on Cloudflare Workers (free plan is enough for a demo). Config lives in `apps/web/wrangler.jsonc`.
+
+```bash
+cd apps/web
+pnpm exec wrangler login
+pnpm exec wrangler secret put MISTRAL_API_KEY
+cd ../.. && pnpm run deploy
+```
+
+Wrangler prints the public `*.workers.dev` URL. The URL is public and every question uses your Mistral key, so set a spending limit in the [Mistral console](https://console.mistral.ai/).
 
 <Tip>
   No microphone or unsupported browser? Use the suggested questions or the text box. The answer is still read aloud.
