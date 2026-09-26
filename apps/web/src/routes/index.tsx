@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { type FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { mockHealth } from "#/data/mock-health";
+import { canRecord, playMp3, startRecording, stopAudio } from "#/lib/audio";
 import { type Contributor, computeEnergy } from "#/lib/energy";
-import { canListen, listen, speak } from "#/lib/speech";
 import { askVital } from "#/server/ask";
+import { synthesize, transcribe } from "#/server/voice";
 
 export const Route = createFileRoute("/")({ component: Home });
 
@@ -12,7 +13,7 @@ type Status = "idle" | "listening" | "thinking" | "speaking";
 
 const STATUS_LABEL: Record<Status, string> = {
 	idle: "Tap and ask about your health",
-	listening: "Listening…",
+	listening: "Listening… tap to send",
 	thinking: "Thinking…",
 	speaking: "Speaking… tap to stop",
 };
@@ -27,6 +28,9 @@ const energy = computeEnergy(mockHealth);
 
 function Home() {
 	const ask = useServerFn(askVital);
+	const toText = useServerFn(transcribe);
+	const toSpeech = useServerFn(synthesize);
+	const stopRecording = useRef<(() => Promise<File>) | null>(null);
 	const [status, setStatus] = useState<Status>("idle");
 	const [question, setQuestion] = useState("");
 	const [answer, setAnswer] = useState("");
@@ -34,19 +38,12 @@ function Home() {
 	const [voice, setVoice] = useState(false);
 	const [draft, setDraft] = useState("");
 
-	useEffect(() => setVoice(canListen()), []);
+	useEffect(() => setVoice(canRecord()), []);
 
-	async function run(text: string) {
-		if (!text.trim() || status !== "idle") return;
-		setQuestion(text);
-		setAnswer("");
+	async function attempt(task: () => Promise<void>) {
 		setError("");
 		try {
-			setStatus("thinking");
-			const reply = await ask({ data: text });
-			setAnswer(reply);
-			setStatus("speaking");
-			await speak(reply);
+			await task();
 		} catch (e) {
 			setError(e instanceof Error ? e.message : "Something went wrong");
 		} finally {
@@ -54,16 +51,42 @@ function Home() {
 		}
 	}
 
+	async function respond(text: string) {
+		setQuestion(text);
+		setAnswer("");
+		setStatus("thinking");
+		const reply = await ask({ data: text });
+		setAnswer(reply);
+		setStatus("speaking");
+		await playMp3(await toSpeech({ data: reply }));
+	}
+
+	function run(text: string) {
+		if (text.trim() && status === "idle") attempt(() => respond(text));
+	}
+
 	async function onMic() {
-		if (status === "speaking") {
-			speechSynthesis.cancel();
-			return;
+		if (status === "speaking") return stopAudio();
+		if (status === "listening" && stopRecording.current) {
+			const stop = stopRecording.current;
+			stopRecording.current = null;
+			return attempt(async () => {
+				setStatus("thinking");
+				const form = new FormData();
+				form.append("audio", await stop());
+				const heard = await toText({ data: form });
+				if (!heard) throw new Error("I didn't catch that. Try again.");
+				await respond(heard);
+			});
 		}
 		if (status !== "idle") return;
-		setStatus("listening");
-		const heard = await listen().catch(() => "");
-		setStatus("idle");
-		if (heard) run(heard);
+		try {
+			stopRecording.current = await startRecording();
+			setError("");
+			setStatus("listening");
+		} catch {
+			setError("Microphone access was denied.");
+		}
 	}
 
 	function onSubmit(e: FormEvent) {
@@ -131,7 +154,7 @@ function Home() {
 					<MicIcon />
 				</button>
 				<p className="text-sm text-caption">
-					{voice ? STATUS_LABEL[status] : "Voice needs Chrome, Edge or Safari"}
+					{voice ? STATUS_LABEL[status] : "Mic needs HTTPS or localhost"}
 				</p>
 				<div className="flex flex-wrap justify-center gap-2">
 					{SUGGESTIONS.map((s) => (
