@@ -1,16 +1,6 @@
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-import { getRequestUrl } from "@tanstack/react-start/server";
 import { SITE_ORIGIN, SOCIAL_TITLE, socialMeta } from "#/lib/social";
 import appCss from "../styles.css?url";
-
-function pageOrigin() {
-	if (typeof window !== "undefined") return window.location.origin;
-	try {
-		return getRequestUrl({ xForwardedHost: true }).origin;
-	} catch {
-		return SITE_ORIGIN;
-	}
-}
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -18,7 +8,7 @@ export const Route = createRootRoute({
 			{ charSet: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
 			{ title: SOCIAL_TITLE },
-			...socialMeta(pageOrigin()),
+			...socialMeta(SITE_ORIGIN),
 		],
 		links: [
 			{ rel: "preconnect", href: "https://fonts.gstatic.com" },
