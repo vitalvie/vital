@@ -25,10 +25,6 @@
   <img src="https://badgen.net/badge/license/AGPL%203.0/green" alt="License: AGPL-3.0">
 </p>
 
-<p align="center">
-  <img src="public/mockups/demo-screens.png" alt="Speaking. The watch answers. On the right, your day, then a question. Adjust numbers to change last night." width="840">
-</p>
-
 ---
 
 ## Quick start
