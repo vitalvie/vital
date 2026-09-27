@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Versions
 
-`MAJOR.MINOR.PATCH` in `apps/web/package.json`. The footer shows it. Tag `vX.Y.Z` on `main` only when shipping. See `docs/releases.mdx`.
+`MAJOR.MINOR.PATCH` in `apps/web/package.json`. The footer shows the latest GitHub release and the CI status on `main`. Tag `vX.Y.Z` on `main` only when shipping. See `docs/releases.mdx`.
 
 Start at `0.1.0`. `1.0.0` means stable. The existing tag `v1.0.0` is the first demo — leave it, and do not bump from `1.0.x`. Read the current number from `package.json`.
 
