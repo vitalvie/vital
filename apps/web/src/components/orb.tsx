@@ -16,7 +16,7 @@ export function Orb({
 	status,
 	level,
 	disabled,
-	className = "size-40",
+	className = "size-32",
 	onClick,
 }: Props) {
 	const ref = useRef<HTMLButtonElement>(null);
@@ -53,7 +53,7 @@ export function Orb({
 			<span className="orb-glow" />
 			<span className="orb-core" />
 			<span className="relative flex items-center justify-center">
-				{busy ? <StopIcon size={28} /> : <MicIcon size={32} />}
+				{busy ? <StopIcon size={22} /> : <MicIcon size={26} />}
 			</span>
 		</button>
 	);

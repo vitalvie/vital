@@ -56,9 +56,7 @@ export function Conversation({
 						)}
 					</>
 				) : (
-					<p className="text-center text-caption">
-						Tap the watch, or pick a question below.
-					</p>
+					<p className="text-center text-caption">Your answer shows up here.</p>
 				)}
 				{error && <p className="animate-fade-up text-bad">{error}</p>}
 			</div>

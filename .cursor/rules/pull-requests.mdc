@@ -1,0 +1,24 @@
+---
+description: Pull requests stay short and use one structure
+alwaysApply: true
+---
+
+# Pull requests
+
+Title: `type(scope): imperative summary`
+
+Body is only this:
+
+```md
+## Summary
+
+- One to three bullets. Why it changed.
+
+## Test plan
+
+- [ ] The checks this change needs.
+```
+
+No other sections. No sign-off. No AI attribution.
+
+Squash-merge into `develop`. Release notes use the same Summary shape (`docs/releases.mdx`).

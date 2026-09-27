@@ -42,7 +42,11 @@ describe("presets", () => {
 		expect(levels).toEqual(["Moderate", "Good", "Low"]);
 	});
 
-	it("start from the demo story", () => {
-		expect(withToday(mockHealth, DEFAULT_TODAY)).toEqual(mockHealth);
+	it("opens on a well-rested day", () => {
+		expect(DEFAULT_TODAY).toEqual({
+			sleepHours: 8.2,
+			hrvMs: 58,
+			restingHr: 53,
+		});
 	});
 });

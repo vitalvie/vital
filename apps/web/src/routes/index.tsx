@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BodyBatteryCard } from "#/components/body-battery-card";
 import { Conversation } from "#/components/conversation";
-import { DemoDataPanel } from "#/components/demo-data-panel";
+import { DemoDataPanel, PresetList } from "#/components/demo-data-panel";
 import { SlidersIcon } from "#/components/icons";
 import { Logo } from "#/components/logo";
 import type { Status } from "#/components/orb";
@@ -109,32 +109,43 @@ function Home() {
 
 	return (
 		<main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-10 px-5 py-6 sm:gap-12 sm:px-8 sm:py-8 lg:gap-16">
-			<header className="flex items-center justify-between">
+			<header>
 				<Logo />
-				<button
-					type="button"
-					aria-expanded={editing}
-					aria-controls="demo-data"
-					onClick={() => setEditing((open) => !open)}
-					className="flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700 transition hover:bg-indigo-100 focus-visible:outline-2 focus-visible:outline-indigo-500"
-				>
-					<SlidersIcon />
-					Demo data
-				</button>
 			</header>
 
 			<div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-x-16 lg:gap-y-6">
-				<section className="flex flex-col gap-2 text-center lg:col-start-2 lg:text-left">
-					<p className="text-sm font-medium text-indigo-500">
-						Your daily check-in
-					</p>
-					<h1 className="text-[26px] leading-8 font-medium text-heading sm:text-[32px] sm:leading-10">
-						Your health, explained out loud.
-					</h1>
-					<p className="leading-6">
-						Ask anything about your sleep, recovery or energy. Vital answers
-						using your own data, compared to your usual.
-					</p>
+				<section className="flex flex-col gap-4 text-center lg:col-start-2 lg:text-left">
+					<div className="flex flex-col gap-2">
+						<h1 className="text-[26px] leading-8 font-medium text-heading sm:text-[32px] sm:leading-10">
+							Talk to your body.
+						</h1>
+						<p className="leading-6">
+							Tap the watch and ask out loud, or pick a question.
+						</p>
+					</div>
+					<div className="flex flex-col items-center gap-3 lg:items-start">
+						<p className="text-sm leading-5 text-caption">
+							<span className="font-medium text-heading">Demo data.</span>{" "}
+							Change the sample day, then ask again.
+						</p>
+						<div className="flex flex-wrap items-center justify-center gap-2 lg:justify-start">
+							<PresetList today={today} onChange={setToday} />
+							<button
+								type="button"
+								aria-expanded={editing}
+								aria-controls="demo-data"
+								onClick={() => setEditing((open) => !open)}
+								className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-indigo-500 ${
+									editing
+										? "bg-indigo-500 text-white"
+										: "bg-white text-heading shadow-soft hover:bg-indigo-50"
+								}`}
+							>
+								<SlidersIcon />
+								Adjust numbers
+							</button>
+						</div>
+					</div>
 				</section>
 
 				{editing && (

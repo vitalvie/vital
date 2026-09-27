@@ -168,7 +168,8 @@ export const PRESETS: { label: string; today: TodaySignals }[] = [
 	},
 ];
 
-export const DEFAULT_TODAY = PRESETS[0].today;
+export const DEFAULT_TODAY =
+	PRESETS.find((p) => p.label === "Well rested")?.today ?? PRESETS[0].today;
 
 // Clamps untrusted input to realistic ranges; missing values fall back to the demo story.
 export function parseToday(input: unknown): TodaySignals {
