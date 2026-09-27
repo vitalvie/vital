@@ -19,30 +19,9 @@
   <a href="https://vital.dhicham-pro.workers.dev"><b>Give it a try →</b></a>
 </p>
 
-<table border="0" cellspacing="0" cellpadding="8">
-<tr>
-  <td align="center" valign="bottom" width="30%">
-    <b>Speaking.</b> The watch answers.
-  </td>
-  <td align="center" valign="bottom" width="40%">
-    <b>On the right.</b> Your day, then a question.
-  </td>
-  <td align="center" valign="bottom" width="30%">
-    <b>Adjust numbers.</b> Change last night.
-  </td>
-</tr>
-<tr>
-  <td align="center" valign="top">
-    <img src="public/mockups/demo-watch.png" alt="Watch speaking" width="200">
-  </td>
-  <td align="center" valign="top">
-    <img src="public/mockups/demo-interface.png" alt="Body battery and questions" width="280">
-  </td>
-  <td align="center" valign="top">
-    <img src="public/mockups/demo-data.png" alt="Sliders for last night" width="240">
-  </td>
-</tr>
-</table>
+<p align="center">
+  <img src="public/mockups/demo-screens.png" alt="Speaking. The watch answers. On the right, your day, then a question. Adjust numbers to change last night." width="840">
+</p>
 
 <p align="left">
   <img src="https://badgen.net/badge/TanStack/Start/FF4154" alt="TanStack Start">
