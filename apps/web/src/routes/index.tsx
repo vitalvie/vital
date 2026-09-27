@@ -7,6 +7,7 @@ import { DemoDataPanel, PresetList } from "#/components/demo-data-panel";
 import { SlidersIcon } from "#/components/icons";
 import { Logo } from "#/components/logo";
 import type { Status } from "#/components/orb";
+import { ReleaseFooter } from "#/components/release-footer";
 import { Watch } from "#/components/watch";
 import {
 	DEFAULT_TODAY,
@@ -23,11 +24,16 @@ import {
 } from "#/lib/audio";
 import { computeEnergy } from "#/lib/energy";
 import { askVital } from "#/server/ask";
+import { getRelease } from "#/server/release";
 import { synthesize, transcribe } from "#/server/voice";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+	loader: () => getRelease(),
+	component: Home,
+});
 
 function Home() {
+	const release = Route.useLoaderData();
 	const ask = useServerFn(askVital);
 	const toText = useServerFn(transcribe);
 	const toSpeech = useServerFn(synthesize);
@@ -191,7 +197,7 @@ function Home() {
 			<footer className="mt-auto text-center text-xs leading-5 text-caption">
 				Vital is not a medical device and does not give diagnoses. For health
 				concerns, talk to a healthcare professional.
-				<span className="block">v{__APP_VERSION__}</span>
+				<ReleaseFooter release={release} />
 			</footer>
 		</main>
 	);
