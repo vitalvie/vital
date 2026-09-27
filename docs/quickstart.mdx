@@ -22,13 +22,15 @@ description: "Run the Vital demo locally in two minutes."
     ```bash
     cp apps/web/.env.example apps/web/.env
     ```
-    Then set `MISTRAL_API_KEY` in `apps/web/.env`. Optionally set `MISTRAL_MODEL` (defaults to `mistral-small-latest`).
+    Then set `MISTRAL_API_KEY` in `apps/web/.env`. Optionally set `MISTRAL_MODEL` (defaults to `mistral-small-latest`). `TYPESAFE_API_KEY` is only for `pnpm eval`, not for the app.
   </Step>
   <Step title="Start">
     ```bash
     pnpm dev
     ```
-    Open [http://localhost:3000](http://localhost:3000), tap the mic, and ask a question.
+    Open [http://localhost:3000](http://localhost:3000). Tap the watch, or pick a question. The app opens on a well-rested sample day.
+
+    Under the title, pick **Short night**, **Well rested** or **Stressful week**, or click **Adjust numbers** to change last night's sleep, HRV and resting heart rate.
 
     To demo from another device, expose it over HTTPS so the browser allows the mic, for example with `tailscale serve --bg 3000`.
   </Step>
