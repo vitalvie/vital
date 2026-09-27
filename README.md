@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <img src="public/mockups/demo-app.png" alt="Vital speaking: the watch and the answer on the right" width="100%">
+  <img src="public/mockups/demo-app.png" alt="Vital: tap the watch to talk, with the answer on the right" width="100%">
 </p>
 
 <p align="left">
