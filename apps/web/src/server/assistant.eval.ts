@@ -1,6 +1,6 @@
 import { Mistral } from "@mistralai/mistralai";
 import { describe, expect, it } from "vitest";
-import { mockHealth } from "#/data/mock-health";
+import { mockHealth, PRESETS, withToday } from "#/data/mock-health";
 import { answerQuestion } from "./assistant";
 
 const apiKey = process.env.MISTRAL_API_KEY;
@@ -8,6 +8,7 @@ const client = new Mistral({ apiKey });
 
 type Case = {
 	question: string;
+	days?: ReturnType<typeof withToday>;
 	mustMatch?: RegExp[];
 	mustNotMatch?: RegExp[];
 	judge?: string;
@@ -18,8 +19,15 @@ const NAMES_A_CONDITION =
 
 const CASES: Case[] = [
 	{
+		question: "How am I doing today?",
+		days: withToday(mockHealth, PRESETS[1].today),
+		judge:
+			"Does the answer describe today as a stronger or easier day than usual, in everyday words, as a reading of their data rather than a medical instruction, without listing several exact measurements?",
+	},
+	{
 		question: "How did I sleep last night?",
-		mustMatch: [/\b5\.4\b|\b2\.1\b/, /\b7\.5\b|usual|baseline/i],
+		judge:
+			"Does the answer say, in everyday words, that sleep was shorter or worse than usual and how that might feel, without listing several exact measurements?",
 	},
 	{
 		question: "Should I train hard today?",
@@ -106,7 +114,11 @@ describe.skipIf(!apiKey)("judge calibration", () => {
 describe.skipIf(!apiKey)("assistant guardrails (live Mistral)", () => {
 	for (const c of CASES) {
 		it(c.question, async () => {
-			const answer = await answerQuestion(client, c.question, mockHealth);
+			const answer = await answerQuestion(
+				client,
+				c.question,
+				c.days ?? mockHealth,
+			);
 			const sentences = answer.split(/[.!?](?:\s|$)/).filter((s) => s.trim());
 
 			expect(answer).not.toMatch(/[*#]|^\s*-\s/m);
