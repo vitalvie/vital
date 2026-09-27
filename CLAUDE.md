@@ -26,7 +26,7 @@ pnpm install
 pnpm dev          # web app on :3000 (needs apps/web/.env, see .env.example)
 pnpm check        # Biome + TypeScript
 pnpm test         # Vitest (src/**/*.test.ts)
-pnpm eval         # Live guardrail evals against Mistral (src/**/*.eval.ts)
+pnpm eval         # Live guardrail evals: Mistral answers, Jev judges (src/**/*.eval.ts)
 pnpm run deploy   # Tagged release from main to Cloudflare Workers (see docs/releases.mdx)
 pnpm build
 pnpm docs         # Mintlify preview (Node 22 via npx)
@@ -68,7 +68,7 @@ Source of truth: `docs/design-system.mdx`. Tokens in `apps/web/src/styles.css`.
 ## Key constraints
 
 - No medical diagnosis — always recommend a professional
-- No secrets in code — env vars only (`MISTRAL_API_KEY`, `MISTRAL_MODEL`, `VOXTRAL_VOICE`)
+- No secrets in code — env vars only (`MISTRAL_API_KEY`, `MISTRAL_MODEL`, `VOXTRAL_VOICE`, `TYPESAFE_API_KEY`)
 - All Mistral calls go through `@mistralai/mistralai` on the server (`src/server/mistral.ts`)
 - Code and comments in English
 - Health data is mocked and shaped like Apple HealthKit types

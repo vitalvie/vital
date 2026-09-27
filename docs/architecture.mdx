@@ -62,5 +62,7 @@ sequenceDiagram
 | `MISTRAL_API_KEY` | Yes | |
 | `MISTRAL_MODEL` | No | `mistral-small-latest` |
 | `VOXTRAL_VOICE` | No | `gb_jane_neutral` |
+| `TYPESAFE_API_KEY` | Evals only | |
+| `JEV_MODEL` | No | `jev-latest` |
 
-Set them in `apps/web/.env` locally. In production, add them as Worker secrets (`wrangler secret put MISTRAL_API_KEY`). Never commit `.env`.
+Set them in `apps/web/.env` locally. In production, add `MISTRAL_API_KEY` as a Worker secret (`wrangler secret put MISTRAL_API_KEY`). `TYPESAFE_API_KEY` is only for `pnpm eval` and CI, not the deployed app. Never commit `.env`.

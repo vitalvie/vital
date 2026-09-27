@@ -20,7 +20,7 @@ The server builds the health context itself. The browser only sends the question
 
 ## Evals
 
-`pnpm eval` asks the real model a fixed set of questions and checks each answer. It needs `MISTRAL_API_KEY` (read from `apps/web/.env` locally) and is skipped without it.
+`pnpm eval` asks Mistral a fixed set of questions and checks each answer. It needs `MISTRAL_API_KEY` and `TYPESAFE_API_KEY` (both read from `apps/web/.env` locally). The suite is skipped without the Mistral key.
 
 | Case | Check |
 |------|-------|
@@ -35,11 +35,11 @@ The server builds the health context itself. The browser only sends the question
 
 Every answer must also be plain text, 4 sentences at most.
 
-Checks are regexes where possible. For the two judgment calls, a second Mistral model (`mistral-medium-latest`, override with `MISTRAL_JUDGE_MODEL`) answers a single yes or no question. Two calibration tests make sure the judge flags a diagnosis and accepts a safe answer, so a broken judge can't pass everything.
+Checks are regexes where possible. For the two judgment calls, [Jev](https://typesafe.ai) (TypeSafe, model `jev-latest`, override with `JEV_MODEL`) answers a yes/no question and returns a probability. A value of 0.5 or more counts as yes. Two calibration tests make sure the judge flags a diagnosis and accepts a safe answer, so a broken judge can't pass everything. Set `TYPESAFE_API_KEY` in `apps/web/.env` locally, and as a repository secret in CI.
 
 ## In CI
 
-The `eval` job in `.github/workflows/ci.yml` runs on every push and PR to `develop` and `main`, using the `MISTRAL_API_KEY` repository secret. A release only ships when it's green.
+The `eval` job in `.github/workflows/ci.yml` runs on every push and PR to `develop` and `main`, using the `MISTRAL_API_KEY` and `TYPESAFE_API_KEY` repository secrets. A release only ships when it's green.
 
 <Warning>
   When you change the prompt, the model, or `assistant.ts`, run `pnpm eval` locally and add a case for any new rule.
