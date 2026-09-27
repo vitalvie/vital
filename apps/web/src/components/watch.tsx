@@ -48,7 +48,7 @@ export function Watch({
 								status={status}
 								level={level}
 								disabled={!voice && status === "idle"}
-								className="size-32"
+								className="size-40"
 								onClick={onOrb}
 							/>
 
