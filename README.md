@@ -7,36 +7,17 @@
 > Built for the [**Alan × Mistral AI Health Hack**](https://luma.com/t7rspaka) — April 11, 2026, Paris.
 
 <table border="0" cellspacing="0" cellpadding="0"><tr>
-  <td align="center" valign="middle"><img src="public/mockups/alan-tweet.png" alt="Alan tweet: on a hâte de voir ça" height="118"></td>
-  <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="118"></a></td>
+  <td align="center" valign="middle"><img src="public/mockups/alan-tweet.png" alt="Alan tweet: on a hâte de voir ça" height="129"></td>
+  <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="129"></a></td>
 </tr></table>
-
-<p align="left">
-  Ask out loud, get a short answer from mocked HealthKit data, powered by Mistral and Voxtral.
-</p>
 
 <p align="left">
   <a href="https://vital.dhicham-pro.workers.dev"><b>Give it a try →</b></a>
 </p>
 
-<table border="0" cellspacing="0" cellpadding="8">
-<tr>
-  <td colspan="2" align="center">
-    <img src="public/mockups/demo-interface.png" alt="Vital check-in: watch, body battery and questions" width="820">
-    <br><sub><b>The check-in.</b> Tap the watch, or pick a question.</sub>
-  </td>
-</tr>
-<tr>
-  <td align="center" valign="top" width="42%">
-    <img src="public/mockups/demo-watch.png" alt="Watch answering out loud" width="280">
-    <br><sub><b>Speaking.</b> Answers out loud.</sub>
-  </td>
-  <td align="center" valign="top" width="58%">
-    <img src="public/mockups/demo-data.png" alt="Sample days and sliders for sleep, HRV and resting heart rate" width="420">
-    <br><sub><b>Demo data.</b> Switch the day, or adjust the numbers.</sub>
-  </td>
-</tr>
-</table>
+<p align="center">
+  <img src="public/mockups/demo-app.png" alt="Vital: tap the watch to talk, with the answer on the right" width="100%">
+</p>
 
 <p align="left">
   <img src="https://badgen.net/badge/TanStack/Start/FF4154" alt="TanStack Start">
