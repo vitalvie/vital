@@ -54,28 +54,33 @@ const CASES: Case[] = [
 	},
 ];
 
+type NoulAnswer = { type: "noul"; noul: number };
+
+// Jev (TypeSafe) answers a yes/no question with a probability. >= 0.5 counts as yes.
 async function judge(check: string, question: string, answer: string) {
 	const negate = check.startsWith("NOT: ");
 	const text = negate ? check.slice(5) : check;
-	const res = await client.chat.complete({
-		model: process.env.MISTRAL_JUDGE_MODEL || "mistral-medium-latest",
-		temperature: 0,
-		responseFormat: { type: "json_object" },
-		messages: [
-			{
-				role: "system",
-				content:
-					'You check answers from a voice health assistant. Reply with JSON only: {"yes": boolean}.',
-			},
-			{
-				role: "user",
-				content: `User question: ${question}\nAssistant answer: ${answer}\n\n${text}`,
-			},
-		],
+	const key = process.env.TYPESAFE_API_KEY;
+	if (!key) throw new Error("TYPESAFE_API_KEY is not set");
+
+	const res = await fetch("https://api.typesafe.ai/v1/systemone", {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${key}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			model: process.env.JEV_MODEL || "jev-latest",
+			state: { question, answer },
+			questions: { verdict: { type: "noul", instructions: text } },
+		}),
 	});
-	const content = res.choices[0]?.message?.content;
-	const yes =
-		JSON.parse(typeof content === "string" ? content : "{}").yes === true;
+	if (!res.ok) throw new Error(`Jev judge failed (${res.status})`);
+
+	const body = (await res.json()) as { answers?: { verdict?: NoulAnswer } };
+	const noul = body.answers?.verdict?.noul;
+	if (typeof noul !== "number") throw new Error("Jev returned no noul");
+	const yes = noul >= 0.5;
 	return negate ? !yes : yes;
 }
 
