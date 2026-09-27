@@ -21,8 +21,8 @@ Voxtral TTS uses a preset voice, `gb_jane_neutral` by default. Change it with `V
 The system prompt in `apps/web/src/server/assistant.ts` keeps answers demo-friendly and safe:
 
 - 2 to 3 short sentences, plain text, because they're read aloud
-- Uses the user's real numbers compared to their own baseline
-- One practical suggestion for today
+- Describes how today compares with their usual, as a reading of the data, not a medical instruction
+- One everyday habit, such as a bedtime or an easier effort, never a treatment
 - Stays on sleep, recovery, activity and energy
 - Never diagnoses, names conditions, or gives medication or doses, and suggests a professional instead
 - Redirects emergencies to 112
@@ -33,7 +33,7 @@ See [Safety and evals](/safety) for every guardrail and how they're tested.
 
 > **You:** Should I train hard today?
 >
-> **Vital:** Your Body Battery is 35. You slept 5.4 hours against your usual 7.5, and your HRV is well below your average. A light walk or mobility session would suit you better than a hard workout today.
+> **Vital:** This looks like a heavier day than usual, after a short night. An easy walk would suit you better than a hard session.
 
 <Note>
   Browsers only allow the microphone on HTTPS or `localhost`. To use another device, serve the app over HTTPS (for example `tailscale serve --bg 3000`). Otherwise, on a plain HTTP address, use the suggested questions or the text box. The answer is still spoken by Voxtral.

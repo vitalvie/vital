@@ -26,7 +26,7 @@ pnpm install
 pnpm dev          # web app on :3000 (needs apps/web/.env, see .env.example)
 pnpm check        # Biome + TypeScript
 pnpm test         # Vitest (src/**/*.test.ts)
-pnpm eval         # Live guardrail evals against Mistral (src/**/*.eval.ts)
+pnpm eval         # Live guardrail evals: Mistral answers, Jev judges (src/**/*.eval.ts)
 pnpm run deploy   # Tagged release from main to Cloudflare Workers (see docs/releases.mdx)
 pnpm build
 pnpm docs         # Mintlify preview (Node 22 via npx)
@@ -42,7 +42,7 @@ pnpm docs:check   # Mintlify broken links
 - Pure logic in `src/lib/` gets a `*.test.ts` next to it.
 - CI (`.github/workflows/ci.yml`) runs check, test, build, live evals and docs broken links on every PR.
 - Prompt or model changes: update `src/server/assistant.ts`, add an eval case, run `pnpm eval`. See `docs/safety.mdx`.
-- Releases: semver in `apps/web/package.json`, tag `vX.Y.Z` on `main`, then `pnpm run deploy`. See `docs/releases.mdx`.
+- Releases: semver from `0.1.0` in `apps/web/package.json` (`1.0.0` is a stable product, not the first demo). Tag `vX.Y.Z` on `main`, then `pnpm run deploy`. PRs and release notes stay short and use one shape. See `docs/releases.mdx`.
 - Docs: every new page is registered in `docs/docs.json`; update docs when behavior changes.
 - Do not modify `README.md` unless explicitly asked.
 
@@ -68,7 +68,7 @@ Source of truth: `docs/design-system.mdx`. Tokens in `apps/web/src/styles.css`.
 ## Key constraints
 
 - No medical diagnosis — always recommend a professional
-- No secrets in code — env vars only (`MISTRAL_API_KEY`, `MISTRAL_MODEL`, `VOXTRAL_VOICE`)
+- No secrets in code — env vars only (`MISTRAL_API_KEY`, `MISTRAL_MODEL`, `VOXTRAL_VOICE`, `TYPESAFE_API_KEY`)
 - All Mistral calls go through `@mistralai/mistralai` on the server (`src/server/mistral.ts`)
 - Code and comments in English
 - Health data is mocked and shaped like Apple HealthKit types

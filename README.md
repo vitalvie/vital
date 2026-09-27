@@ -7,31 +7,17 @@
 > Built for the [**Alan × Mistral AI Health Hack**](https://luma.com/t7rspaka) — April 11, 2026, Paris.
 
 <table border="0" cellspacing="0" cellpadding="0"><tr>
-  <td align="center" valign="middle"><img src="public/mockups/alan-tweet.png" alt="Alan tweet: on a hâte de voir ça" width="480"></td>
-  <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="118"></a></td>
+  <td align="center" valign="middle"><img src="public/mockups/alan-tweet.png" alt="Alan tweet: on a hâte de voir ça" height="129"></td>
+  <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="129"></a></td>
 </tr></table>
-
-<p align="left">
-  Ask a question out loud, get a short spoken answer grounded in mocked Apple HealthKit data, powered by Mistral and Voxtral.
-</p>
 
 <p align="left">
   <a href="https://vital.dhicham-pro.workers.dev"><b>Give it a try →</b></a>
 </p>
 
-<table border="0" cellspacing="0" cellpadding="8"><tr>
-  <td align="center" valign="top" width="45%">
-    <img src="public/mockups/demo-watch.png" alt="Apple Watch mockup with the voice orb speaking">
-    <br><sub><b>Tap the watch and talk.</b> The orb listens, thinks, then answers out loud with Voxtral.</sub>
-  </td>
-  <td align="center" valign="top" width="55%">
-    <img src="public/mockups/demo-battery.png" alt="Body Battery card at 35% with sleep, HRV and resting heart rate tiles">
-    <br><sub><b>Body Battery.</b> Today's sleep, HRV and resting heart rate, compared to your usual.</sub>
-    <br><br>
-    <img src="public/mockups/demo-conversation.png" alt="Ask Vital panel with a question and a short answer">
-    <br><sub><b>Ask Vital.</b> A short, friendly answer grounded in your own data. Type or pick a question if you prefer.</sub>
-  </td>
-</tr></table>
+<p align="center">
+  <img src="public/mockups/demo-app.png" alt="Vital: tap the watch to talk, with the answer on the right" width="100%">
+</p>
 
 <p align="left">
   <img src="https://badgen.net/badge/TanStack/Start/FF4154" alt="TanStack Start">
@@ -56,11 +42,11 @@ cp apps/web/.env.example apps/web/.env   # then set MISTRAL_API_KEY
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000), tap the watch and ask a question. The mic works on `localhost` or HTTPS; otherwise, type a question.
+Open [http://localhost:3000](http://localhost:3000). Tap the watch, or pick a question. The mic works on `localhost` or HTTPS; otherwise, type a question. The app opens on a well-rested sample day.
 
 ### Change the mocked data
 
-In the app, click **Demo data** in the header: pick a preset or move the sliders for last night's sleep, HRV and resting heart rate, and Vital answers with those numbers.
+Under the title, pick **Short night**, **Well rested** or **Stressful week**, or click **Adjust numbers** and move the sliders for last night's sleep, HRV and resting heart rate. Vital answers with those numbers.
 
 To change the 14-day history or the presets, edit [`apps/web/src/data/mock-health.ts`](apps/web/src/data/mock-health.ts), then update the expected scores in the tests so `pnpm test` stays green.
 

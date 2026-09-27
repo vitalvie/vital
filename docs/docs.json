@@ -7,7 +7,7 @@
     "light": "#A29BFE",
     "dark": "#5A4BD1"
   },
-  "favicon": "/vital-logo.png",
+  "favicon": "/favicon.svg",
   "navigation": {
     "groups": [
       {

@@ -15,7 +15,7 @@ export const Route = createRootRoute({
 				href: "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;500;700&display=swap",
 			},
 			{ rel: "stylesheet", href: appCss },
-			{ rel: "icon", href: "/vital-logo.png" },
+			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 		],
 	}),
 	shellComponent: RootDocument,

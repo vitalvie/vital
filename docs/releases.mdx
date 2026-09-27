@@ -3,13 +3,28 @@ title: Releases
 description: "Versioning, tagging and deploying to Cloudflare Workers."
 ---
 
-Vital follows [semantic versioning](https://semver.org/). The version lives in `apps/web/package.json` and shows in the page footer.
+Vital follows [semantic versioning](https://semver.org/): `MAJOR.MINOR.PATCH`. The version lives in `apps/web/package.json` and shows in the page footer.
 
-| Change | Bump |
-|--------|------|
-| Fix, copy or style tweak | Patch (`1.0.1`) |
-| New feature | Minor (`1.1.0`) |
-| Breaking change | Major (`2.0.0`) |
+The line starts at **0.1.0**. `1.0.0` is a stable product, not the first demo. The tag `v1.0.0` already on `main` is that first demo — leave it, and do not bump from `1.0.x`. The number in `package.json` is the current version.
+
+| Change | Bump | Example |
+|--------|------|---------|
+| Fix, copy, or style | Patch | `0.1.1` |
+| New feature | Minor | `0.2.0` |
+| Breaking change while the major is still 0 | Minor | `0.2.0` |
+| Stable release, or a break after `1.0.0` | Major | `1.0.0` |
+
+## Release notes
+
+Same shape every time. Write them by hand. The tag name is `vX.Y.Z`.
+
+```md
+## Summary
+
+- One to three bullets a person can read without the diff.
+
+**Full Changelog**: https://github.com/vitalvie/vital/compare/vPREV...vNEXT
+```
 
 ## Ship a release
 
@@ -23,8 +38,9 @@ Vital follows [semantic versioning](https://semver.org/). The version lives in `
   <Step title="Tag and publish">
     ```bash
     git checkout main && git pull
-    git tag v1.1.0 && git push origin v1.1.0
-    gh release create v1.1.0 --generate-notes
+    git tag v0.1.1 -m "One-line summary"
+    git push origin v0.1.1
+    gh release create v0.1.1 --title "v0.1.1" --notes-file notes.md
     ```
   </Step>
   <Step title="Deploy">
