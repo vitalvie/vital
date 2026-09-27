@@ -25,6 +25,10 @@
   <img src="https://badgen.net/badge/license/AGPL%203.0/green" alt="License: AGPL-3.0">
 </p>
 
+<p align="center">
+  <img src="public/mockups/demo-app.png" alt="Vital speaking: the watch and the answer on the right" width="720">
+</p>
+
 ---
 
 ## Quick start
