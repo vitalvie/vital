@@ -15,18 +15,18 @@
   <a href="https://vital.dhicham-pro.workers.dev"><b>Give it a try →</b></a>
 </p>
 
+<p align="center">
+  <img src="public/mockups/demo-app.png" alt="Vital speaking: the watch and the answer on the right" width="100%">
+</p>
+
 <p align="left">
-  <a href="https://mistral.ai"><img src="public/badges/m-orange.svg" alt="Mistral AI" height="32"></a>
-  <a href="https://www.apple.com/health/"><img src="public/badges/apple-health-en.svg" alt="Apple Health" height="32"></a>
-  <br>
   <img src="https://badgen.net/badge/TanStack/Start/FF4154" alt="TanStack Start">
   <img src="https://badgen.net/badge/TypeScript/6/3178C6?icon=typescript" alt="TypeScript 6">
   <img src="https://badgen.net/badge/state/Hackathon%20demo/5C59F3" alt="State: Hackathon demo">
   <img src="https://badgen.net/badge/license/AGPL%203.0/green" alt="License: AGPL-3.0">
-</p>
-
-<p align="center">
-  <img src="public/mockups/demo-app.png" alt="Vital speaking: the watch and the answer on the right" width="100%">
+  <br><br>
+  <a href="https://mistral.ai"><img src="public/badges/m-orange.svg" alt="Mistral AI" height="32"></a>
+  <a href="https://www.apple.com/health/"><img src="public/badges/apple-health-en.svg" alt="Apple Health" height="32"></a>
 </p>
 
 ---
