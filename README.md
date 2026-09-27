@@ -7,8 +7,8 @@
 > Built for the [**Alan × Mistral AI Health Hack**](https://luma.com/t7rspaka) — April 11, 2026, Paris.
 
 <table border="0" cellspacing="0" cellpadding="0"><tr>
-  <td align="center" valign="middle"><img src="public/mockups/alan-tweet.png" alt="Alan tweet: on a hâte de voir ça" height="118"></td>
-  <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="118"></a></td>
+  <td align="center" valign="middle"><img src="public/mockups/alan-tweet.png" alt="Alan tweet: on a hâte de voir ça" height="129"></td>
+  <td align="center" valign="middle"><a href="https://luma.com/t7rspaka"><img src="public/mockups/alan-x-mistral.png" alt="Alan × Mistral AI Health Hack" height="129"></a></td>
 </tr></table>
 
 <p align="left">
@@ -21,19 +21,25 @@
 
 <table border="0" cellspacing="0" cellpadding="8">
 <tr>
-  <td colspan="2" align="center">
-    <img src="public/mockups/demo-interface.png" alt="Vital check-in: watch, body battery and questions" width="820">
-    <br><sub><b>The check-in.</b> Tap the watch, or pick a question.</sub>
+  <td align="center" valign="bottom" width="30%">
+    <b>Speaking.</b> The watch answers.
+  </td>
+  <td align="center" valign="bottom" width="40%">
+    <b>On the right.</b> Your day, then a question.
+  </td>
+  <td align="center" valign="bottom" width="30%">
+    <b>Adjust numbers.</b> Change last night.
   </td>
 </tr>
 <tr>
-  <td align="center" valign="top" width="42%">
-    <img src="public/mockups/demo-watch.png" alt="Watch answering out loud" width="280">
-    <br><sub><b>Speaking.</b> Answers out loud.</sub>
+  <td align="center" valign="top">
+    <img src="public/mockups/demo-watch.png" alt="Watch speaking" width="200">
   </td>
-  <td align="center" valign="top" width="58%">
-    <img src="public/mockups/demo-data.png" alt="Sample days and sliders for sleep, HRV and resting heart rate" width="420">
-    <br><sub><b>Demo data.</b> Switch the day, or adjust the numbers.</sub>
+  <td align="center" valign="top">
+    <img src="public/mockups/demo-interface.png" alt="Body battery and questions" width="280">
+  </td>
+  <td align="center" valign="top">
+    <img src="public/mockups/demo-data.png" alt="Sliders for last night" width="240">
   </td>
 </tr>
 </table>
