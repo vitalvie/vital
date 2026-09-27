@@ -14,52 +14,61 @@ type Props = {
 	onClose: () => void;
 };
 
+export function PresetList({
+	today,
+	onChange,
+}: {
+	today: TodaySignals;
+	onChange: (today: TodaySignals) => void;
+}) {
+	return (
+		<div className="flex flex-wrap gap-2">
+			{PRESETS.map((p) => {
+				const active = SIGNALS.every(({ key }) => p.today[key] === today[key]);
+				return (
+					<button
+						key={p.label}
+						type="button"
+						aria-pressed={active}
+						onClick={() => onChange(p.today)}
+						className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-indigo-500 ${
+							active
+								? "bg-indigo-500 text-white"
+								: "bg-indigo-50 text-heading hover:bg-indigo-100"
+						}`}
+					>
+						{p.label}
+					</button>
+				);
+			})}
+		</div>
+	);
+}
+
 export function DemoDataPanel({ id, days, today, onChange, onClose }: Props) {
 	return (
 		<section
 			id={id}
-			aria-label="Demo data"
+			aria-label="Adjust today's numbers"
 			className="animate-fade-up rounded-3xl bg-white p-4 shadow-soft sm:p-6"
 		>
 			<div className="flex items-start justify-between gap-4">
 				<div>
-					<h2 className="text-sm font-medium text-heading">Demo data</h2>
+					<h2 className="text-sm font-medium text-heading">
+						Adjust today's numbers
+					</h2>
 					<p className="mt-1 text-sm leading-5 text-caption">
-						Mocked, HealthKit-shaped numbers. Change last night to see how Vital
-						reacts.
+						Drag a slider, then ask again. Indigo is today.
 					</p>
 				</div>
 				<button
 					type="button"
 					onClick={onClose}
-					aria-label="Close demo data"
+					aria-label="Close number adjustments"
 					className="grid size-8 shrink-0 place-items-center rounded-full text-caption transition hover:bg-cream hover:text-heading focus-visible:outline-2 focus-visible:outline-indigo-500"
 				>
 					<CloseIcon size={16} />
 				</button>
-			</div>
-
-			<div className="mt-4 flex flex-wrap gap-2">
-				{PRESETS.map((p) => {
-					const active = SIGNALS.every(
-						({ key }) => p.today[key] === today[key],
-					);
-					return (
-						<button
-							key={p.label}
-							type="button"
-							aria-pressed={active}
-							onClick={() => onChange(p.today)}
-							className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-indigo-500 ${
-								active
-									? "bg-indigo-500 text-white"
-									: "bg-indigo-50 text-heading hover:bg-indigo-100"
-							}`}
-						>
-							{p.label}
-						</button>
-					);
-				})}
 			</div>
 
 			<div className="mt-5 flex flex-col gap-5">

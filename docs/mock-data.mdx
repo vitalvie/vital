@@ -22,16 +22,16 @@ Twelve ordinary days, then:
 - **Yesterday:** a big training day (16,800 steps, 1,150 kcal)
 - **Last night:** a short night (5.4 h), low HRV (34 ms), elevated resting heart rate (62 bpm)
 
-The result is a low Body Battery (35), which gives the assistant something interesting to say.
+The result is a low Body Battery (35). The app does not open on that day: it starts on the Well rested preset, and that short night stays available as another sample.
 
-## Demo data panel
+## Demo data
 
-The **Demo data** button in the header opens a panel where anyone can change last night's sleep, HRV and resting heart rate with sliders, or pick a preset. The 14-day history under each slider highlights today.
+Under the title, three presets change today in one click. **Adjust numbers** opens sliders for last night's sleep, HRV and resting heart rate. The 14-day history under each slider highlights today.
 
 | Preset | Sleep | HRV | Resting HR | Body Battery |
 |--------|-------|-----|------------|--------------|
-| Short night (default) | 5.4 h | 34 ms | 62 bpm | 35, Moderate |
-| Well rested | 8.2 h | 58 ms | 53 bpm | 95, Good |
+| Short night | 5.4 h | 34 ms | 62 bpm | 35, Moderate |
+| Well rested (default) | 8.2 h | 58 ms | 53 bpm | 95, Good |
 | Stressful week | 4.8 h | 26 ms | 68 bpm | 24, Low |
 
 The browser sends these three values with each question. The server clamps them (`parseToday`) and swaps them into today's entry (`withToday`), so the answer matches what's on screen. Nothing is stored.
