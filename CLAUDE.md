@@ -42,7 +42,7 @@ pnpm docs:check   # Mintlify broken links
 - Pure logic in `src/lib/` gets a `*.test.ts` next to it.
 - CI (`.github/workflows/ci.yml`) runs check, test, build, live evals and docs broken links on every PR.
 - Prompt or model changes: update `src/server/assistant.ts`, add an eval case, run `pnpm eval`. See `docs/safety.mdx`.
-- Releases: semver in `apps/web/package.json`, tag `vX.Y.Z` on `main`, then `pnpm run deploy`. See `docs/releases.mdx`.
+- Releases: semver from `0.1.0` in `apps/web/package.json` (`1.0.0` is a stable product, not the first demo). Tag `vX.Y.Z` on `main`, then `pnpm run deploy`. PRs and release notes stay short and use one shape. See `docs/releases.mdx`.
 - Docs: every new page is registered in `docs/docs.json`; update docs when behavior changes.
 - Do not modify `README.md` unless explicitly asked.
 

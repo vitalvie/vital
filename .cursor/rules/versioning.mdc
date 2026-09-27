@@ -1,0 +1,27 @@
+---
+description: Semantic versions start at 0.1.0
+alwaysApply: true
+---
+
+# Versions
+
+`MAJOR.MINOR.PATCH` in `apps/web/package.json`. The footer shows it. Tag `vX.Y.Z` on `main` only when shipping. See `docs/releases.mdx`.
+
+Start at `0.1.0`. `1.0.0` means stable. The existing tag `v1.0.0` is the first demo — leave it, and do not bump from `1.0.x`. Read the current number from `package.json`.
+
+| Change | Bump | Example |
+|--------|------|---------|
+| Fix, copy, style | Patch | `0.1.1` |
+| Feature | Minor | `0.2.0` |
+| Break, while major is 0 | Minor | `0.2.0` |
+| Stable product, or a break after `1.0.0` | Major | `1.0.0` |
+
+Release notes use the same shape every time. Write them by hand:
+
+```md
+## Summary
+
+- One to three bullets.
+
+**Full Changelog**: https://github.com/vitalvie/vital/compare/vPREV...vNEXT
+```
