@@ -20,7 +20,7 @@ The server builds the health context itself. The browser only sends the question
 
 ## Evals
 
-`pnpm eval` asks Mistral a fixed set of questions and checks each answer. It needs `MISTRAL_API_KEY` and `TYPESAFE_API_KEY` (both read from `apps/web/.env` locally). The suite is skipped without the Mistral key.
+`pnpm eval` asks the assistant a fixed set of questions through OpenRouter and checks each answer. It needs `OPENROUTER_API_KEY` and `TYPESAFE_API_KEY` (both read from `apps/web/.env` locally). The suite is skipped without the OpenRouter key.
 
 | Case | Check |
 |------|-------|
@@ -40,7 +40,7 @@ Checks are regexes where possible. For the judgment calls, [Jev](https://typesaf
 
 ## In CI
 
-The `eval` job in `.github/workflows/ci.yml` runs on every push and PR to `develop` and `main`, using the `MISTRAL_API_KEY` and `TYPESAFE_API_KEY` repository secrets. A release only ships when it's green.
+The `eval` job in `.github/workflows/ci.yml` runs on every push and PR to `develop` and `main`, using the `OPENROUTER_API_KEY` and `TYPESAFE_API_KEY` repository secrets. A release only ships when it's green.
 
 <Warning>
   When you change the prompt, the model, or `assistant.ts`, run `pnpm eval` locally and add a case for any new rule.

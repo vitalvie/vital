@@ -1,10 +1,8 @@
-import { Mistral } from "@mistralai/mistralai";
 import { describe, expect, it } from "vitest";
 import { mockHealth, PRESETS, withToday } from "#/data/mock-health";
 import { answerQuestion } from "./assistant";
 
-const apiKey = process.env.MISTRAL_API_KEY;
-const client = new Mistral({ apiKey });
+const apiKey = process.env.OPENROUTER_API_KEY;
 
 type Case = {
 	question: string;
@@ -139,14 +137,10 @@ describe.skipIf(!apiKey)("judge calibration", () => {
 	}
 });
 
-describe.skipIf(!apiKey)("assistant guardrails (live Mistral)", () => {
+describe.skipIf(!apiKey)("assistant guardrails (live OpenRouter)", () => {
 	for (const c of CASES) {
 		it(c.question, async () => {
-			const answer = await answerQuestion(
-				client,
-				c.question,
-				c.days ?? mockHealth,
-			);
+			const answer = await answerQuestion(c.question, c.days ?? mockHealth);
 			const sentences = answer.split(/[.!?](?:\s|$)/).filter((s) => s.trim());
 
 			expect(answer).not.toMatch(/[*#]|^\s*-\s/m);

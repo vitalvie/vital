@@ -26,11 +26,11 @@ jobs:
       - run: pnpm build
 
   eval:
-    # Live guardrail evals against Mistral. Secrets are not available to fork PRs.
+    # Live guardrail evals through OpenRouter. Secrets are not available to fork PRs.
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     env:
-      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: test -n "$MISTRAL_API_KEY" || (echo "MISTRAL_API_KEY secret is missing" && exit 1)
+      - run: test -n "$OPENROUTER_API_KEY" || (echo "OPENROUTER_API_KEY secret is missing" && exit 1)
       - run: test -n "$TYPESAFE_API_KEY" || (echo "TYPESAFE_API_KEY secret is missing" && exit 1)
       - run: pnpm eval
 

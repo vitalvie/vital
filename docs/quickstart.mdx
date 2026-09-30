@@ -7,7 +7,7 @@ description: "Run the Vital demo locally in two minutes."
 
 - Node.js 22+
 - pnpm 10+
-- A [Mistral API key](https://console.mistral.ai/)
+- An [OpenRouter API key](https://openrouter.ai/keys)
 - A modern browser. The mic works on `localhost` or HTTPS.
 
 ## Run the app
@@ -18,11 +18,11 @@ description: "Run the Vital demo locally in two minutes."
     pnpm install
     ```
   </Step>
-  <Step title="Add your Mistral key">
+  <Step title="Add your OpenRouter key">
     ```bash
     cp apps/web/.env.example apps/web/.env
     ```
-    Then set `MISTRAL_API_KEY` in `apps/web/.env`. Optionally set `MISTRAL_MODEL` (defaults to `mistral-small-latest`). `TYPESAFE_API_KEY` is only for `pnpm eval`, not for the app.
+    Then set `OPENROUTER_API_KEY` in `apps/web/.env`. Optionally set `OPENROUTER_MODEL` (defaults to `mistralai/mistral-small-3.2-24b-instruct`). `TYPESAFE_API_KEY` is only for `pnpm eval`, not for the app.
   </Step>
   <Step title="Start">
     ```bash
@@ -46,7 +46,7 @@ Run from the repo root.
 | `pnpm build` | Production build |
 | `pnpm check` | Lint and format check (Biome), then type check |
 | `pnpm test` | Unit tests (Vitest) |
-| `pnpm eval` | Live guardrail evals. Mistral answers, Jev judges (needs both API keys) |
+| `pnpm eval` | Live guardrail evals. OpenRouter answers, Jev judges (needs both API keys) |
 | `pnpm run deploy` | Deploy a tagged release from `main` to Cloudflare Workers |
 | `pnpm docs` | Preview these docs locally (Mintlify, runs on Node 22) |
 | `pnpm docs:check` | Check the docs for broken links |

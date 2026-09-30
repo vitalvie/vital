@@ -1,9 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
-import { mistral } from "./mistral";
+import { synthesizeSpeech, transcribeAudio } from "#/server/openrouter";
 
 const MAX_AUDIO_BYTES = 5 * 1024 * 1024;
 
-// Voxtral Mini Transcribe: recorded audio in, text out.
+// Voxtral Mini Transcribe, through OpenRouter: recorded audio in, text out.
 export const transcribe = createServerFn({ method: "POST" })
 	.validator((data: unknown) => {
 		const audio = data instanceof FormData ? data.get("audio") : null;
@@ -12,15 +12,10 @@ export const transcribe = createServerFn({ method: "POST" })
 		return audio;
 	})
 	.handler(async ({ data: audio }) => {
-		const res = await mistral().audio.transcriptions.complete({
-			model: "voxtral-mini-latest",
-			file: { fileName: audio.name, content: audio },
-			language: "en",
-		});
-		return res.text.trim();
+		return transcribeAudio(audio);
 	});
 
-// Voxtral TTS: text in, base64 mp3 out.
+// Voxtral TTS, through OpenRouter: text in, base64 mp3 out.
 export const synthesize = createServerFn({ method: "POST" })
 	.validator((text: unknown) => {
 		if (typeof text !== "string" || !text.trim()) {
@@ -29,11 +24,5 @@ export const synthesize = createServerFn({ method: "POST" })
 		return text.slice(0, 800);
 	})
 	.handler(async ({ data: text }) => {
-		const res = await mistral().audio.speech.complete({
-			model: "voxtral-mini-tts-2603",
-			input: text,
-			voiceId: process.env.VOXTRAL_VOICE || "gb_jane_neutral",
-			responseFormat: "mp3",
-		});
-		return res.audioData;
+		return synthesizeSpeech(text);
 	});
