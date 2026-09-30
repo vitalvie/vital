@@ -12,7 +12,7 @@ apps/
       components/      UI components (Watch, Orb, BodyBatteryCard, Conversation, AskBar, DemoDataPanel, Logo, icons)
       data/            Mocked HealthKit data, demo presets
       lib/             Body Battery score, audio record/playback helpers
-      server/          Server functions and the assistant prompt (Mistral SDK: chat, Voxtral STT and TTS)
+      server/          Server functions and the assistant prompt (OpenRouter: Mistral chat, Voxtral STT and TTS)
       routes/          Pages (file-based routing)
 docs/                  This Mintlify site
 public/                Static assets used by the README
@@ -29,7 +29,7 @@ sequenceDiagram
   participant U as User
   participant B as Browser
   participant S as Server functions
-  participant M as Mistral API
+  participant M as OpenRouter
   U->>B: Speaks a question
   B->>B: MediaRecorder captures audio
   B->>S: transcribe(audio)
@@ -50,21 +50,21 @@ sequenceDiagram
 
 ## Decisions
 
-- **No separate backend.** TanStack Start server functions keep the Mistral key on the server, with no extra service to run.
-- **Mistral end to end.** Voxtral for speech in and out, Mistral chat for the answer, all through the official SDK.
+- **No separate backend.** TanStack Start server functions keep the OpenRouter key on the server, with no extra service to run.
+- **Mistral through OpenRouter.** Voxtral for speech in and out, Mistral chat for the answer, all via `https://openrouter.ai/api/v1`.
 - **Mocked data.** Browsers can't read HealthKit, so the data is synthetic but shaped like HealthKit types.
 - **Alan-inspired design system.** Alan Sans, pastel tokens, and a voice orb as the main control. See [Design system](/design-system).
 - **Server builds the context.** The client sends the question and three demo values. The server clamps them, loads the rest of the data itself, and applies the guardrails in [Safety and evals](/safety).
-- **Cloudflare Workers.** `@cloudflare/vite-plugin` runs dev, preview and production in the Workers runtime. `@opentelemetry/api` is installed only because the Mistral SDK imports it and Workers bundle everything.
+- **Cloudflare Workers.** `@cloudflare/vite-plugin` runs dev, preview and production in the Workers runtime.
 
 ## Environment variables
 
 | Variable | Required | Default |
 |----------|----------|---------|
-| `MISTRAL_API_KEY` | Yes | |
-| `MISTRAL_MODEL` | No | `mistral-small-latest` |
+| `OPENROUTER_API_KEY` | Yes | |
+| `OPENROUTER_MODEL` | No | `mistralai/mistral-small-3.2-24b-instruct` |
 | `VOXTRAL_VOICE` | No | `gb_jane_neutral` |
 | `TYPESAFE_API_KEY` | Evals only | |
 | `JEV_MODEL` | No | `jev-latest` |
 
-Set them in `apps/web/.env` locally. In production, add `MISTRAL_API_KEY` as a Worker secret (`wrangler secret put MISTRAL_API_KEY`). `TYPESAFE_API_KEY` is only for `pnpm eval` and CI, not the deployed app. Never commit `.env`.
+Set them in `apps/web/.env` locally. In production, add `OPENROUTER_API_KEY` as a Worker secret (`wrangler secret put OPENROUTER_API_KEY`). `TYPESAFE_API_KEY` is only for `pnpm eval` and CI, not the deployed app. Never commit `.env`.

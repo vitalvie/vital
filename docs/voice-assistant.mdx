@@ -6,11 +6,11 @@ description: "How a spoken question becomes a spoken answer, with Mistral Voxtra
 ## Flow
 
 1. **Record.** Tap the mic to start, tap again to send. The browser records with `MediaRecorder`.
-2. **Transcribe.** The `transcribe` server function sends the audio to **Voxtral Mini Transcribe** (`voxtral-mini-latest`).
-3. **Answer.** The `askVital` server function builds a context from the health data (with the demo values set in the UI) and the Body Battery score, then calls Mistral chat.
+2. **Transcribe.** The `transcribe` server function sends the audio to **Voxtral Mini Transcribe** (`mistralai/voxtral-mini-transcribe`) through OpenRouter.
+3. **Answer.** The `askVital` server function builds a context from the health data (with the demo values set in the UI) and the Body Battery score, then calls Mistral chat through OpenRouter.
 4. **Speak.** The `synthesize` server function turns the answer into speech with **Voxtral TTS** (`voxtral-mini-tts-2603`). The browser plays the MP3. Tapping the mic while it speaks stops it.
 
-All Mistral calls use the official SDK (`@mistralai/mistralai`) on the server. The API key never reaches the browser.
+Chat, transcription and speech go through OpenRouter (`apps/web/src/server/openrouter.ts`) on the server. The API key never reaches the browser.
 
 ## Voice
 
