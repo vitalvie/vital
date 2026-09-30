@@ -13,7 +13,7 @@ apps/web/          # TanStack Start app (React + TypeScript + Tailwind)
   src/components/  # UI components (Watch, Orb, BodyBatteryCard, Conversation, AskBar, DemoDataPanel, Logo, icons)
   src/data/        # Mocked HealthKit data
   src/lib/         # Body Battery score, audio record/playback helpers
-  src/server/      # Server functions (Mistral SDK: chat, Voxtral STT/TTS)
+  src/server/      # Server functions (OpenRouter: Mistral chat, Voxtral STT/TTS)
   src/routes/      # File-based routes
 docs/              # Mintlify docs (product + engineering)
 public/            # Static assets used by README.md
@@ -68,7 +68,7 @@ Source of truth: `docs/design-system.mdx`. Tokens in `apps/web/src/styles.css`.
 ## Key constraints
 
 - No medical diagnosis — always recommend a professional
-- No secrets in code — env vars only (`MISTRAL_API_KEY`, `MISTRAL_MODEL`, `VOXTRAL_VOICE`, `TYPESAFE_API_KEY`)
-- All Mistral calls go through `@mistralai/mistralai` on the server (`src/server/mistral.ts`)
+- No secrets in code — env vars only (`OPENROUTER_API_KEY`, `OPENROUTER_MODEL`, `VOXTRAL_VOICE`, `TYPESAFE_API_KEY`)
+- Chat, speech-to-text and text-to-speech go through OpenRouter on the server (`src/server/openrouter.ts`)
 - Code and comments in English
 - Health data is mocked and shaped like Apple HealthKit types

@@ -33,12 +33,12 @@
 
 ## Quick start
 
-Requires Node.js 22+, pnpm 10+ (`corepack enable`) and a [Mistral API key](https://console.mistral.ai/).
+Requires Node.js 22+, pnpm 10+ (`corepack enable`) and an [OpenRouter API key](https://openrouter.ai/keys).
 
 ```bash
 git clone https://github.com/vitalvie/vital.git && cd vital
 pnpm install
-cp apps/web/.env.example apps/web/.env   # then set MISTRAL_API_KEY
+cp apps/web/.env.example apps/web/.env   # then set OPENROUTER_API_KEY
 pnpm dev
 ```
 

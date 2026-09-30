@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { mockHealth, parseToday, withToday } from "#/data/mock-health";
 import { answerQuestion, MAX_QUESTION_LENGTH } from "./assistant";
-import { mistral } from "./mistral";
 
 export const askVital = createServerFn({ method: "POST" })
 	.validator((data: unknown) => {
@@ -15,5 +14,5 @@ export const askVital = createServerFn({ method: "POST" })
 		};
 	})
 	.handler(({ data }) =>
-		answerQuestion(mistral(), data.question, withToday(mockHealth, data.today)),
+		answerQuestion(data.question, withToday(mockHealth, data.today)),
 	);
