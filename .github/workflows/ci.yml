@@ -25,6 +25,16 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - working-directory: apps/api
+        run: uv sync --extra dev --frozen
+      - working-directory: apps/api
+        run: uv run pytest
+
   eval:
     # Live guardrail evals through OpenRouter. Secrets are not available to fork PRs.
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
@@ -34,15 +44,13 @@ jobs:
       TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: astral-sh/setup-uv@v5
+      - working-directory: apps/api
+        run: uv sync --extra dev --frozen
       - run: test -n "$OPENROUTER_API_KEY" || (echo "OPENROUTER_API_KEY secret is missing" && exit 1)
       - run: test -n "$TYPESAFE_API_KEY" || (echo "TYPESAFE_API_KEY secret is missing" && exit 1)
-      - run: pnpm eval
+      - working-directory: apps/api
+        run: uv run pytest -m live --override-ini addopts=
 
   docs:
     runs-on: ubuntu-latest

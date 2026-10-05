@@ -1,6 +1,6 @@
 {
 	"name": "web",
-	"version": "0.1.4",
+	"version": "0.2.0",
 	"private": true,
 	"type": "module",
 	"imports": {
@@ -13,8 +13,7 @@
 		"check": "biome check",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
-		"deploy": "./scripts/deploy.sh",
-		"eval": "vitest run --config vitest.eval.config.ts"
+		"deploy": "./scripts/deploy.sh"
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.18",

@@ -13,7 +13,6 @@
 			"**/index.html",
 			"**/vite.config.ts",
 			"**/vitest.config.ts",
-			"**/vitest.eval.config.ts",
 			"!**/src/routeTree.gen.ts",
 			"!**/src/styles.css"
 		]
