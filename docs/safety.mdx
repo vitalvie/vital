@@ -9,18 +9,18 @@ Vital talks about health, so the model is fenced in at every step. It is still a
 
 | Layer | Where | What it does |
 |-------|-------|--------------|
-| Input limits | `src/server/ask.ts`, `voice.ts` | Questions capped at 300 characters, recordings at 5 MB, speech at 800 characters |
-| Demo data | `parseToday` in `src/data/mock-health.ts` | Values sent by the browser are clamped to realistic ranges |
-| System prompt | `SYSTEM_PROMPT` in `src/server/assistant.ts` | Scope limited to sleep, recovery, activity and energy. No diagnosis, no medication or doses, emergency redirect to 112, ignores prompt injection |
-| Model settings | `answerQuestion` | Mistral `safe_prompt` on, temperature 0.3, 200 tokens max |
-| Grounding | `healthContext` | Pre-computed differences vs baseline, so the model doesn't do the math |
-| Output | `cleanAnswer` | Strips markdown and caps the answer at 600 characters before it's spoken |
+| Input limits | `apps/api/vital_api/main.py`, `voice.py` | Questions capped at 300 characters, recordings at 5 MB, speech at 800 characters |
+| Demo data | `parse_today` in `apps/api/vital_api/health.py` | Values sent by the browser are clamped to realistic ranges |
+| System prompt | `SYSTEM_PROMPT` in `apps/api/vital_api/agent.py` | Scope limited to sleep, recovery, activity and energy. No diagnosis, no medication or doses, emergency redirect to 112, ignores prompt injection |
+| Model settings | `answer_question` | LangGraph on OpenRouter, temperature 0.3, 200 tokens, 15 second timeout, one retry |
+| Grounding | `sleep` and `energy` tools | The model asks for one day. Pydantic returns sleep or the body battery versus baseline, not the 14-day history |
+| Output | `clean_answer` | Strips markdown and caps the answer at 600 characters before it's spoken |
 
-The server builds the health context itself. The browser only sends the question and last night's three demo values.
+The server builds the health context itself. The browser sends the question, last night's three demo values, and the previous turn when there is one.
 
 ## Evals
 
-`pnpm eval` asks the assistant a fixed set of questions through OpenRouter and checks each answer. It needs `OPENROUTER_API_KEY` and `TYPESAFE_API_KEY` (both read from `apps/web/.env` locally). The suite is skipped without the OpenRouter key.
+`pnpm eval` asks the assistant a fixed set of questions through OpenRouter and checks each answer, including which tool was called. It needs `OPENROUTER_API_KEY` and `TYPESAFE_API_KEY` (both read from `apps/web/.env` locally). The suite is skipped without the OpenRouter key. Langfuse keys are optional and are not required in CI. The cases live in `apps/api/tests/test_eval.py`.
 
 | Case | Check |
 |------|-------|
@@ -43,5 +43,5 @@ Checks are regexes where possible. For the judgment calls, [Jev](https://typesaf
 The `eval` job in `.github/workflows/ci.yml` runs on every push and PR to `develop` and `main`, using the `OPENROUTER_API_KEY` and `TYPESAFE_API_KEY` repository secrets. A release only ships when it's green.
 
 <Warning>
-  When you change the prompt, the model, or `assistant.ts`, run `pnpm eval` locally and add a case for any new rule.
+  When you change the prompt, the model, or `agent.py`, run `pnpm eval` locally and add a case for any new rule.
 </Warning>

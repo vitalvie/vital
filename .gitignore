@@ -30,7 +30,8 @@ docs/package-lock.json
 .DS_Store
 Thumbs.db
 
-# Legacy Python tooling (local only)
+# Python
 .venv/
 .ruff_cache/
+.pytest_cache/
 __pycache__/

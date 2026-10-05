@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BodyBatteryCard } from "#/components/body-battery-card";
 import { Conversation } from "#/components/conversation";
@@ -15,6 +14,7 @@ import {
 	type TodaySignals,
 	withToday,
 } from "#/data/mock-health";
+import { askVital, synthesize, transcribe } from "#/lib/api";
 import {
 	canRecord,
 	playMp3,
@@ -23,9 +23,7 @@ import {
 	stopAudio,
 } from "#/lib/audio";
 import { computeEnergy } from "#/lib/energy";
-import { askVital } from "#/server/ask";
 import { getRelease } from "#/server/release";
-import { synthesize, transcribe } from "#/server/voice";
 
 export const Route = createFileRoute("/")({
 	loader: () => getRelease(),
@@ -34,9 +32,6 @@ export const Route = createFileRoute("/")({
 
 function Home() {
 	const release = Route.useLoaderData();
-	const ask = useServerFn(askVital);
-	const toText = useServerFn(transcribe);
-	const toSpeech = useServerFn(synthesize);
 	const recording = useRef<Recording | null>(null);
 	const [level, setLevel] = useState<(() => number) | undefined>();
 	const [status, setStatus] = useState<Status>("idle");
@@ -46,6 +41,9 @@ function Home() {
 	const [voice, setVoice] = useState(false);
 	const [today, setToday] = useState<TodaySignals>(DEFAULT_TODAY);
 	const [editing, setEditing] = useState(false);
+	const prior = useRef<{ question: string; answer: string } | undefined>(
+		undefined,
+	);
 	const days = useMemo(() => withToday(mockHealth, today), [today]);
 	const energy = useMemo(() => computeEnergy(days), [days]);
 
@@ -63,13 +61,19 @@ function Home() {
 	}
 
 	async function respond(text: string) {
+		const previous = prior.current;
 		setQuestion(text);
 		setAnswer("");
 		setStatus("thinking");
-		const reply = await ask({ data: { question: text, today } });
+		const reply = await askVital({
+			question: text,
+			today,
+			...(previous ? { prior: previous } : {}),
+		});
+		prior.current = { question: text, answer: reply };
 		setAnswer(reply);
 		setStatus("speaking");
-		await playMp3(await toSpeech({ data: reply }));
+		await playMp3(await synthesize(reply));
 	}
 
 	function run(text: string) {
@@ -86,7 +90,7 @@ function Home() {
 				setStatus("thinking");
 				const form = new FormData();
 				form.append("audio", await rec.stop());
-				const heard = await toText({ data: form });
+				const heard = await transcribe(form);
 				if (!heard) throw new Error("I didn't catch that. Try again.");
 				await respond(heard);
 			});
