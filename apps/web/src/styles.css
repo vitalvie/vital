@@ -359,7 +359,7 @@ body {
 		position: absolute;
 		inset: 0;
 		border-radius: 9999px;
-		border: 2px solid var(--color-indigo-300);
+		border: 1.5px solid var(--color-indigo-300);
 		opacity: 0;
 	}
 
@@ -367,35 +367,41 @@ body {
 		animation: orb-ring 3.2s var(--ease-smooth) infinite;
 	}
 
+	/* A quiet halo: one hue with a hint of pink, heavily blurred. */
 	.orb-glow {
 		position: absolute;
-		inset: -18%;
+		inset: -14%;
 		border-radius: 9999px;
 		background: conic-gradient(
 			var(--color-indigo-300),
+			var(--color-indigo-500),
 			var(--color-pink-300),
-			var(--color-peach-300),
-			var(--color-teal-300),
+			var(--color-indigo-300),
+			var(--color-indigo-500),
 			var(--color-indigo-300)
 		);
-		filter: blur(28px);
-		opacity: 0.45;
+		filter: blur(32px);
+		opacity: 0.32;
 		transition: opacity 400ms var(--ease-smooth);
-		animation: orb-spin 12s linear infinite;
+		animation: orb-spin 14s linear infinite;
 	}
 
+	/* A soft matte sphere: a gentle top light and a deeper edge, no glossy highlight. */
 	.orb-core {
 		position: absolute;
 		inset: 0;
 		border-radius: 9999px;
 		background: radial-gradient(
-			circle at 32% 28%,
-			var(--color-white) 0%,
-			var(--color-indigo-100) 22%,
-			var(--color-indigo-500) 62%,
-			var(--color-indigo-700) 100%
+			circle at 38% 30%,
+			var(--color-indigo-300) 0%,
+			var(--color-indigo-500) 58%,
+			var(--color-indigo-700) 120%
 		);
-		box-shadow: var(--shadow-brand);
+		box-shadow:
+			inset 0 10px 24px color-mix(in srgb, var(--color-white) 22%, transparent),
+			inset 0 -14px 28px
+				color-mix(in srgb, var(--color-indigo-700) 45%, transparent),
+			0 12px 36px color-mix(in srgb, var(--color-indigo-500) 30%, transparent);
 		animation: orb-breathe 4s var(--ease-smooth) infinite;
 		transition: scale 200ms var(--ease-smooth);
 	}
@@ -414,20 +420,20 @@ body {
 	}
 
 	.orb[data-status="listening"] .orb-glow {
-		opacity: 0.9;
+		opacity: 0.6;
 	}
 
 	.orb[data-status="thinking"] .orb-glow {
-		opacity: 0.8;
-		animation-duration: 1.6s;
+		opacity: 0.5;
+		animation-duration: 2.4s;
 	}
 
 	.orb[data-status="speaking"] .orb-glow {
-		opacity: 0.75;
+		opacity: 0.5;
 	}
 
 	.orb[data-status="speaking"] .orb-core {
-		animation-duration: 1.2s;
+		animation-duration: 1.8s;
 	}
 
 	@keyframes orb-spin {
@@ -444,7 +450,7 @@ body {
 
 	@keyframes orb-ring {
 		0% {
-			opacity: 0.7;
+			opacity: 0.45;
 			transform: scale(1);
 		}
 		70%,

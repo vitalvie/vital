@@ -23,7 +23,8 @@ Same family as the French health products it was built alongside, with its own i
 - Warm cream page, one pastel block per section (indigo, peach, pink, teal), and a single deep indigo block for the technical section. The rhythm of blocks is the layout.
 - Alan Sans, medium weight, very large and tight for headlines. A fluid scale from 360 to 1440 px, so there are no type breakpoints.
 - Radii from 24 to 40 px, diffuse shadows, no borders, no pure black.
-- A wordmark, "vital", with a small sign: an orb with two eyes and a smile, and the ring it gives off. It nods to the hackathon host without borrowing its logo. The same mark is the favicon.
+- A wordmark, "vital", with a small sign: an orb with squinting eyes and a wide grin, under the ring it gives off. It nods to the hackathon host's friendly face without borrowing its logo. The same mark is the favicon.
+- The voice orb is matte and calm: one indigo hue, a soft top light, a blurred halo. An earlier glossy, rainbow-lit version looked loud next to the rest.
 - No stock photos, no mascot, no emoji. Visuals are the product's own pieces: the orb, a mic meter, real sample numbers.
 
 ## Decisions
