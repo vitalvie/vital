@@ -30,7 +30,7 @@ function Home() {
 			>
 				Skip to the demo
 			</a>
-			<SiteNav />
+			<SiteNav release={release} />
 			<main>
 				<Hero vital={vital} />
 				<DemoSection vital={vital} />

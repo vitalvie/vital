@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { REPO_URL } from "#/lib/release";
+import { REPO_URL, type ReleaseStatus } from "#/lib/release";
 import { CloseIcon, GithubIcon, MenuIcon } from "./icons";
 import { Logo } from "./logo";
 
@@ -11,7 +11,7 @@ const LINKS = [
 ];
 
 // Sticky pill-shaped navigation. Anchors collapse into a menu below `lg`.
-export function SiteNav() {
+export function SiteNav({ release }: { release: ReleaseStatus }) {
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
@@ -44,10 +44,11 @@ export function SiteNav() {
 					<div className="flex items-center gap-1">
 						<a
 							href={REPO_URL}
-							aria-label="Vital on GitHub"
-							className="btn btn-ghost hidden size-11 px-0 sm:flex"
+							aria-label={`Vital on GitHub, version ${release.version}`}
+							className="btn btn-ghost hidden gap-1.5 px-3 text-sm tabular-nums sm:flex"
 						>
 							<GithubIcon size={20} />
+							{release.version}
 						</a>
 						<a href="#try" className="btn btn-primary">
 							Try it
@@ -69,7 +70,10 @@ export function SiteNav() {
 						id="nav-menu"
 						className="animate-fade-up mt-2 flex flex-col rounded-3xl bg-white p-2 shadow-lift lg:hidden"
 					>
-						{[...LINKS, { href: REPO_URL, label: "GitHub" }].map((l) => (
+						{[
+							...LINKS,
+							{ href: REPO_URL, label: `GitHub · ${release.version}` },
+						].map((l) => (
 							<li key={l.href}>
 								<a
 									href={l.href}
