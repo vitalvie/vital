@@ -29,7 +29,7 @@ export function Hero({ energy }: { energy: Energy }) {
 					<span className="block text-balance xl:whitespace-nowrap">
 						Ask your body —
 					</span>
-					<span className="block text-indigo-500">anything</span>
+					<span className="block text-indigo-500">anything.</span>
 				</h1>
 				<p className="animate-fade-up max-w-[38ch] text-lead text-pretty [animation-delay:80ms]">
 					Sleep, heart and activity already live on your wrist. Ask out loud how

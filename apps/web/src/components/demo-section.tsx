@@ -14,7 +14,7 @@ export function DemoSection({ vital }: { vital: Vital }) {
 			aria-labelledby="demo-title"
 			className="shell scroll-mt-24 max-sm:px-2"
 		>
-			<div className="rounded-5xl bg-indigo-50 px-3 py-10 sm:px-8 sm:py-14 lg:px-14 lg:py-16">
+			<div className="rounded-5xl bg-indigo-50 px-3 py-12 sm:px-10 sm:py-16 lg:px-16 lg:py-20">
 				<Reveal>
 					<SectionHeading
 						id="demo-title"
