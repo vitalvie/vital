@@ -30,19 +30,47 @@ type Props = {
 	level?: () => number;
 	battery: number;
 	mic: Mic;
+	// The last exchange. The answer is read on the screen while the orb steps aside.
+	question?: string;
+	answer?: string;
+	// Zoom classes for the place the watch sits in.
+	className?: string;
 	onOrb: () => void;
 	onCancel: () => void;
 };
 
 // Apple Watch Ultra-style device frame with the voice UI on its screen.
 // Drawn at full size, then zoomed down on small screens so layout follows.
-export function Watch({ status, level, battery, mic, onOrb, onCancel }: Props) {
+export function Watch({
+	status,
+	level,
+	battery,
+	mic,
+	question = "",
+	answer = "",
+	className = "[zoom:0.72] min-[400px]:[zoom:0.8] sm:[zoom:1]",
+	onOrb,
+	onCancel,
+}: Props) {
 	const time = useClock();
 	const shown = Math.round(useCountUp(battery));
 	const cancellable = status === "listening" || status === "speaking";
+	const reading = !!answer && (status === "speaking" || status === "idle");
+	const label =
+		status === "thinking" && question
+			? `“${question}”`
+			: status === "idle"
+				? MIC_LABEL[mic]
+				: STATUS_LABEL[status];
+	// At rest the orb is centered. It slides up for the cancel row, or shrinks to the bottom while the answer is read.
+	const orbPlace = reading
+		? "translate-y-[154px] scale-[0.45]"
+		: cancellable
+			? "-translate-y-7"
+			: "";
 
 	return (
-		<div className="flex flex-col items-center [zoom:0.72] min-[400px]:[zoom:0.8] sm:[zoom:1]">
+		<div className={`flex flex-col items-center ${className}`}>
 			<Band />
 			<div className="relative">
 				<div className="rounded-[80px] bg-linear-to-br from-titanium-light to-titanium p-4 shadow-device">
@@ -60,9 +88,19 @@ export function Watch({ status, level, battery, mic, onOrb, onCancel }: Props) {
 								<time className="font-medium tabular-nums">{time}</time>
 							</div>
 
-							{/* Centered at rest; slides up to make room for the cancel row. */}
+							<p
+								aria-hidden="true"
+								className={`absolute inset-x-8 top-[72px] h-[228px] overflow-y-auto [mask-image:linear-gradient(to_bottom,black_82%,transparent)] pb-8 text-[22px] leading-7 font-medium text-pretty transition duration-500 ease-smooth ${
+									reading
+										? "opacity-100"
+										: "pointer-events-none translate-y-2 opacity-0"
+								}`}
+							>
+								{answer}
+							</p>
+
 							<div
-								className={`flex flex-col items-center gap-4 transition-transform duration-500 ease-smooth ${cancellable ? "-translate-y-7" : ""}`}
+								className={`flex flex-col items-center gap-4 transition duration-500 ease-smooth ${orbPlace}`}
 							>
 								<Orb
 									status={status}
@@ -71,12 +109,15 @@ export function Watch({ status, level, battery, mic, onOrb, onCancel }: Props) {
 									className="size-40"
 									onClick={onOrb}
 								/>
-								<p className="text-lg font-medium" aria-hidden="true">
-									{status === "idle" ? MIC_LABEL[mic] : STATUS_LABEL[status]}
+								<p
+									aria-hidden="true"
+									className={`line-clamp-2 max-w-[260px] text-center text-lg font-medium transition-opacity duration-300 ${reading ? "opacity-0" : ""}`}
+								>
+									{label}
 								</p>
 							</div>
 
-							<div className="absolute inset-x-8 bottom-6 flex h-16 items-center justify-between">
+							<div className="pointer-events-none absolute inset-x-8 bottom-6 flex h-[68px] items-center justify-between *:pointer-events-auto">
 								<LevelBars active={status === "listening"} />
 								<button
 									type="button"
@@ -86,7 +127,7 @@ export function Watch({ status, level, battery, mic, onOrb, onCancel }: Props) {
 											? "Stop speaking"
 											: "Discard the recording"
 									}
-									className={`flex size-16 items-center justify-center rounded-full bg-bad transition duration-300 ease-smooth focus-visible:outline-white active:scale-95 ${
+									className={`flex size-[68px] items-center justify-center rounded-full bg-bad transition duration-300 ease-smooth focus-visible:outline-white active:scale-95 ${
 										cancellable ? "scale-100 opacity-100" : "scale-75 opacity-0"
 									}`}
 									disabled={!cancellable}
