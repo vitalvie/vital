@@ -38,6 +38,10 @@ describe("NOTICES", () => {
 		}
 	});
 
+	it("does not offer an instant retry when the limit was hit", () => {
+		expect("action" in NOTICES.busy).toBe(false);
+	});
+
 	it("offers a next step whenever a retry can help", () => {
 		expect(NOTICES.offline.action).toBe("retry");
 		expect(NOTICES.failed.action).toBe("retry");

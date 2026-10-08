@@ -1,11 +1,13 @@
 import type { TodaySignals } from "#/data/mock-health";
 import { VitalError } from "#/lib/notice";
 
-const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+// Same-origin by default: the web server forwards /api to the Python API (src/routes/api/$.ts).
+const API = import.meta.env.VITE_API_URL || "/api";
 
 type Prior = { question: string; answer: string };
 
 async function fail(res: Response): Promise<never> {
+	if (res.status === 429) throw new VitalError("busy");
 	let message = res.statusText || "Something went wrong";
 	try {
 		const body = (await res.json()) as { detail?: unknown };
