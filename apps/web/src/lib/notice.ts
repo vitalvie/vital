@@ -33,6 +33,10 @@ export const NOTICES = {
 		hint: "Try asking it another way.",
 		action: "type",
 	},
+	busy: {
+		title: "Let's take a short breather",
+		hint: "That was a lot of questions at once. Give it a minute, then ask again.",
+	},
 	offline: {
 		title: "I can't reach Vital right now",
 		hint: "Check your connection, then try again.",

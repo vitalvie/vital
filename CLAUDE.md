@@ -10,14 +10,14 @@ Voice companion for everyday energy. Ask a question out loud, get a short spoken
 
 ```
 apps/web/               # TanStack Start app (React + TypeScript + Tailwind)
-  src/routes/           # File-based routes. `index.tsx` composes the landing page
+  src/routes/           # File-based routes. `index.tsx` composes the landing page, `api/$.ts` forwards to the API
   src/components/       # One component per file, kebab-case (see below)
   src/data/             # Mocked HealthKit data and sample days
   src/lib/              # Pure logic (tested), the voice session hook, API client, audio
   src/server/           # Server function for the release and CI status
   src/styles.css        # Design tokens (`@theme`) and the few shared CSS classes
   public/               # Favicon, share image, self-hosted Alan Sans
-apps/api/               # FastAPI app (Python, Pydantic, LangGraph, Voxtral STT/TTS)
+apps/api/               # FastAPI app (Python, Pydantic, LangGraph, Voxtral STT/TTS), rate limited, with a Dockerfile
 docs/                   # Mintlify docs (product + engineering)
 public/                 # Static assets used by README.md
 ```
@@ -57,7 +57,7 @@ pnpm docs:check   # Mintlify broken links
 
 ## Conventions
 
-- The OpenRouter key stays in the Python API (`apps/api`). The web app only calls it.
+- The OpenRouter key stays in the Python API (`apps/api`). The browser only calls `/api` on its own origin; the web server forwards to the API (`src/routes/api/$.ts`, `API_URL`, `PROXY_SECRET`). The API rate-limits every visitor.
 - Import app code with the `#/` alias (`#/lib/energy`).
 - Biome formatting: tabs, double quotes. Run `pnpm check` and `pnpm test` before committing.
 - Pure logic in `src/lib/` gets a `*.test.ts` next to it.
@@ -106,7 +106,7 @@ One per file, kebab-case, with a one-line comment saying what it is for. Reuse `
 ## Key constraints
 
 - No medical diagnosis, no medical claim, no promise of a health result. Always recommend a professional.
-- No secrets in code — env vars only (`OPENROUTER_API_KEY`, `OPENROUTER_MODEL`, `VOXTRAL_VOICE`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `TYPESAFE_API_KEY`)
+- No secrets in code — env vars only (`OPENROUTER_API_KEY`, `OPENROUTER_MODEL`, `VOXTRAL_VOICE`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `TYPESAFE_API_KEY`, `API_URL`, `PROXY_SECRET`)
 - Chat goes through a LangGraph agent on OpenRouter (`apps/api/vital_api/agent.py`). Speech-to-text and text-to-speech stay in `apps/api/vital_api/voice.py`. Tool inputs use Pydantic.
 - Code and comments in English
 - Health data is mocked and shaped like Apple HealthKit types. No accounts, no real health data.
