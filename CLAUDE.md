@@ -2,7 +2,7 @@
 
 > Talk to your body.
 
-Voice companion for everyday energy. Ask a question out loud, get a short spoken answer grounded in (mocked) HealthKit data. The web app is a product-led landing page: the working demo is the hero, and the sections below it explain how it works, why it is safe, and how it is built.
+Voice companion for everyday energy. Ask a question out loud, get a short spoken answer grounded in (mocked) HealthKit data. The web app is a product-led landing page: the hero sells the product with the watch on show, the working demo sits right below it, and the following sections explain how it works, why it is safe, and how it is built.
 
 **Single monorepo.** Everything lives here. No sibling repos, no Swift.
 
@@ -24,12 +24,12 @@ public/                 # Static assets used by README.md
 
 ### Landing page
 
-`src/routes/index.tsx` renders the sections in reading order. The hero and the demo share one voice session from `useVital` (`src/lib/use-vital.ts`).
+`src/routes/index.tsx` renders the sections in reading order. The hero watch plays a scripted exchange (`src/lib/showcase.ts`) and is not interactive. The demo runs the real voice session from `useVital` (`src/lib/use-vital.ts`).
 
 | Order | Section | Component | Anchor |
 |-------|---------|-----------|--------|
 | 0 | Sticky navigation | `site-nav.tsx` | |
-| 1 | Hero: headline, live watch, suggested questions, Body Battery preview | `hero.tsx` | `#try` |
+| 1 | Hero: headline, call to action, tilted showcase watch, Body Battery preview | `hero.tsx` | |
 | 2 | Full demo: watch, sample-day control, Body Battery, conversation | `demo-section.tsx` | `#demo` |
 | 3 | How it works: Ask, Understand, Answer | `how-it-works.tsx` | `#how` |
 | 4 | Benefits bento | `benefits.tsx` | |
@@ -72,8 +72,8 @@ pnpm docs:check   # Mintlify broken links
 
 Source of truth: `docs/design-system.mdx`. Tokens in `apps/web/src/styles.css`. Intent and trade-offs: `docs/design-notes.md`.
 
-- **The product is the hero.** A visitor can talk to Vital within three seconds of landing. Never replace the live watch with a static mockup.
-- **One main action per screen:** talk to Vital. Everything else supports it. Details come on demand (collapsible demo control, sliders behind "Adjust numbers").
+- **The hero sells, the demo proves.** The hero shows the watch at an angle, playing a scripted exchange, with one call to action. The live demo is one click below. Keep the showcase honest: real UI, an answer the product could give, sample data.
+- **One main action per screen:** reach the demo, then talk to Vital. Everything else supports it. Details come on demand (collapsible demo control, sliders behind "Adjust numbers").
 - **Look:** Alan Sans, cream background, indigo primary, one pastel block per section, one deep `night` block. Very large radii, diffuse shadows, no hard borders, no pure black. Vital has its own wordmark; never use another brand's logo or assets.
 - **Tokens only.** Colors, the fluid type scale (`text-display`, `text-title`, `text-subtitle`, `text-lead`), page rhythm (`shell`, `py-section`), radii and shadows come from `@theme`. Add a token rather than a one-off value.
 - **Mobile first.** Design at 360 to 430 px, then tablet and desktop. Touch targets are at least 44 px (`chip` and `btn` handle it). Respect iOS safe areas and use `dvh`.

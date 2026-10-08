@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
 	component: Home,
 });
 
-// The landing page. Sections read top to bottom; the hero and the demo share one voice session.
+// The landing page. Sections read top to bottom. The hero sells; the demo below it is the live product.
 function Home() {
 	const release = Route.useLoaderData();
 	const vital = useVital();
@@ -25,14 +25,14 @@ function Home() {
 	return (
 		<div id="top" className="flex min-h-dvh flex-col">
 			<a
-				href="#try"
+				href="#demo"
 				className="btn btn-primary sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
 			>
 				Skip to the demo
 			</a>
 			<SiteNav release={release} />
 			<main>
-				<Hero vital={vital} />
+				<Hero energy={vital.energy} />
 				<DemoSection vital={vital} />
 				<HowItWorks />
 				<Benefits />

@@ -97,11 +97,31 @@
 	--duration-enter: 500ms;
 	--animate-fade-up: fade-up var(--duration-enter) var(--ease-smooth) both;
 	--animate-travel: travel 2.4s var(--ease-smooth) infinite both;
+	--animate-float: float 6s ease-in-out infinite alternate;
+	--animate-pop-in: pop-in 800ms var(--ease-smooth) both;
 
 	@keyframes fade-up {
 		from {
 			opacity: 0;
 			transform: translateY(8px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* The hero watch hovers, slowly. */
+	@keyframes float {
+		to {
+			transform: translateY(-10px);
+		}
+	}
+
+	@keyframes pop-in {
+		from {
+			opacity: 0;
+			transform: translateY(24px) scale(0.92);
 		}
 		to {
 			opacity: 1;
@@ -191,6 +211,22 @@ body {
 
 	.eyebrow {
 		@apply inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-sm font-medium text-indigo-700 shadow-soft;
+	}
+
+	/* The hero watch, shown at an angle. It straightens a little on hover. */
+	.hero-tilt {
+		transform: perspective(1400px) rotateY(-12deg) rotateX(6deg) rotate(4deg);
+		transition: transform var(--duration-enter) var(--ease-smooth);
+	}
+
+	@media (min-width: 64rem) {
+		.hero-tilt {
+			transform: perspective(1400px) rotateY(-18deg) rotateX(8deg) rotate(6deg);
+		}
+
+		.group:hover .hero-tilt {
+			transform: perspective(1400px) rotateY(-10deg) rotateX(4deg) rotate(3deg);
+		}
 	}
 
 	/* Scroll reveal. Markup is visible by default; `Reveal` hides what starts below the fold. */

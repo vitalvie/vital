@@ -49,6 +49,14 @@ export function ArrowUpIcon({ size = 20 }: { size?: number }) {
 	);
 }
 
+export function ArrowDownIcon({ size = 20 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M12 5v14M5 12l7 7 7-7" />
+		</svg>
+	);
+}
+
 export function GithubIcon({ size = 14 }: { size?: number }) {
 	return (
 		<svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">

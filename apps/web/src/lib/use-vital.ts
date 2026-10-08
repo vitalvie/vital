@@ -32,7 +32,7 @@ export function focusAskInput() {
 	document.getElementById(ASK_INPUT_ID)?.focus();
 }
 
-// One voice session for the whole page: the hero and the demo share it.
+// The voice session behind the demo: recording, asking, speaking, and what went wrong.
 export function useVital() {
 	const recording = useRef<Recording | null>(null);
 	const [level, setLevel] = useState<(() => number) | undefined>();

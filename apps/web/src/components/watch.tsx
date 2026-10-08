@@ -36,7 +36,8 @@ type Props = {
 	// Zoom classes for the place the watch sits in.
 	className?: string;
 	onOrb: () => void;
-	onCancel: () => void;
+	// Without it, the cancel button is left out (the hero showcase).
+	onCancel?: () => void;
 };
 
 // Apple Watch Ultra-style device frame with the voice UI on its screen.
@@ -119,21 +120,25 @@ export function Watch({
 
 							<div className="pointer-events-none absolute inset-x-8 bottom-6 flex h-[68px] items-center justify-between *:pointer-events-auto">
 								<LevelBars active={status === "listening"} />
-								<button
-									type="button"
-									onClick={onCancel}
-									aria-label={
-										status === "speaking"
-											? "Stop speaking"
-											: "Discard the recording"
-									}
-									className={`flex size-[68px] items-center justify-center rounded-full bg-bad transition duration-300 ease-smooth focus-visible:outline-white active:scale-95 ${
-										cancellable ? "scale-100 opacity-100" : "scale-75 opacity-0"
-									}`}
-									disabled={!cancellable}
-								>
-									<CloseIcon size={24} />
-								</button>
+								{onCancel && (
+									<button
+										type="button"
+										onClick={onCancel}
+										aria-label={
+											status === "speaking"
+												? "Stop speaking"
+												: "Discard the recording"
+										}
+										className={`flex size-[68px] items-center justify-center rounded-full bg-bad transition duration-300 ease-smooth focus-visible:outline-white active:scale-95 ${
+											cancellable
+												? "scale-100 opacity-100"
+												: "scale-75 opacity-0"
+										}`}
+										disabled={!cancellable}
+									>
+										<CloseIcon size={24} />
+									</button>
+								)}
 							</div>
 						</div>
 					</div>

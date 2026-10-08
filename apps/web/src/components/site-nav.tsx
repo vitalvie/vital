@@ -50,7 +50,7 @@ export function SiteNav({ release }: { release: ReleaseStatus }) {
 							<GithubIcon size={20} />
 							{release.version}
 						</a>
-						<a href="#try" className="btn btn-primary">
+						<a href="#demo" className="btn btn-primary">
 							Try it
 						</a>
 						<button

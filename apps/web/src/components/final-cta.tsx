@@ -1,7 +1,7 @@
-import { ArrowUpIcon } from "./icons";
+import { ArrowRightIcon } from "./icons";
 import { Reveal } from "./reveal";
 
-// Last call: back up to the watch.
+// Last call: back to the demo.
 export function FinalCta() {
 	return (
 		<section
@@ -17,11 +17,11 @@ export function FinalCta() {
 						Go on, ask it something.
 					</h2>
 					<p className="max-w-md text-lead text-pretty text-white">
-						The watch is waiting at the top of the page. It takes one tap.
+						One tap on the watch, no sign-up. It runs on sample data.
 					</p>
-					<a href="#try" className="btn btn-light min-h-14 px-7 text-lg">
+					<a href="#demo" className="btn btn-light min-h-14 px-7 text-lg">
 						Talk to Vital
-						<ArrowUpIcon />
+						<ArrowRightIcon />
 					</a>
 				</div>
 			</Reveal>

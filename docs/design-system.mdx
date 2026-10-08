@@ -3,12 +3,12 @@ title: Design system
 description: "Tokens, components, sections and rules behind Vital's landing page and live demo."
 ---
 
-Vital's site is a product-led landing page. The working demo is the hero; the sections below it tell the story. The look sits in the same family as modern French health products: warm cream, pastel blocks, large soft shapes and big, tight headlines. The identity is Vital's own.
+Vital's site is a product-led landing page. The hero sells the product, the working demo sits right below it, and the sections after that tell the story. The look sits in the same family as modern French health products: warm cream, pastel blocks, large soft shapes and big, tight headlines. The identity is Vital's own.
 
 ## Principles
 
-1. **The product is the hero.** A visitor can talk to Vital within three seconds. The watch on screen is the real control, never a mockup.
-2. **One main action per screen.** Talk to Vital. Everything else supports it, and details come on demand.
+1. **The hero sells, the demo proves.** The hero shows the real watch UI at an angle, playing a scripted exchange. The live demo is one click below.
+2. **One main action per screen.** Reach the demo, then talk to Vital. Everything else supports it, and details come on demand.
 3. **Calm and soft.** Pastel blocks, very large radii, diffuse shadows. No hard borders, no pure black.
 4. **Honest data, honest proof.** Always show today's number next to the usual one. Never diagnose. No testimonials or invented figures.
 5. **Motion explains.** It shows a state change or where to look next. It never decorates.
@@ -76,6 +76,7 @@ Metrics use `tabular-nums` so counters don't shift.
 | `duration-press` / `duration-move` / `duration-enter` | 150 / 300 / 500 ms |
 | `animate-fade-up` | 500 ms entrance, staggered by 80 ms in the hero |
 | `animate-travel` | The dot crossing a track in the pipeline diagram |
+| `animate-pop-in` / `animate-float` | The hero watch arrives once (800 ms), then hovers slowly |
 
 ## Shared classes
 
@@ -87,6 +88,7 @@ Defined in `styles.css`, used everywhere instead of repeating utilities.
 | `chip` | Small pill control: 36 px with a mouse, 44 px under a finger |
 | `eyebrow` | The white pill above a title |
 | `reveal` | Set by the `Reveal` component |
+| `hero-tilt` | The 3D angle of the hero watch. Lighter on phones, straightens a little on hover |
 
 ## Components
 
@@ -113,7 +115,7 @@ Components live in `apps/web/src/components/`. One file per component, kebab-cas
 | Component | File | Role |
 |-----------|------|------|
 | `SiteNav` | `site-nav.tsx` | Sticky pill navigation with the GitHub mark and current release. Anchors collapse into a menu below `lg` |
-| `Hero` | `hero.tsx` | Headline, live watch, suggested questions, Body Battery preview |
+| `Hero` | `hero.tsx` | Headline with its em dash, two calls to action, the showcase watch, Body Battery preview |
 | `DemoSection` | `demo-section.tsx` | The whole app in one indigo block |
 | `HowItWorks` | `how-it-works.tsx` | Ask, Understand, Answer, each with a small visual |
 | `Benefits` | `benefits.tsx` | Bento grid, one idea per tile |
@@ -136,6 +138,8 @@ Components live in `apps/web/src/components/`. One file per component, kebab-cas
 | `thinking` | Fast spinning halo | Three dots | The question, in quotes | Nothing |
 | `speaking` | Shrinks to the bottom of the screen | Stop | The answer, large, with cancel | Stop playback |
 | `idle`, after an answer | Stays small at the bottom | Mic | The answer stays readable | Start a new question |
+
+The hero watch is a showcase: it loops idle, listening, thinking and the answer on a timer (`src/lib/showcase.ts`), is `inert`, has no cancel button, and the whole stage links to the demo. Under reduced motion it holds the answer frame.
 
 A long answer scrolls inside the watch screen and fades out at the bottom. The same answer is always in the conversation panel.
 
@@ -165,8 +169,8 @@ When voice is unavailable the orb dims, shows a crossed mic, and a tap moves foc
 
 ```
 Nav             wordmark · anchors · GitHub + version · Try it   sticky
-Hero            headline + lead │ live watch on a pastel stage
-                suggested questions │ Body Battery preview
+Hero            headline, lead, Try the demo │ tilted showcase watch on a pastel stage
+                                             │ floating question and Body Battery preview
 Demo            indigo block: watch (sticky) │ demo control, Body Battery, conversation
 How it works    three pastel cards: Ask, Understand, Answer
 Benefits        bento grid, four tiles
@@ -177,14 +181,14 @@ Final CTA       indigo block
 Footer          wordmark, medical disclaimer, links
 ```
 
-Below `lg` everything is one column. In the hero the order is headline, watch, Body Battery preview, questions, so the orb sits in the thumb zone. The watch is drawn at full size and zoomed down per placement (`[zoom:…]` classes passed to `Watch`), so layout follows its real size.
+Below `lg` everything is one column. In the hero the order is headline, calls to action, watch, Body Battery preview, so the main button is above the fold. In the demo the watch comes first, with the orb in the thumb zone. The watch is drawn at full size and zoomed down per placement (`[zoom:…]` classes passed to `Watch`), so layout follows its real size.
 
 From `lg` the hero has two columns, with the Body Battery preview floating over the edge of the stage, and the demo watch is sticky beside its panels.
 
 ## Motion rules
 
 - Animate `transform` and `opacity` only. Colors may cross-fade.
-- The hero enters in order: eyebrow, lead, watch, questions. The `h1` does not animate, so it paints first.
+- The hero enters in order: eyebrow, lead, buttons, then the watch pops in. The `h1` does not animate, so it paints first.
 - Content below the fold is wrapped in `Reveal`. Markup is visible by default; only what starts off screen is hidden after hydration, then fades up once.
 - Numbers count to their new value (`useCountUp`), the gauge slides with `translateX`, history bars grow with `scaleY`, the segmented control's thumb slides.
 - A global rule in `styles.css` ends every animation and transition at once under `prefers-reduced-motion`.
@@ -192,7 +196,7 @@ From `lg` the hero has two columns, with the Body Battery preview floating over 
 ## Accessibility rules
 
 - One `h1`. Each section is a `<section aria-labelledby>` with an `h2`. Cards use `h3`.
-- A "Skip to the demo" link is the first tab stop.
+- A "Skip to the demo" link is the first tab stop. The showcase watch is hidden from assistive tech; its link to the demo has a text name.
 - The focus ring is global (`:focus-visible` in `styles.css`): indigo, white on the watch screen. Don't restyle it per component.
 - Every control has an accessible name. Decorative visuals are `aria-hidden`.
 - The answer is announced from one `aria-live` region in the conversation panel. The copy on the watch is hidden from assistive tech to avoid a double reading.

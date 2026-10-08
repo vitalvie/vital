@@ -32,7 +32,7 @@ export function DemoSection({ vital }: { vital: Vital }) {
 							mic={vital.mic}
 							question={vital.question}
 							answer={vital.answer}
-							className="[zoom:0.66] sm:[zoom:0.8] lg:[zoom:0.86]"
+							className="[zoom:0.72] min-[400px]:[zoom:0.8] sm:[zoom:0.86]"
 							onOrb={vital.onOrb}
 							onCancel={vital.onCancel}
 						/>
