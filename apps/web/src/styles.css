@@ -9,12 +9,13 @@
 	src: url("/fonts/alan-sans-latin.woff2") format("woff2");
 }
 
-/* Design tokens — see docs/design-system.mdx. Palette and type inspired by alan.com. */
+/* Design tokens. See docs/design-system.mdx. Every color, size and curve used in components comes from here. */
 @theme {
 	--font-sans: "Alan Sans", Helvetica, Arial, sans-serif;
 
 	/* Surfaces and text */
 	--color-cream: #fffcf5;
+	--color-cream-deep: #f8f2e4;
 	--color-heading: #282830;
 	--color-paragraph: #464754;
 	--color-caption: #656779;
@@ -28,13 +29,21 @@
 	--color-indigo-700: #2f33a8;
 	--color-blue-50: #ebf5ff;
 
-	/* Pastel accents */
+	/* Deep block for the technical section. Never pure black. */
+	--color-night: #1d1e45;
+	--color-night-soft: #2a2c5c;
+
+	/* Pastel accents, one per section */
 	--color-peach: #fff3e5;
+	--color-peach-100: #ffe4c4;
 	--color-peach-300: #ffbd7a;
 	--color-pink-50: #ffe7f0;
+	--color-pink-100: #ffd3e3;
 	--color-pink-300: #ffaac8;
 	--color-teal-50: #ebfaf9;
+	--color-teal-100: #cdf1ed;
 	--color-teal-300: #81dfd7;
+	--color-teal-700: #1c6b64;
 
 	/* Status */
 	--color-good: #367940;
@@ -50,14 +59,44 @@
 	--color-band: #ff6d39;
 	--color-screen: #0b0b12;
 
-	/* Elevation */
+	/* Fluid type scale: 360 px to 1440 px */
+	--text-display: clamp(2.75rem, 1.6rem + 5.1vw, 5rem);
+	--text-display--line-height: 1.02;
+	--text-display--letter-spacing: -0.035em;
+	--text-display--font-weight: 500;
+	--text-title: clamp(2rem, 1.4rem + 2.7vw, 3.5rem);
+	--text-title--line-height: 1.08;
+	--text-title--letter-spacing: -0.025em;
+	--text-title--font-weight: 500;
+	--text-subtitle: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+	--text-subtitle--line-height: 1.2;
+	--text-subtitle--letter-spacing: -0.015em;
+	--text-subtitle--font-weight: 500;
+	--text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+	--text-lead--line-height: 1.5;
+
+	/* Layout: 4 px grid from Tailwind, plus the page rhythm */
+	--container-site: 76rem;
+	--spacing-gutter: clamp(1.25rem, 0.5rem + 3.2vw, 2.5rem);
+	--spacing-section: clamp(4rem, 2.6rem + 6vw, 7.5rem);
+
+	/* Shape */
+	--radius-4xl: 2rem;
+	--radius-5xl: 2.5rem;
+
+	/* Elevation: diffuse, never a hard edge */
 	--shadow-soft: 0 8px 24px rgba(40, 40, 48, 0.06);
+	--shadow-lift: 0 24px 56px rgba(40, 40, 48, 0.1);
 	--shadow-brand: 0 16px 40px rgba(92, 89, 243, 0.35);
 	--shadow-device: 0 30px 60px rgba(40, 40, 48, 0.25);
 
 	/* Motion */
 	--ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-	--animate-fade-up: fade-up 500ms var(--ease-smooth) both;
+	--duration-press: 150ms;
+	--duration-move: 300ms;
+	--duration-enter: 500ms;
+	--animate-fade-up: fade-up var(--duration-enter) var(--ease-smooth) both;
+	--animate-travel: travel 2.4s var(--ease-smooth) infinite both;
 
 	@keyframes fade-up {
 		from {
@@ -69,10 +108,36 @@
 			transform: none;
 		}
 	}
+
+	/* A dot crossing its track, used by the pipeline diagram. */
+	@keyframes travel {
+		0% {
+			opacity: 0;
+			transform: translate(var(--travel-from-x, 0), var(--travel-from-y, 0));
+		}
+		20%,
+		80% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+			transform: translate(var(--travel-to-x, 0), var(--travel-to-y, 0));
+		}
+	}
+}
+
+/* Page container: centered, capped, and clear of the notch. */
+@utility shell {
+	margin-inline: auto;
+	width: 100%;
+	max-width: var(--container-site);
+	padding-left: max(var(--spacing-gutter), env(safe-area-inset-left));
+	padding-right: max(var(--spacing-gutter), env(safe-area-inset-right));
 }
 
 @layer base {
 	html {
+		scroll-behavior: smooth;
 		color-scheme: light;
 		-webkit-text-size-adjust: 100%;
 		-webkit-tap-highlight-color: transparent;
@@ -102,8 +167,45 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-/* Voice orb. --level (0 to 1) is set from the live mic volume. */
 @layer components {
+	.btn {
+		@apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 font-medium whitespace-nowrap transition duration-150 ease-smooth active:scale-[0.97];
+	}
+
+	.btn-primary {
+		@apply bg-indigo-500 text-white hover:bg-indigo-700;
+	}
+
+	.btn-light {
+		@apply bg-white text-heading shadow-soft hover:bg-indigo-50;
+	}
+
+	.btn-ghost {
+		@apply text-heading hover:bg-indigo-50;
+	}
+
+	/* Compact with a mouse, 44 px under a finger. */
+	.chip {
+		@apply inline-flex min-h-9 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium text-heading transition duration-150 ease-smooth active:scale-[0.97] disabled:opacity-50 pointer-coarse:min-h-11;
+	}
+
+	.eyebrow {
+		@apply inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-sm font-medium text-indigo-700 shadow-soft;
+	}
+
+	/* Scroll reveal. Markup is visible by default; `Reveal` hides what starts below the fold. */
+	.reveal[data-reveal="pending"] {
+		opacity: 0;
+		transform: translateY(1.5rem);
+	}
+
+	.reveal[data-reveal="shown"] {
+		transition:
+			opacity var(--duration-enter) var(--ease-smooth),
+			transform var(--duration-enter) var(--ease-smooth);
+	}
+
+	/* Voice orb. --level (0 to 1) is set from the live mic volume. */
 	.orb {
 		--level: 0;
 		transform: scale(calc(1 + var(--level) * 0.22));
