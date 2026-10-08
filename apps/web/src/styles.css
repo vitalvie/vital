@@ -1,11 +1,21 @@
 @import "tailwindcss";
 
-/* Design tokens — see docs/design-system.mdx. Palette and type inspired by alan.com. */
+/* Alan Sans (SIL Open Font License), latin subset, one variable file for 400 to 700. */
+@font-face {
+	font-family: "Alan Sans";
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url("/fonts/alan-sans-latin.woff2") format("woff2");
+}
+
+/* Design tokens. See docs/design-system.mdx. Every color, size and curve used in components comes from here. */
 @theme {
 	--font-sans: "Alan Sans", Helvetica, Arial, sans-serif;
 
 	/* Surfaces and text */
 	--color-cream: #fffcf5;
+	--color-cream-deep: #f8f2e4;
 	--color-heading: #282830;
 	--color-paragraph: #464754;
 	--color-caption: #656779;
@@ -19,18 +29,27 @@
 	--color-indigo-700: #2f33a8;
 	--color-blue-50: #ebf5ff;
 
-	/* Pastel accents */
+	/* Deep block for the technical section. Never pure black. */
+	--color-night: #1d1e45;
+	--color-night-soft: #2a2c5c;
+
+	/* Pastel accents, one per section */
 	--color-peach: #fff3e5;
+	--color-peach-100: #ffe4c4;
 	--color-peach-300: #ffbd7a;
 	--color-pink-50: #ffe7f0;
+	--color-pink-100: #ffd3e3;
 	--color-pink-300: #ffaac8;
 	--color-teal-50: #ebfaf9;
+	--color-teal-100: #cdf1ed;
 	--color-teal-300: #81dfd7;
+	--color-teal-700: #1c6b64;
 
 	/* Status */
 	--color-good: #367940;
 	--color-good-bg: #ecf7e9;
 	--color-warn: #ff9359;
+	--color-warn-ink: #8f4310;
 	--color-bad: #c9202e;
 	--color-bad-bg: #ffe8e9;
 
@@ -40,13 +59,46 @@
 	--color-band: #ff6d39;
 	--color-screen: #0b0b12;
 
-	/* Elevation */
+	/* Fluid type scale: 360 px to 1440 px */
+	--text-display: clamp(2.75rem, 1.6rem + 5.1vw, 5rem);
+	--text-display--line-height: 1.02;
+	--text-display--letter-spacing: -0.035em;
+	--text-display--font-weight: 500;
+	--text-title: clamp(2rem, 1.4rem + 2.7vw, 3.5rem);
+	--text-title--line-height: 1.08;
+	--text-title--letter-spacing: -0.025em;
+	--text-title--font-weight: 500;
+	--text-subtitle: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+	--text-subtitle--line-height: 1.2;
+	--text-subtitle--letter-spacing: -0.015em;
+	--text-subtitle--font-weight: 500;
+	--text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+	--text-lead--line-height: 1.5;
+
+	/* Layout: 4 px grid from Tailwind, plus the page rhythm */
+	--container-site: 76rem;
+	--spacing-gutter: clamp(1.25rem, 0.5rem + 3.2vw, 2.5rem);
+	--spacing-section: clamp(4rem, 2.6rem + 6vw, 7.5rem);
+
+	/* Shape */
+	--radius-4xl: 2rem;
+	--radius-5xl: 2.5rem;
+
+	/* Elevation: diffuse, never a hard edge */
 	--shadow-soft: 0 8px 24px rgba(40, 40, 48, 0.06);
+	--shadow-lift: 0 24px 56px rgba(40, 40, 48, 0.1);
 	--shadow-brand: 0 16px 40px rgba(92, 89, 243, 0.35);
+	--shadow-device: 0 30px 60px rgba(40, 40, 48, 0.25);
 
 	/* Motion */
 	--ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-	--animate-fade-up: fade-up 500ms var(--ease-smooth) both;
+	--duration-press: 150ms;
+	--duration-move: 300ms;
+	--duration-enter: 500ms;
+	--animate-fade-up: fade-up var(--duration-enter) var(--ease-smooth) both;
+	--animate-travel: travel 2.4s var(--ease-smooth) infinite both;
+	--animate-float: float 6s ease-in-out infinite alternate;
+	--animate-pop-in: pop-in 800ms var(--ease-smooth) both;
 
 	@keyframes fade-up {
 		from {
@@ -58,9 +110,65 @@
 			transform: none;
 		}
 	}
+
+	/* The hero watch hovers, slowly. */
+	@keyframes float {
+		to {
+			transform: translateY(-10px);
+		}
+	}
+
+	@keyframes pop-in {
+		from {
+			opacity: 0;
+			transform: translateY(24px) scale(0.92);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* A dot crossing its track, used by the pipeline diagram. */
+	@keyframes travel {
+		0% {
+			opacity: 0;
+			transform: translate(var(--travel-from-x, 0), var(--travel-from-y, 0));
+		}
+		20%,
+		80% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+			transform: translate(var(--travel-to-x, 0), var(--travel-to-y, 0));
+		}
+	}
+}
+
+/* Page container: centered, capped, and clear of the notch. */
+@utility shell {
+	margin-inline: auto;
+	width: 100%;
+	max-width: var(--container-site);
+	padding-left: max(var(--spacing-gutter), env(safe-area-inset-left));
+	padding-right: max(var(--spacing-gutter), env(safe-area-inset-right));
 }
 
 @layer base {
+	html {
+		scroll-behavior: smooth;
+		color-scheme: light;
+		-webkit-text-size-adjust: 100%;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	/* One focus ring everywhere. Dark surfaces override the color. */
+	:focus-visible {
+		outline: 2px solid var(--color-indigo-500);
+		outline-offset: 2px;
+	}
+
 	button:not(:disabled),
 	[role="button"]:not([aria-disabled="true"]) {
 		cursor: pointer;
@@ -79,61 +187,253 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-/* Voice orb. --level (0 to 1) is set from the live mic volume. */
 @layer components {
+	.btn {
+		@apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 font-medium whitespace-nowrap transition duration-150 ease-smooth active:scale-[0.97];
+	}
+
+	.btn-primary {
+		@apply bg-indigo-500 text-white hover:bg-indigo-700;
+	}
+
+	.btn-light {
+		@apply bg-white text-heading shadow-soft hover:bg-indigo-50;
+	}
+
+	.btn-ghost {
+		@apply text-heading hover:bg-indigo-50;
+	}
+
+	/* Compact with a mouse, 44 px under a finger. */
+	.chip {
+		@apply inline-flex min-h-9 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium text-heading transition duration-150 ease-smooth active:scale-[0.97] disabled:opacity-50 pointer-coarse:min-h-11;
+	}
+
+	.eyebrow {
+		@apply inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-sm font-medium text-indigo-700 shadow-soft;
+	}
+
+	/* Slider for the demo numbers: a soft track and a round indigo thumb, 44 px tall to touch. */
+	.range {
+		width: 100%;
+		height: 2.75rem;
+		cursor: pointer;
+		appearance: none;
+		background: transparent;
+		accent-color: var(--color-indigo-500);
+	}
+
+	.range::-webkit-slider-runnable-track {
+		height: 0.5rem;
+		border-radius: 9999px;
+		background: var(--color-indigo-100);
+	}
+
+	.range::-moz-range-track {
+		height: 0.5rem;
+		border-radius: 9999px;
+		background: var(--color-indigo-100);
+	}
+
+	.range::-webkit-slider-thumb {
+		appearance: none;
+		width: 1.5rem;
+		height: 1.5rem;
+		margin-top: -0.5rem;
+		border: 3px solid var(--color-white);
+		border-radius: 9999px;
+		background: var(--color-indigo-500);
+		box-shadow: var(--shadow-soft);
+		transition: scale var(--duration-press) var(--ease-smooth);
+	}
+
+	.range::-moz-range-thumb {
+		width: 1.125rem;
+		height: 1.125rem;
+		border: 3px solid var(--color-white);
+		border-radius: 9999px;
+		background: var(--color-indigo-500);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.range:active::-webkit-slider-thumb {
+		scale: 1.12;
+	}
+
+	/* The hero watch, shown at an angle. It straightens a little on hover. */
+	.hero-tilt {
+		transform: perspective(1400px) rotateY(-12deg) rotateX(6deg) rotate(4deg);
+		transition: transform var(--duration-enter) var(--ease-smooth);
+	}
+
+	@media (min-width: 64rem) {
+		.hero-tilt {
+			transform: perspective(1400px) rotateY(-18deg) rotateX(8deg) rotate(6deg);
+		}
+
+		.group:hover .hero-tilt {
+			transform: perspective(1400px) rotateY(-10deg) rotateX(4deg) rotate(3deg);
+		}
+	}
+
+	/* Size of the hero watch. On desktop it also follows the viewport height,
+	   so the whole hero, Body Battery preview included, fits above the fold. */
+	.hero-watch {
+		zoom: 0.72;
+	}
+
+	@media (min-width: 25rem) {
+		.hero-watch {
+			zoom: 0.8;
+		}
+	}
+
+	@media (min-width: 40rem) {
+		.hero-watch {
+			zoom: 1;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.hero-watch {
+			zoom: 0.9;
+		}
+	}
+
+	@media (min-width: 80rem) {
+		.hero-watch {
+			zoom: 1;
+		}
+	}
+
+	@media (min-width: 64rem) and (max-height: 960px) {
+		.hero-watch {
+			zoom: 0.92;
+		}
+	}
+
+	@media (min-width: 64rem) and (max-height: 860px) {
+		.hero-watch {
+			zoom: 0.82;
+		}
+	}
+
+	@media (min-width: 64rem) and (max-height: 780px) {
+		.hero-watch {
+			zoom: 0.7;
+		}
+	}
+
+	@media (min-width: 64rem) and (max-height: 700px) {
+		.hero-watch {
+			zoom: 0.55;
+		}
+	}
+
+	/* Scroll reveal. Markup is visible by default; `Reveal` hides what starts below the fold. */
+	.reveal[data-reveal="pending"] {
+		opacity: 0;
+		transform: translateY(1.5rem);
+	}
+
+	.reveal[data-reveal="shown"] {
+		transition:
+			opacity var(--duration-enter) var(--ease-smooth),
+			transform var(--duration-enter) var(--ease-smooth);
+	}
+
+	/* Voice orb. --level (0 to 1) is set from the live mic volume. */
 	.orb {
 		--level: 0;
 		transform: scale(calc(1 + var(--level) * 0.22));
 		transition: transform 120ms ease-out;
 	}
 
+	.orb:focus-visible {
+		outline: 3px solid var(--color-white);
+		outline-offset: 6px;
+	}
+
+	/* Idle invitation: a ring that drifts out of the orb. */
+	.orb-ring {
+		position: absolute;
+		inset: 0;
+		border-radius: 9999px;
+		border: 1.5px solid var(--color-indigo-300);
+		opacity: 0;
+	}
+
+	.orb[data-status="idle"]:not([data-muted]) .orb-ring {
+		animation: orb-ring 3.2s var(--ease-smooth) infinite;
+	}
+
+	/* A quiet halo: one hue with a hint of pink, heavily blurred. */
 	.orb-glow {
 		position: absolute;
-		inset: -18%;
+		inset: -14%;
 		border-radius: 9999px;
 		background: conic-gradient(
 			var(--color-indigo-300),
+			var(--color-indigo-500),
 			var(--color-pink-300),
-			var(--color-peach-300),
-			var(--color-teal-300),
+			var(--color-indigo-300),
+			var(--color-indigo-500),
 			var(--color-indigo-300)
 		);
-		filter: blur(28px);
-		opacity: 0.45;
+		filter: blur(32px);
+		opacity: 0.32;
 		transition: opacity 400ms var(--ease-smooth);
-		animation: orb-spin 12s linear infinite;
+		animation: orb-spin 14s linear infinite;
 	}
 
+	/* A soft matte sphere: a gentle top light and a deeper edge, no glossy highlight. */
 	.orb-core {
 		position: absolute;
 		inset: 0;
 		border-radius: 9999px;
 		background: radial-gradient(
-			circle at 32% 28%,
-			#ffffff 0%,
-			var(--color-indigo-100) 22%,
-			var(--color-indigo-500) 62%,
-			var(--color-indigo-700) 100%
+			circle at 38% 30%,
+			var(--color-indigo-300) 0%,
+			var(--color-indigo-500) 58%,
+			var(--color-indigo-700) 120%
 		);
-		box-shadow: var(--shadow-brand);
+		box-shadow:
+			inset 0 10px 24px color-mix(in srgb, var(--color-white) 22%, transparent),
+			inset 0 -14px 28px
+				color-mix(in srgb, var(--color-indigo-700) 45%, transparent),
+			0 12px 36px color-mix(in srgb, var(--color-indigo-500) 30%, transparent);
 		animation: orb-breathe 4s var(--ease-smooth) infinite;
+		transition: scale 200ms var(--ease-smooth);
+	}
+
+	.orb:active .orb-core {
+		scale: 0.96;
+	}
+
+	.orb[data-muted] .orb-glow {
+		opacity: 0.2;
+	}
+
+	.orb[data-muted] .orb-core {
+		opacity: 0.55;
+		animation: none;
 	}
 
 	.orb[data-status="listening"] .orb-glow {
-		opacity: 0.9;
+		opacity: 0.6;
 	}
 
 	.orb[data-status="thinking"] .orb-glow {
-		opacity: 0.8;
-		animation-duration: 1.6s;
+		opacity: 0.5;
+		animation-duration: 2.4s;
 	}
 
 	.orb[data-status="speaking"] .orb-glow {
-		opacity: 0.75;
+		opacity: 0.5;
 	}
 
 	.orb[data-status="speaking"] .orb-core {
-		animation-duration: 1.2s;
+		animation-duration: 1.8s;
 	}
 
 	@keyframes orb-spin {
@@ -147,13 +447,60 @@ body {
 			transform: scale(1.04);
 		}
 	}
+
+	@keyframes orb-ring {
+		0% {
+			opacity: 0.45;
+			transform: scale(1);
+		}
+		70%,
+		100% {
+			opacity: 0;
+			transform: scale(1.4);
+		}
+	}
+
+	/* Woven watch band. */
+	.watch-band {
+		background-color: var(--color-band);
+		background-image: repeating-linear-gradient(
+			0deg,
+			transparent 0 6px,
+			color-mix(in srgb, var(--color-black) 6%, transparent) 6px 8px
+		);
+	}
+
+	/* Mic meter bars on the watch, shown while listening. */
+	.level-bar {
+		transform: scaleY(0.35);
+		animation: level-bar 900ms var(--ease-smooth) infinite;
+	}
+
+	@keyframes level-bar {
+		50% {
+			transform: scaleY(1);
+		}
+	}
 }
 
+/* Motion is decoration here: with reduced motion, everything lands on its end state. */
 @media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		animation-duration: 0.01ms !important;
+		animation-delay: 0s !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
 	.orb,
 	.orb-glow,
-	.orb-core {
-		animation: none;
+	.orb-core,
+	.orb-ring,
+	.level-bar {
+		animation: none !important;
 		transition: none;
 	}
 }

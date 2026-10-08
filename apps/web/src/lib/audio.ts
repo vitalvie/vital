@@ -1,7 +1,6 @@
 // Browser audio helpers. Microphone access needs HTTPS or localhost.
 
 export const canRecord = () =>
-	typeof window !== "undefined" &&
 	!!navigator.mediaDevices?.getUserMedia &&
 	typeof MediaRecorder !== "undefined";
 

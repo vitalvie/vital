@@ -1,87 +1,88 @@
+import { useCountUp } from "#/lib/count-up";
 import {
 	type Contributor,
+	contributorTone,
 	type Energy,
-	type EnergyLevel,
 	energyLevel,
 	energySummary,
+	formatDelta,
+	type Tone,
 } from "#/lib/energy";
+import { EnergyGauge } from "./energy-gauge";
+import { LevelPill } from "./level-pill";
 
-const FILL: Record<EnergyLevel, string> = {
-	Low: "bg-bad",
-	Moderate: "bg-warn",
-	Good: "bg-good",
+const TONE: Record<Tone, { pill: string; word: string }> = {
+	good: { pill: "bg-good-bg text-good", word: "better than" },
+	bad: { pill: "bg-bad-bg text-bad", word: "worse than" },
+	neutral: { pill: "bg-indigo-50 text-caption", word: "close to" },
 };
 
+// Today's score, why it is what it is, and each signal next to its usual.
 export function BodyBatteryCard({ energy }: { energy: Energy }) {
+	const score = Math.round(useCountUp(energy.score));
+
 	return (
-		<section className="rounded-3xl bg-linear-to-br from-indigo-50 to-blue-50 p-4 sm:p-6">
+		<section
+			aria-labelledby="body-battery"
+			className="@container rounded-4xl bg-white p-5 shadow-soft sm:p-7"
+		>
 			<div className="flex items-center justify-between gap-4">
-				<h2 className="text-sm font-medium text-caption">Body Battery</h2>
-				<span className="rounded-full bg-peach px-3 py-1 text-xs font-medium text-heading">
-					{energyLevel(energy.score)}
-				</span>
+				<h3 id="body-battery" className="text-sm font-medium text-caption">
+					Body Battery
+				</h3>
+				<LevelPill level={energyLevel(energy.score)} />
 			</div>
-			<div className="mt-4 flex items-center gap-5">
-				<Battery level={energy.score} />
-				<div>
-					<p className="text-4xl leading-none font-bold text-heading">
-						{energy.score}
-						<span className="text-lg font-medium text-caption">%</span>
-					</p>
-					<p className="mt-2 text-sm leading-5">
-						{energySummary(energy.contributors)}
-					</p>
-				</div>
+			<div className="mt-3 flex flex-wrap items-end gap-x-5 gap-y-2">
+				<p className="text-6xl leading-none font-bold tracking-tight text-heading tabular-nums">
+					<span className="sr-only">{energy.score}%</span>
+					<span aria-hidden="true">
+						{score}
+						<span className="text-2xl font-medium text-caption">%</span>
+					</span>
+				</p>
+				<p className="max-w-xs pb-1 text-sm leading-5 text-pretty">
+					{energySummary(energy.contributors)}
+				</p>
 			</div>
-			<div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3">
+			<EnergyGauge score={energy.score} className="mt-4" />
+			<ul className="mt-5 grid gap-2 @lg:grid-cols-3 @lg:gap-3">
 				{energy.contributors.map((c) => (
 					<StatTile key={c.label} contributor={c} />
 				))}
-			</div>
+			</ul>
 		</section>
 	);
 }
 
-function Battery({ level }: { level: number }) {
-	const fill = FILL[energyLevel(level)];
-	return (
-		<div
-			role="img"
-			aria-label={`Battery ${level}%`}
-			className="flex shrink-0 items-center"
-		>
-			<div className="h-12 w-28 rounded-xl border-[3px] border-heading p-1 sm:w-32">
-				<div
-					className={`h-full rounded-md ${fill} transition-[width] duration-700`}
-					style={{ width: `${Math.max(level, 4)}%` }}
-				/>
-			</div>
-			<div className="h-5 w-1.5 rounded-r-sm bg-heading" />
-		</div>
-	);
-}
-
+// A row in a narrow card, a tile in a wide one: label, value, gap to usual, usual.
 function StatTile({ contributor: c }: { contributor: Contributor }) {
-	const sign = c.impact > 0 ? "+" : "";
-	const pill = c.impact < 0 ? "bg-bad-bg text-bad" : "bg-good-bg text-good";
+	const tone = TONE[contributorTone(c)];
+	const today = useCountUp(c.today).toFixed(c.digits);
 	return (
-		<div className="flex min-w-0 flex-col gap-1 rounded-2xl bg-white p-2.5 sm:p-3">
-			<div className="flex flex-wrap items-center justify-between gap-1">
-				<p className="text-xs text-caption">{c.label}</p>
+		<li className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 rounded-2xl bg-cream px-4 py-3 @lg:grid-cols-1 @lg:content-start @lg:gap-y-1 @lg:p-4">
+			<p className="text-sm font-medium text-heading @lg:text-xs @lg:font-normal @lg:text-caption">
+				{c.label}
+			</p>
+			<div className="col-start-2 row-span-2 row-start-1 flex items-center gap-3 @lg:col-start-auto @lg:row-span-1 @lg:row-start-auto @lg:flex-col @lg:items-start @lg:gap-1.5">
+				<p className="text-xl leading-7 font-medium whitespace-nowrap text-heading tabular-nums">
+					<span className="sr-only">
+						{c.today} {c.unit}, {tone.word} your usual
+					</span>
+					<span aria-hidden="true">
+						{today}
+						<span className="text-xs text-caption"> {c.unit}</span>
+					</span>
+				</p>
 				<span
-					className={`rounded-full px-1.5 py-0.5 text-[11px] leading-none font-medium ${pill}`}
+					aria-hidden="true"
+					className={`min-w-16 rounded-full px-2 py-1 text-center text-xs leading-none font-medium whitespace-nowrap tabular-nums transition-colors duration-500 @lg:min-w-0 ${tone.pill}`}
 				>
-					{sign}
-					{c.impact}
+					{formatDelta(c)}
 				</span>
 			</div>
-			<p className="text-xl font-medium whitespace-nowrap text-heading">
-				{c.today}
-				<span className="text-xs text-caption"> {c.unit}</span>
-			</p>
-			<p className="text-xs text-caption">
+			<p className="text-xs leading-5 text-caption">
 				usual {c.baseline} {c.unit}
 			</p>
-		</div>
+		</li>
 	);
 }

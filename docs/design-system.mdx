@@ -1,111 +1,213 @@
 ---
 title: Design system
-description: "Tokens, components, and rules that keep Vital's interface clean and smooth."
+description: "Tokens, components, sections and rules behind Vital's landing page and live demo."
 ---
 
-Vital's interface borrows its palette and type from [alan.com](https://alan.com) and its layout from modern voice assistants: one glowing orb, generous whitespace, and very little chrome.
+Vital's site is a product-led landing page. The hero sells the product, the working demo sits right below it, and the sections after that tell the story. The look sits in the same family as modern French health products: warm cream, pastel blocks, large soft shapes and big, tight headlines. The identity is Vital's own.
 
 ## Principles
 
-1. **Voice first.** The giant watch, and the orb on its screen, is the main control. Everything else supports it.
-2. **One screen, one task.** Watch on one side, conversation and data on the other. No extra panels.
-3. **Calm and soft.** Pastel surfaces, rounded shapes, gentle motion. No harsh borders or pure black.
-4. **Honest data.** Always show the user's number next to their usual. Never diagnose.
-5. **Smooth, not flashy.** Motion explains state changes and respects `prefers-reduced-motion`.
+1. **The hero sells, the demo proves.** The hero shows the real watch UI at an angle, playing a scripted exchange. The live demo is one click below.
+2. **One main action per screen.** Reach the demo, then talk to Vital. Everything else supports it, and details come on demand.
+3. **Calm and soft.** Pastel blocks, very large radii, diffuse shadows. No hard borders, no pure black.
+4. **Honest data, honest proof.** Always show today's number next to the usual one. Never diagnose. No testimonials or invented figures.
+5. **Motion explains.** It shows a state change or where to look next. It never decorates.
 
 ## Tokens
 
-All tokens live in `apps/web/src/styles.css` under `@theme`, so they work as Tailwind classes (`bg-cream`, `text-heading`, `shadow-soft`). Never hardcode colors in components.
+All tokens live in `apps/web/src/styles.css` under `@theme`, so they work as Tailwind classes. Never hardcode a color, size or curve in a component.
 
 ### Color
 
 | Token | Hex | Use |
 |-------|-----|-----|
-| `cream` | `#fffcf5` | Page background |
+| `cream` / `cream-deep` | `#fffcf5` / `#f8f2e4` | Page background / footer and input wells |
 | `heading` | `#282830` | Titles, key numbers |
 | `paragraph` | `#464754` | Body text |
 | `caption` | `#656779` | Labels, hints, status |
-| `line` | `#dbe2f4` | Input borders |
-| `indigo-500` | `#5c59f3` | Primary actions, orb core |
-| `indigo-50` / `blue-50` | `#f0f3ff` / `#ebf5ff` | Card gradient |
-| `peach` | `#fff3e5` | Floating highlight bubble |
-| `pink-50`, `teal-50` | `#ffe7f0`, `#ebfaf9` | Suggestion chips |
-| `good` / `warn` / `bad` | `#367940` / `#ff9359` / `#c9202e` | Status, battery fill, cancel button |
-| `titanium-light` / `titanium` | `#e4e1db` / `#a8a39b` | Watch case |
-| `band` | `#ff6d39` | Watch band |
-| `screen` | `#0b0b12` | Watch screen |
+| `indigo-500` / `indigo-700` | `#5c59f3` / `#2f33a8` | Primary actions, orb core / hover, eyebrow text |
+| `indigo-50` / `indigo-100` / `indigo-300` | `#f0f3ff` / `#d6dbff` / `#8c99fa` | Demo block, tracks, accents |
+| `night` / `night-soft` | `#1d1e45` / `#2a2c5c` | The one deep block (Under the hood) and its cards |
+| `peach`, `peach-100`, `peach-300` | `#fff3e5`, `#ffe4c4`, `#ffbd7a` | Notices, step 1, Open source block |
+| `pink-50`, `pink-100`, `pink-300` | `#ffe7f0`, `#ffd3e3`, `#ffaac8` | Step 2, a bento tile |
+| `teal-50`, `teal-100`, `teal-300`, `teal-700` | `#ebfaf9`, `#cdf1ed`, `#81dfd7`, `#1c6b64` | Safety block, icon wells, text on teal |
+| `good` / `warn` / `bad` | `#367940` / `#ff9359` / `#c9202e` | Status, gauge fill, cancel button |
+| `good-bg` / `bad-bg` / `warn-ink` | `#ecf7e9` / `#ffe8e9` / `#8f4310` | Soft pills, and text on `peach` |
+| `titanium-light`, `titanium`, `band`, `screen` | | Watch case, band and screen |
+
+Each section owns one pastel. Neighbors never share one.
 
 ### Type
 
-Font: **Alan Sans** from Google Fonts, weights 400, 500 and 700.
+Font: **Alan Sans**, weights 400, 500 and 700. Self-hosted as one variable file (`apps/web/public/fonts/alan-sans-latin.woff2`, latin subset, SIL Open Font License), preloaded, `font-display: swap`.
 
-| Role | Style |
-|------|-------|
-| Page title | 32/40, medium, `heading` |
-| Answer | `text-xl`, leading 8, `heading` |
-| Key number | `text-4xl`, bold, `heading` |
-| Body | 16/24, `paragraph` |
-| Label, status | `text-sm` or `text-xs`, `caption` |
+The scale is fluid between 360 and 1440 px. Headlines are medium weight, large and tight.
 
-### Shape, elevation, motion
+| Class | Size | Use |
+|-------|------|-----|
+| `text-display` | 44 to 80 px, line-height 1.02, tracking -0.035em | The `h1` and the final call to action |
+| `text-title` | 32 to 56 px, line-height 1.08 | Section titles (`h2`) |
+| `text-subtitle` | 22 to 28 px, line-height 1.2 | Card and step titles (`h3`) |
+| `text-lead` | 17 to 20 px, line-height 1.5 | One lead sentence under a title |
+| Body | 16/24, `paragraph` | Everything else |
+| Label | `text-sm` or `text-xs`, `caption` | Labels, status, legal |
+
+Metrics use `tabular-nums` so counters don't shift.
+
+### Layout, shape, elevation
 
 | Token | Value |
 |-------|-------|
-| Radius | Cards `rounded-3xl`, tiles `rounded-2xl`, chips and inputs `rounded-full` |
-| `shadow-soft` | Resting elevation for bubbles, chips on hover, the ask bar |
+| `shell` | Page container: centered, `max-w-site` (76rem), gutters that respect iOS safe areas |
+| `spacing-gutter` | 20 to 40 px side padding |
+| `spacing-section` (`py-section`) | 64 to 120 px between sections |
+| Spacing | Tailwind's 4 px grid for everything inside a section |
+| Radius | Section blocks `rounded-5xl` (40 px), cards `rounded-4xl` (32 px), tiles `rounded-3xl`/`rounded-2xl`, controls `rounded-full` |
+| `shadow-soft` | Resting elevation: cards, nav, chips on hover |
+| `shadow-lift` | Floating elements: the hero Body Battery preview, the mobile menu |
 | `shadow-brand` | Indigo glow under the orb |
+| `shadow-device` | Drop shadow under the watch case |
+
+### Motion
+
+| Token | Value |
+|-------|-------|
 | `ease-smooth` | `cubic-bezier(0.22, 1, 0.36, 1)` for every transition |
-| `animate-fade-up` | 500 ms entrance for new text |
+| `duration-press` / `duration-move` / `duration-enter` | 150 / 300 / 500 ms |
+| `animate-fade-up` | 500 ms entrance, staggered by 80 ms in the hero |
+| `animate-travel` | The dot crossing a track in the pipeline diagram |
+| `animate-pop-in` / `animate-float` | The hero watch arrives once (800 ms), then hovers slowly |
+
+## Shared classes
+
+Defined in `styles.css`, used everywhere instead of repeating utilities.
+
+| Class | Role |
+|-------|------|
+| `btn` + `btn-primary` / `btn-light` / `btn-ghost` | Pill buttons and links, 44 px tall, press state |
+| `chip` | Small pill control: 36 px with a mouse, 44 px under a finger |
+| `eyebrow` | The white pill above a title |
+| `reveal` | Set by the `Reveal` component |
+| `hero-tilt` | The 3D angle of the hero watch. Lighter on phones, straightens a little on hover |
 
 ## Components
 
 Components live in `apps/web/src/components/`. One file per component, kebab-case filenames.
 
+### Product
+
 | Component | File | Role |
 |-----------|------|------|
-| `Watch` | `watch.tsx` | Apple Watch Ultra-style frame hosting the voice UI: battery, clock, orb, status, level dots, cancel |
-| `Orb` | `orb.tsx` | Voice control and state indicator, shown on the watch screen |
-| `BodyBatteryCard` | `body-battery-card.tsx` | Level pill, flat battery, score, one-line summary, three contributor tiles |
-| `Conversation` | `conversation.tsx` | Chat panel: header with live status, question bubble, answer, ask bar |
-| `AskBar` | `ask-bar.tsx` | Suggestion chips and pill-shaped text input, used inside `Conversation` |
-| `DemoDataPanel` | `demo-data-panel.tsx` | Preset chips, plus sliders and 14-day bars when "Adjust numbers" is open |
-| `Logo` | `logo.tsx` | "vital" wordmark in Alan Sans with Alan's SVG logo, sharp at any size |
-| `ReleaseFooter` | `release-footer.tsx` | Latest GitHub release and CI status on main, under the disclaimer |
+| `Watch` | `watch.tsx` | Apple Watch Ultra-style frame hosting the voice UI. Shows the answer on its screen |
+| `Orb` | `orb.tsx` | Voice control and state indicator: a matte indigo sphere with a quiet, single-hue halo. No glossy highlight, no rainbow |
+| `BodyBatteryCard` | `body-battery-card.tsx` | Score, level, gauge, one-line summary and three contributors |
+| `BatteryPreview` | `battery-preview.tsx` | Compact score card floating in the hero, links to the demo |
+| `EnergyGauge`, `LevelPill` | `energy-gauge.tsx`, `level-pill.tsx` | The bar and the Low / Moderate / Good pill, shared by both cards |
+| `Conversation` | `conversation.tsx` | Question, answer or skeleton, notice, ask bar. Holds the `aria-live` region |
+| `AskBar` | `ask-bar.tsx` | Suggested questions and the text input |
+| `NoticeCard` | `notice-card.tsx` | Why Vital can't listen or answer, with one next step |
+| `SignalSources` | `signal-sources.tsx` | Apple's Sleep, Heart Rate, Health and Fitness app icons around the hero watch. Apple's artwork (`public/apple/`), not under the repo licence; the footer carries the trademark notice |
+| `ScenarioControl` | `scenario-control.tsx` | "Demo data" control: segmented sample days, collapsible, opens the sliders |
+| `DemoDataPanel` | `demo-data-panel.tsx` | Sliders over 14-day history bars |
+| `ReleaseFooter` | `release-footer.tsx` | Latest GitHub release and CI status as two chips |
+
+### Page
+
+| Component | File | Role |
+|-----------|------|------|
+| `SiteNav` | `site-nav.tsx` | Sticky pill navigation with the GitHub mark and current release. Anchors collapse into a menu below `lg` |
+| `Hero` | `hero.tsx` | Headline with its em dash, two calls to action, the showcase watch, Body Battery preview |
+| `DemoSection` | `demo-section.tsx` | The whole app in one indigo block |
+| `HowItWorks` | `how-it-works.tsx` | Ask, Understand, Answer, each with a small visual |
+| `Benefits` | `benefits.tsx` | Bento grid, one idea per tile |
+| `Safety` | `safety.tsx` | Guardrails and what the evals check |
+| `Architecture` | `architecture.tsx` | Pipeline diagram on the `night` block |
+| `OpenSource` | `open-source.tsx` | Licence, GitHub link, release and CI |
+| `FinalCta` | `final-cta.tsx` | Last call, back to the watch |
+| `SiteFooter` | `site-footer.tsx` | Wordmark, medical disclaimer, links |
+| `SectionHeading` | `section-heading.tsx` | Eyebrow, title and lead for every section |
+| `Reveal` | `reveal.tsx` | Fades content up the first time it scrolls into view |
+| `Logo` | `logo.tsx` | The "vital" wordmark and its sign: an orb with squinting eyes and a wide grin, under the ring it gives off. Vital's own drawing, a nod to the hackathon host |
 | Icons | `icons.tsx` | Stroke icons, 2 px, `currentColor`. The GitHub mark is filled |
 
-### Orb states
+### Orb and watch states
 
-| Status | Visual | Tap does |
-|--------|--------|----------|
-| `idle` | Slow breathing, faint halo | Start recording |
-| `listening` | Bright halo, scales with live mic volume | Send the recording |
-| `thinking` | Fast spinning halo | Nothing |
-| `speaking` | Quick pulse, stop icon | Stop playback |
+| Status | Orb | Icon | Watch shows | Tap does |
+|--------|-----|------|-------------|----------|
+| `idle` | Slow breathing, a ring drifting outward | Mic | "Tap to talk" | Start recording |
+| `listening` | Bright halo, scales with live mic volume | Arrow up | "Listening… tap to send", mic meter, cancel | Send the recording |
+| `thinking` | Fast spinning halo | Three dots | The question, in quotes | Nothing |
+| `speaking` | Shrinks to the bottom of the screen | Stop | The answer, large, with cancel | Stop playback |
+| `idle`, after an answer | Stays small at the bottom | Mic | The answer stays readable | Start a new question |
 
-The status line under the orb says what is happening. The red cancel button appears while listening (discards the recording) or speaking (stops playback).
+The hero watch is a showcase: it loops idle, listening, thinking and the answer on a timer (`src/lib/showcase.ts`), is `inert`, has no cancel button, and the whole stage links to the demo. Under reduced motion it holds the answer frame.
 
-## Layout
+A long answer scrolls inside the watch screen and fades out at the bottom. The same answer is always in the conversation panel.
 
-`max-w-5xl`, mobile-first. Two columns from `lg`, stacked below in the order intro, watch, battery, conversation. The right column is left-aligned and every card uses `rounded-3xl` with the same padding (`p-4 sm:p-6`/`p-5 sm:p-6`). The watch scales to 80% under `sm` and 70% under 400 px:
+### Body Battery
+
+The level pill, the gauge and the dot on the watch share one color per level: `bad` for Low, `warn` for Moderate, `good` for Good.
+
+Each contributor shows today's value, its unit, the gap to the usual value (`+0.7 h`, `−3 bpm`) and the usual value. The gap pill is colored by what it does to the score, not by its sign: a lower resting heart rate is green. Contributors are rows in a narrow card and tiles in a wide one, switched by a container query.
+
+### Notices
+
+When Vital can't listen or can't answer, a `peach` notice shows a short title, one line of help and at most one action. It appears under the hero questions and in the conversation panel; only the latter announces itself. Copy lives in `src/lib/notice.ts`. Keep it warm and free of technical words.
+
+| Case | Title | Action |
+|------|-------|--------|
+| Page is not secure | Mic needs HTTPS | Open secure link |
+| Browser can't record | Voice isn't available here | Type instead |
+| Permission denied | The mic is switched off | Type instead |
+| Nothing transcribed | I didn't catch that | None |
+| Empty answer | I don't have an answer for that one | Type instead |
+| Network down | I can't reach Vital right now | Try again |
+| Any other failure | Something went wrong on my side | Try again |
+
+When voice is unavailable the orb dims, shows a crossed mic, and a tap moves focus to the text input. If only the spoken reply fails, the written answer stays and no notice shows. While thinking, a three-line skeleton holds the answer's place.
+
+## Page structure
 
 ```
-Header          logo
-┌───────────────┬──────────────────────────────────┐
-│ Watch         │ Intro (title, one instruction)   │
-│               │ Demo data (presets, adjust)      │
-│ (sticky,      │ Number sliders (when open)       │
-│  spans rows)  │ Body Battery card                │
-│               │ Conversation panel               │
-└───────────────┴──────────────────────────────────┘
-Footer          medical disclaimer
+Nav             wordmark · anchors · GitHub + version · Try it   sticky
+Hero            headline, lead, Try the demo │ tilted showcase watch on a pastel stage
+                                             │ floating question, signal tiles and Body Battery preview
+Demo            indigo block: watch (sticky) │ demo control, Body Battery, conversation
+How it works    three pastel cards: Ask, Understand, Answer
+Benefits        bento grid, four tiles
+Safety          teal block: evals │ four guardrails
+Under the hood  night block: five-stage pipeline
+Open source     peach block: licence, GitHub, release, CI
+Final CTA       indigo block
+Footer          wordmark, medical disclaimer, links
 ```
+
+Below `lg` everything is one column. In the hero the order is headline, calls to action, watch, Body Battery preview, so the main button is above the fold. In the demo the watch comes first, with the orb in the thumb zone. The watch is drawn at full size and zoomed down per placement (`[zoom:…]` classes passed to `Watch`), so layout follows its real size. The hero watch uses the `hero-watch` class instead: from `lg` its size also steps down with the viewport height, so the whole hero, Body Battery preview included, stays above the fold on short laptop screens.
+
+From `lg` the hero has two columns, with the Body Battery preview floating over the edge of the stage, and the demo watch is sticky beside its panels.
+
+## Motion rules
+
+- Animate `transform` and `opacity` only. Colors may cross-fade.
+- The hero enters in order: eyebrow, lead, buttons, then the watch pops in. The `h1` does not animate, so it paints first.
+- Content below the fold is wrapped in `Reveal`. Markup is visible by default; only what starts off screen is hidden after hydration, then fades up once.
+- Numbers count to their new value (`useCountUp`), the gauge slides with `translateX`, history bars grow with `scaleY`, the segmented control's thumb slides.
+- A global rule in `styles.css` ends every animation and transition at once under `prefers-reduced-motion`.
+
+## Accessibility rules
+
+- One `h1`. Each section is a `<section aria-labelledby>` with an `h2`. Cards use `h3`.
+- A "Skip to the demo" link is the first tab stop. The showcase watch is hidden from assistive tech; its link to the demo has a text name.
+- The focus ring is global (`:focus-visible` in `styles.css`): indigo, white on the watch screen. Don't restyle it per component.
+- Every control has an accessible name. Decorative visuals are `aria-hidden`.
+- The answer is announced from one `aria-live` region in the conversation panel. The copy on the watch is hidden from assistive tech to avoid a double reading.
+- Text contrast meets WCAG AA on every block, including `night` and `indigo-500`.
 
 ## Rules
 
-- Reuse tokens and components before adding new ones. Add a token in `styles.css` rather than a one-off color.
-- Keep copy short, friendly, and non-clinical. Suggest a professional when something looks concerning.
-- Every interactive element needs a visible focus state and an accessible name.
-- Buttons show a pointer cursor; disabled buttons show `not-allowed` (global rule in `styles.css`).
-- Check layouts at 360, 768 and 1280 px with no horizontal scroll. Grid tracks use `minmax(0, 1fr)` so content can shrink.
-- New motion uses `ease-smooth` and is disabled under `prefers-reduced-motion`.
-- No extra UI libraries. Tailwind and plain React only.
+- Reuse tokens, shared classes and components before adding new ones.
+- Keep copy short, warm and non-clinical. Suggest a professional when something looks concerning. No medical claim, no promised result.
+- Sample data is always labeled ("Demo data", "Runs on sample data").
+- Check layouts at 360, 390, 430, 768, 1024 and 1440 px with no horizontal scroll. Grid tracks use `minmax(0, 1fr)` so content can shrink.
+- No dark mode yet. The pastels and the watch are tuned for the cream background.
+- No UI library. Tailwind and plain React only.

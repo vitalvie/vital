@@ -1,5 +1,7 @@
 const REPO = "vitalvie/vital";
 
+export const REPO_URL = `https://github.com/${REPO}`;
+
 export const ACTIONS_URL = `https://github.com/${REPO}/actions/workflows/ci.yml?query=branch%3Amain`;
 
 export type CiState = "passing" | "failing" | "running" | "unknown";

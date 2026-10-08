@@ -1,4 +1,5 @@
 import type { TodaySignals } from "#/data/mock-health";
+import { VitalError } from "#/lib/notice";
 
 const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -27,7 +28,7 @@ export async function askVital(input: {
 	});
 	if (!res.ok) return fail(res);
 	const body = (await res.json()) as { text?: string };
-	if (!body.text) throw new Error("Empty answer");
+	if (!body.text) throw new VitalError("empty");
 	return body.text;
 }
 
