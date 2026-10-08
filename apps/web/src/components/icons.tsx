@@ -175,35 +175,3 @@ export function SpeakerIcon({ size = 24 }: { size?: number }) {
 		</svg>
 	);
 }
-
-export function MoonIcon({ size = 24 }: { size?: number }) {
-	return (
-		<svg width={size} height={size} aria-hidden="true" {...base}>
-			<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
-		</svg>
-	);
-}
-
-export function HeartIcon({ size = 24 }: { size?: number }) {
-	return (
-		<svg width={size} height={size} aria-hidden="true" {...base}>
-			<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" />
-		</svg>
-	);
-}
-
-export function PulseIcon({ size = 24 }: { size?: number }) {
-	return (
-		<svg width={size} height={size} aria-hidden="true" {...base}>
-			<path d="M3 12h4l2.5-6 4 12 2.5-6h5" />
-		</svg>
-	);
-}
-
-export function FlameIcon({ size = 24 }: { size?: number }) {
-	return (
-		<svg width={size} height={size} aria-hidden="true" {...base}>
-			<path d="M12 3c1 3.5 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3.2 2-4 .2 1.5 1 2.5 2 3 0-3 .5-6 1-9z" />
-		</svg>
-	);
-}

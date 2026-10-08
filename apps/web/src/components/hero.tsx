@@ -97,7 +97,7 @@ export function Hero({ energy }: { energy: Energy }) {
 				</a>
 				<BatteryPreview
 					energy={energy}
-					className="relative z-20 mx-4 -mt-2 mb-0 max-w-sm sm:mx-auto lg:absolute lg:-bottom-6 lg:-left-20 lg:mx-0 lg:mt-0 lg:w-60"
+					className="relative z-20 mx-4 -mt-2 mb-0 max-w-sm sm:mx-auto lg:absolute lg:-bottom-6 lg:-left-4 lg:mx-0 lg:mt-0 lg:w-60 xl:-left-20"
 				/>
 			</div>
 		</section>

@@ -1,45 +1,38 @@
-import type { ReactNode } from "react";
-import { FlameIcon, HeartIcon, MoonIcon, PulseIcon } from "./icons";
-
-// The health signals the watch brings together, as app-style tiles.
-// Our own glyphs: they evoke the sources without using anyone's app icons.
-const SOURCES: {
-	label: string;
-	icon: ReactNode;
-	color: string;
-	place: string;
-}[] = [
-	{
-		label: "Sleep",
-		icon: <MoonIcon size={26} />,
-		color: "bg-indigo-500",
-		place: "lg:top-[40%] lg:-left-9",
-	},
-	{
-		label: "Heart rate",
-		icon: <HeartIcon size={26} />,
-		color: "bg-bad",
-		place: "lg:top-5 lg:right-8",
-	},
-	{
-		label: "HRV",
-		icon: <PulseIcon size={26} />,
-		color: "bg-teal-700",
-		place: "lg:top-[46%] lg:-right-7",
-	},
-	{
-		label: "Activity",
-		icon: <FlameIcon size={26} />,
-		color: "bg-band",
-		place: "lg:right-4 lg:bottom-14",
-	},
-];
+// The Apple apps whose data Vital's sample mirrors, shown around the hero watch.
+// The icons are Apple's own artwork (public/apple/), used to name those apps. See the footer notice.
+const SOURCES: { label: string; icon: string; shape: string; place: string }[] =
+	[
+		{
+			label: "Sleep",
+			icon: "/apple/sleep.png",
+			shape: "rounded-full",
+			place: "lg:top-[40%] lg:-left-9",
+		},
+		{
+			label: "Heart Rate",
+			icon: "/apple/heart-rate.png",
+			shape: "rounded-full",
+			place: "lg:top-4 lg:right-2 xl:right-8",
+		},
+		{
+			label: "Health",
+			icon: "/apple/health.png",
+			shape: "rounded-[22%]",
+			place: "lg:top-[46%] lg:-right-7",
+		},
+		{
+			label: "Fitness",
+			icon: "/apple/fitness.png",
+			shape: "rounded-[22%]",
+			place: "lg:right-4 lg:bottom-14",
+		},
+	];
 
 // A row under the watch on phones; floating around it from `lg`.
 export function SignalSources() {
 	return (
 		<ul
-			aria-label="Signals the watch brings together"
+			aria-label="Apple apps the sample data is shaped like"
 			className="pointer-events-none relative z-20 mt-5 flex justify-center gap-3 sm:gap-5 lg:static lg:mt-0"
 		>
 			{SOURCES.map((s, i) => (
@@ -52,11 +45,13 @@ export function SignalSources() {
 						className="lg:animate-float flex w-16 flex-col items-center gap-1.5"
 						style={{ animationDelay: `${i * -1500}ms` }}
 					>
-						<span
-							className={`flex size-14 items-center justify-center rounded-2xl text-white shadow-lift ${s.color}`}
-						>
-							{s.icon}
-						</span>
+						<img
+							src={s.icon}
+							alt=""
+							width={56}
+							height={56}
+							className={`size-14 shadow-lift ${s.shape}`}
+						/>
 						<span className="text-xs leading-none font-medium whitespace-nowrap text-heading">
 							{s.label}
 						</span>

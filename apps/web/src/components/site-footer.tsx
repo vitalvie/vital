@@ -20,6 +20,10 @@ export function SiteFooter() {
 						on sample data. For health concerns, talk to a healthcare
 						professional.
 					</p>
+					<p className="text-xs leading-5 text-caption text-pretty">
+						Apple, Apple Watch, Apple Health and Apple Fitness are trademarks of
+						Apple Inc. Vital is not affiliated with or endorsed by Apple.
+					</p>
 				</div>
 				<nav aria-label="Footer">
 					<ul className="flex flex-wrap gap-x-2 gap-y-1 lg:justify-end">
