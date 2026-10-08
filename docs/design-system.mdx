@@ -31,19 +31,21 @@ All tokens live in `apps/web/src/styles.css` under `@theme`, so they work as Tai
 | `peach` | `#fff3e5` | Floating highlight bubble |
 | `pink-50`, `teal-50` | `#ffe7f0`, `#ebfaf9` | Suggestion chips |
 | `good` / `warn` / `bad` | `#367940` / `#ff9359` / `#c9202e` | Status, battery fill, cancel button |
+| `good-bg` / `bad-bg` | `#ecf7e9` / `#ffe8e9` | Soft pills behind `good` and `bad` text |
+| `warn-ink` | `#8f4310` | Text on `peach`. `warn` itself is too light for text |
 | `titanium-light` / `titanium` | `#e4e1db` / `#a8a39b` | Watch case |
 | `band` | `#ff6d39` | Watch band |
 | `screen` | `#0b0b12` | Watch screen |
 
 ### Type
 
-Font: **Alan Sans** from Google Fonts, weights 400, 500 and 700.
+Font: **Alan Sans**, weights 400, 500 and 700. Self-hosted as one variable file (`apps/web/public/fonts/alan-sans-latin.woff2`, latin subset, SIL Open Font License) and preloaded, so first paint does not wait on a third party.
 
 | Role | Style |
 |------|-------|
 | Page title | 32/40, medium, `heading` |
 | Answer | `text-xl`, leading 8, `heading` |
-| Key number | `text-4xl`, bold, `heading` |
+| Key number | `text-5xl`, bold, `heading`, `tabular-nums` |
 | Body | 16/24, `paragraph` |
 | Label, status | `text-sm` or `text-xs`, `caption` |
 
@@ -54,8 +56,11 @@ Font: **Alan Sans** from Google Fonts, weights 400, 500 and 700.
 | Radius | Cards `rounded-3xl`, tiles `rounded-2xl`, chips and inputs `rounded-full` |
 | `shadow-soft` | Resting elevation for bubbles, chips on hover, the ask bar |
 | `shadow-brand` | Indigo glow under the orb |
+| `shadow-device` | Drop shadow under the watch case |
 | `ease-smooth` | `cubic-bezier(0.22, 1, 0.36, 1)` for every transition |
-| `animate-fade-up` | 500 ms entrance for new text |
+| `animate-fade-up` | 500 ms entrance for new text and, staggered by 80 ms, the cards |
+
+Motion only animates `transform` and `opacity`. Colors may cross-fade. The battery fill slides with `translateX`, history bars grow with `scaleY`, and numbers count to their new value (`useCountUp` in `src/lib/count-up.ts`). Buttons press in with `active:scale-[0.97]`.
 
 ## Components
 
@@ -65,47 +70,77 @@ Components live in `apps/web/src/components/`. One file per component, kebab-cas
 |-----------|------|------|
 | `Watch` | `watch.tsx` | Apple Watch Ultra-style frame hosting the voice UI: battery, clock, orb, status, level dots, cancel |
 | `Orb` | `orb.tsx` | Voice control and state indicator, shown on the watch screen |
-| `BodyBatteryCard` | `body-battery-card.tsx` | Level pill, flat battery, score, one-line summary, three contributor tiles |
-| `Conversation` | `conversation.tsx` | Chat panel: header with live status, question bubble, answer, ask bar |
-| `AskBar` | `ask-bar.tsx` | Suggestion chips and pill-shaped text input, used inside `Conversation` |
+| `BodyBatteryCard` | `body-battery-card.tsx` | Level pill, flat battery, score, one-line summary, three contributors |
+| `Conversation` | `conversation.tsx` | Chat panel: header with live status, question bubble, answer or skeleton, notice, ask bar |
+| `AskBar` | `ask-bar.tsx` | Suggestion chips and pill-shaped text input, used inside `Conversation`. Disabled while Vital is busy |
 | `DemoDataPanel` | `demo-data-panel.tsx` | Preset chips, plus sliders and 14-day bars when "Adjust numbers" is open |
 | `Logo` | `logo.tsx` | "vital" wordmark in Alan Sans with Alan's SVG logo, sharp at any size |
 | `ReleaseFooter` | `release-footer.tsx` | Latest GitHub release and CI status on main, under the disclaimer |
 | Icons | `icons.tsx` | Stroke icons, 2 px, `currentColor`. The GitHub mark is filled |
 
+### Body Battery
+
+The level pill and the battery fill share one color per level: `bad` for Low, `warn` for Moderate, `good` for Good. The dot next to the score on the watch follows the same rule.
+
+Each contributor shows today's value, its unit, the gap to the usual value (`+0.7 h`, `−3 bpm`) and the usual value. The gap pill is colored by what it does to the score, not by its sign: a lower resting heart rate is green. Contributors are full-width rows on phones and three tiles from `sm`.
+
 ### Orb states
 
-| Status | Visual | Tap does |
-|--------|--------|----------|
-| `idle` | Slow breathing, faint halo | Start recording |
-| `listening` | Bright halo, scales with live mic volume | Send the recording |
-| `thinking` | Fast spinning halo | Nothing |
-| `speaking` | Quick pulse, stop icon | Stop playback |
+| Status | Visual | Icon | Watch label | Tap does |
+|--------|--------|------|-------------|----------|
+| `idle` | Slow breathing, faint halo, a ring drifting outward | Mic | Tap to talk | Start recording |
+| `listening` | Bright halo, scales with live mic volume | Arrow up | Listening… tap to send | Send the recording |
+| `thinking` | Fast spinning halo | Three dots | Thinking… | Nothing |
+| `speaking` | Quick pulse | Stop | Speaking… | Stop playback |
 
-The status line under the orb says what is happening. The red cancel button appears while listening (discards the recording) or speaking (stops playback).
+The orb sits in the middle of the screen. While listening or speaking it slides up to make room for the mic meter and the red cancel button, which discards the recording or stops playback.
+
+### Notices
+
+When Vital can't listen or can't answer, `Conversation` shows a `peach` notice with a short title, one line of help and at most one action. Copy lives in `src/lib/notice.ts`. Keep it warm and free of technical words.
+
+| Case | Title | Action |
+|------|-------|--------|
+| Page is not secure | Mic needs HTTPS | Open secure link |
+| Browser can't record | Voice isn't available here | Type instead |
+| Permission denied | The mic is switched off | Type instead |
+| Nothing transcribed | I didn't catch that | None |
+| Empty answer | I don't have an answer for that one | Type instead |
+| Network down | I can't reach Vital right now | Try again |
+| Any other failure | Something went wrong on my side | Try again |
+
+When voice is unavailable the orb dims, shows a crossed mic, and a tap moves focus to the text input. If only the spoken reply fails, the written answer stays and no notice shows.
+
+While thinking, a three-line skeleton holds the answer's place. The answer sits in an `aria-live` region and the status chip is an `output`.
 
 ## Layout
 
-`max-w-5xl`, mobile-first. Two columns from `lg`, stacked below in the order intro, watch, battery, conversation. The right column is left-aligned and every card uses `rounded-3xl` with the same padding (`p-4 sm:p-6`/`p-5 sm:p-6`). The watch scales to 80% under `sm` and 70% under 400 px:
+`max-w-5xl`, mobile-first, `min-h-dvh`, padded by the iOS safe areas. Every card uses `rounded-3xl` with the same padding (`p-4 sm:p-6`/`p-5 sm:p-6`).
+
+Below `lg` everything stacks in the order intro, watch, conversation, demo data, battery, so the answer lands right under the orb. The page scrolls the conversation into view as it grows. The watch is drawn at full size and zoomed to 80% under `sm` and 72% under 400 px.
+
+From `lg` there are two columns and the watch is sticky. The DOM keeps the phone order; grid rows place the data above the conversation:
 
 ```
 Header          logo
 ┌───────────────┬──────────────────────────────────┐
 │ Watch         │ Intro (title, one instruction)   │
-│               │ Demo data (presets, adjust)      │
-│ (sticky,      │ Number sliders (when open)       │
+│               │ Demo data (presets, adjust,      │
+│ (sticky,      │   number sliders when open)      │
 │  spans rows)  │ Body Battery card                │
 │               │ Conversation panel               │
 └───────────────┴──────────────────────────────────┘
-Footer          medical disclaimer
+Footer          medical disclaimer, release, CI
 ```
 
 ## Rules
 
 - Reuse tokens and components before adding new ones. Add a token in `styles.css` rather than a one-off color.
 - Keep copy short, friendly, and non-clinical. Suggest a professional when something looks concerning.
-- Every interactive element needs a visible focus state and an accessible name.
+- Every interactive element needs a visible focus state and an accessible name. The focus ring is global (`:focus-visible` in `styles.css`): indigo, white on the watch screen. Don't restyle it per component.
+- Touch targets are at least 44 px: `min-h-9 pointer-coarse:min-h-11` on chips and pills, so mouse layouts stay compact.
 - Buttons show a pointer cursor; disabled buttons show `not-allowed` (global rule in `styles.css`).
-- Check layouts at 360, 768 and 1280 px with no horizontal scroll. Grid tracks use `minmax(0, 1fr)` so content can shrink.
-- New motion uses `ease-smooth` and is disabled under `prefers-reduced-motion`.
+- Check layouts at 360, 390, 430, 768, 1024 and 1440 px with no horizontal scroll. Grid tracks use `minmax(0, 1fr)` so content can shrink.
+- New motion uses `ease-smooth`. A global rule in `styles.css` ends every animation and transition at once under `prefers-reduced-motion`.
+- No dark mode yet. The pastels and the watch are tuned for the cream background.
 - No extra UI libraries. Tailwind and plain React only.
