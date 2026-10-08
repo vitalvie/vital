@@ -8,6 +8,8 @@ export type Contributor = {
 	today: number;
 	baseline: number;
 	unit: string;
+	digits: number; // decimals shown for this signal
+	delta: number; // today minus the displayed baseline
 	impact: number; // points added to or removed from the score
 };
 
@@ -41,6 +43,7 @@ export function computeEnergy(days: DailyHealth[]): Energy {
 			today: today.sleepHours,
 			baseline: round1(sleepBase),
 			unit: "h",
+			digits: 1,
 			impact: clamp((today.sleepHours - sleepBase) * 6, -20, 15),
 		},
 		{
@@ -48,6 +51,7 @@ export function computeEnergy(days: DailyHealth[]): Energy {
 			today: today.hrvMs,
 			baseline: Math.round(hrvBase),
 			unit: "ms",
+			digits: 0,
 			impact: clamp(((today.hrvMs - hrvBase) / hrvBase) * 50, -20, 15),
 		},
 		{
@@ -55,9 +59,14 @@ export function computeEnergy(days: DailyHealth[]): Energy {
 			today: today.restingHr,
 			baseline: Math.round(rhrBase),
 			unit: "bpm",
+			digits: 0,
 			impact: clamp((rhrBase - today.restingHr) * 2, -15, 10),
 		},
-	].map((c) => ({ ...c, impact: Math.round(c.impact) }));
+	].map((c) => ({
+		...c,
+		delta: round1(c.today - c.baseline),
+		impact: Math.round(c.impact),
+	}));
 
 	const score = clamp(
 		75 + contributors.reduce((sum, c) => sum + c.impact, 0),
@@ -84,4 +93,17 @@ export function energySummary(contributors: Contributor[]): string {
 	return drains.length
 		? `Your ${drains.join(" and ")} ${drains.length > 1 ? "are" : "is"} pulling you down today.`
 		: "You're recovered and ready to go.";
+}
+
+// Signed gap to the usual value, e.g. "+0.7 h" or "−3 bpm".
+export function formatDelta(c: Contributor): string {
+	const sign = c.delta > 0 ? "+" : c.delta < 0 ? "−" : "±";
+	return `${sign}${Math.abs(c.delta).toFixed(c.digits)} ${c.unit}`;
+}
+
+export type Tone = "good" | "bad" | "neutral";
+
+// Whether today's value helps or hurts the score. A lower resting HR is good.
+export function contributorTone(c: Contributor): Tone {
+	return c.impact > 0 ? "good" : c.impact < 0 ? "bad" : "neutral";
 }

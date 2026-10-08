@@ -3,8 +3,10 @@ import { type DailyHealth, mockHealth } from "#/data/mock-health";
 import {
 	type Contributor,
 	computeEnergy,
+	contributorTone,
 	energyLevel,
 	energySummary,
+	formatDelta,
 } from "./energy";
 
 const usual: DailyHealth = {
@@ -87,6 +89,8 @@ describe("energySummary", () => {
 		today: 0,
 		baseline: 0,
 		unit: "",
+		digits: 0,
+		delta: 0,
 	});
 
 	it("names the two biggest drains and keeps acronyms", () => {
@@ -105,5 +109,40 @@ describe("energySummary", () => {
 		expect(energySummary([c("Sleep", 2), c("HRV", 0)])).toBe(
 			"You're recovered and ready to go.",
 		);
+	});
+});
+
+describe("formatDelta", () => {
+	const deltas = (today: Partial<DailyHealth>) =>
+		computeEnergy(week(today)).contributors.map(formatDelta);
+
+	it("shows the signed gap to the usual value with its unit", () => {
+		expect(deltas({ sleepHours: 8.2, hrvMs: 58, restingHr: 53 })).toEqual([
+			"+0.7 h",
+			"+8 ms",
+			"−3 bpm",
+		]);
+	});
+
+	it("marks a usual day as level", () => {
+		expect(deltas({})).toEqual(["±0.0 h", "±0 ms", "±0 bpm"]);
+	});
+});
+
+describe("contributorTone", () => {
+	const tones = (today: Partial<DailyHealth>) =>
+		computeEnergy(week(today)).contributors.map(contributorTone);
+
+	it("reads a lower resting HR as good and a higher one as bad", () => {
+		expect(tones({ restingHr: 53 })).toEqual(["neutral", "neutral", "good"]);
+		expect(tones({ restingHr: 60 })).toEqual(["neutral", "neutral", "bad"]);
+	});
+
+	it("follows sleep and HRV upward", () => {
+		expect(tones({ sleepHours: 8.5, hrvMs: 40 })).toEqual([
+			"good",
+			"bad",
+			"neutral",
+		]);
 	});
 });
