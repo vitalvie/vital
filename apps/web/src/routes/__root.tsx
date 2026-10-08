@@ -3,6 +3,7 @@ import {
 	SITE_ORIGIN,
 	SOCIAL_TITLE,
 	socialMeta,
+	structuredData,
 	THEME_COLOR,
 } from "#/lib/social";
 import appCss from "../styles.css?url";
@@ -31,6 +32,13 @@ export const Route = createRootRoute({
 			{ rel: "stylesheet", href: appCss },
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 			{ rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+			{ rel: "canonical", href: `${SITE_ORIGIN}/` },
+		],
+		scripts: [
+			{
+				type: "application/ld+json",
+				children: JSON.stringify(structuredData(SITE_ORIGIN)),
+			},
 		],
 	}),
 	shellComponent: RootDocument,

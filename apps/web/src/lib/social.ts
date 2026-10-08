@@ -6,7 +6,7 @@ export const SOCIAL_TITLE = "Vital — Talk to your body";
 export const THEME_COLOR = "#fffcf5";
 
 export const SOCIAL_DESCRIPTION =
-	"Ask out loud and get a short answer from sample health data. A voice companion for everyday energy, not a doctor.";
+	"Ask out loud how you're doing and hear a short answer grounded in sample sleep and heart data. An open-source voice companion for everyday energy, not a doctor.";
 
 export function socialMeta(origin: string) {
 	const base = origin.replace(/\/$/, "");
@@ -24,11 +24,29 @@ export function socialMeta(origin: string) {
 		{
 			property: "og:image:alt",
 			content:
-				"Vital: a watch with a glowing orb that says Tap to talk, next to the Body Battery card",
+				"Vital landing page: the headline Talk to your body next to a watch with a glowing orb that says Tap to talk",
 		},
 		{ name: "twitter:card", content: "summary_large_image" },
 		{ name: "twitter:title", content: SOCIAL_TITLE },
 		{ name: "twitter:description", content: SOCIAL_DESCRIPTION },
 		{ name: "twitter:image", content: image },
 	];
+}
+
+// schema.org description of the page, for search engines.
+export function structuredData(origin: string) {
+	const base = origin.replace(/\/$/, "");
+	return {
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		name: "Vital",
+		url: `${base}/`,
+		description: SOCIAL_DESCRIPTION,
+		applicationCategory: "HealthApplication",
+		operatingSystem: "Any",
+		isAccessibleForFree: true,
+		license: "https://www.gnu.org/licenses/agpl-3.0.html",
+		image: `${base}/og.png`,
+		offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+	};
 }
