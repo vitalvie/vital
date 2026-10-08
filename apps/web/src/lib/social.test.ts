@@ -14,7 +14,7 @@ describe("socialMeta", () => {
 		expect(image?.content).toBe(`${SITE_ORIGIN}/og.png`);
 		expect(card?.content).toBe("summary_large_image");
 		expect(meta.find((tag) => tag.property === "og:title")?.content).toMatch(
-			/Talk to your body/,
+			/Ask your body/,
 		);
 	});
 });

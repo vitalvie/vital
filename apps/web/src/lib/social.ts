@@ -1,6 +1,6 @@
 export const SITE_ORIGIN = "https://vital.vitalvie.workers.dev";
 
-export const SOCIAL_TITLE = "Vital — Talk to your body";
+export const SOCIAL_TITLE = "Vital — Ask your body anything";
 
 // Browser chrome color. Matches the `cream` token in styles.css.
 export const THEME_COLOR = "#fffcf5";
@@ -24,7 +24,7 @@ export function socialMeta(origin: string) {
 		{
 			property: "og:image:alt",
 			content:
-				"Vital landing page: the headline Talk to your body next to a watch with a glowing orb that says Tap to talk",
+				"Vital landing page: the headline Ask your body, anything, next to a watch with a glowing orb that says Tap to talk",
 		},
 		{ name: "twitter:card", content: "summary_large_image" },
 		{ name: "twitter:title", content: SOCIAL_TITLE },

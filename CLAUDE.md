@@ -1,6 +1,6 @@
 # Vital
 
-> Talk to your body.
+> Ask your body — anything
 
 Voice companion for everyday energy. Ask a question out loud, get a short spoken answer grounded in (mocked) HealthKit data. The web app is a product-led landing page: the hero sells the product with the watch on show, the working demo sits right below it, and the following sections explain how it works, why it is safe, and how it is built.
 

@@ -26,8 +26,10 @@ export function Hero({ energy }: { energy: Energy }) {
 					A voice companion for everyday energy
 				</p>
 				<h1 id="hero-title" className="text-display text-heading">
-					<span className="block text-balance">Talk to your body —</span>
-					<span className="block text-indigo-500">it talks back.</span>
+					<span className="block text-balance xl:whitespace-nowrap">
+						Ask your body —
+					</span>
+					<span className="block text-indigo-500">anything</span>
 				</h1>
 				<p className="animate-fade-up max-w-[38ch] text-lead text-pretty [animation-delay:80ms]">
 					Sleep, heart and activity already live on your wrist. Ask out loud how
@@ -55,7 +57,7 @@ export function Hero({ energy }: { energy: Energy }) {
 			</div>
 
 			<div className="group relative">
-				<div className="rounded-5xl bg-linear-to-br from-indigo-100 via-indigo-50 to-pink-50 px-4 pt-10 pb-6 sm:px-12 sm:pt-14 sm:pb-12 lg:px-16">
+				<div className="rounded-5xl bg-linear-to-br from-indigo-100 via-indigo-50 to-pink-50 px-4 pt-10 pb-6 sm:px-12 sm:pt-14 sm:pb-12">
 					<div
 						aria-hidden="true"
 						inert
