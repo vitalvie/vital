@@ -276,6 +276,60 @@ body {
 		}
 	}
 
+	/* Size of the hero watch. On desktop it also follows the viewport height,
+	   so the whole hero, Body Battery preview included, fits above the fold. */
+	.hero-watch {
+		zoom: 0.72;
+	}
+
+	@media (min-width: 25rem) {
+		.hero-watch {
+			zoom: 0.8;
+		}
+	}
+
+	@media (min-width: 40rem) {
+		.hero-watch {
+			zoom: 1;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.hero-watch {
+			zoom: 0.9;
+		}
+	}
+
+	@media (min-width: 80rem) {
+		.hero-watch {
+			zoom: 1;
+		}
+	}
+
+	@media (min-width: 64rem) and (max-height: 960px) {
+		.hero-watch {
+			zoom: 0.92;
+		}
+	}
+
+	@media (min-width: 64rem) and (max-height: 860px) {
+		.hero-watch {
+			zoom: 0.82;
+		}
+	}
+
+	@media (min-width: 64rem) and (max-height: 780px) {
+		.hero-watch {
+			zoom: 0.7;
+		}
+	}
+
+	@media (min-width: 64rem) and (max-height: 700px) {
+		.hero-watch {
+			zoom: 0.55;
+		}
+	}
+
 	/* Scroll reveal. Markup is visible by default; `Reveal` hides what starts below the fold. */
 	.reveal[data-reveal="pending"] {
 		opacity: 0;

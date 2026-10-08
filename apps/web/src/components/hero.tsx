@@ -74,7 +74,7 @@ export function Hero({ energy }: { energy: Energy }) {
 									mic="ready"
 									question={show.question}
 									answer={show.answer}
-									className="[zoom:0.72] min-[400px]:[zoom:0.8] sm:[zoom:1] lg:[zoom:0.9] xl:[zoom:1]"
+									className="hero-watch"
 									onOrb={noop}
 								/>
 							</div>
