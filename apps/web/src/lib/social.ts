@@ -2,6 +2,9 @@ export const SITE_ORIGIN = "https://vital.vitalvie.workers.dev";
 
 export const SOCIAL_TITLE = "Vital — Talk to your body";
 
+// Browser chrome color. Matches the `cream` token in styles.css.
+export const THEME_COLOR = "#fffcf5";
+
 export const SOCIAL_DESCRIPTION =
 	"Ask out loud and get a short answer from sample health data. A voice companion for everyday energy, not a doctor.";
 
@@ -20,7 +23,8 @@ export function socialMeta(origin: string) {
 		{ property: "og:image:height", content: "630" },
 		{
 			property: "og:image:alt",
-			content: "Vital: tap the watch to talk, with the answer on the right",
+			content:
+				"Vital: a watch with a glowing orb that says Tap to talk, next to the Body Battery card",
 		},
 		{ name: "twitter:card", content: "summary_large_image" },
 		{ name: "twitter:title", content: SOCIAL_TITLE },
