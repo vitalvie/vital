@@ -106,6 +106,7 @@ Components live in `apps/web/src/components/`. One file per component, kebab-cas
 | `Conversation` | `conversation.tsx` | Question, answer or skeleton, notice, ask bar. Holds the `aria-live` region |
 | `AskBar` | `ask-bar.tsx` | Suggested questions and the text input |
 | `NoticeCard` | `notice-card.tsx` | Why Vital can't listen or answer, with one next step |
+| `SignalSources` | `signal-sources.tsx` | App-style tiles for Sleep, Heart rate, HRV and Activity around the hero watch. Our own glyphs, never a third party's app icons |
 | `ScenarioControl` | `scenario-control.tsx` | "Demo data" control: segmented sample days, collapsible, opens the sliders |
 | `DemoDataPanel` | `demo-data-panel.tsx` | Sliders over 14-day history bars |
 | `ReleaseFooter` | `release-footer.tsx` | Latest GitHub release and CI status as two chips |
@@ -170,7 +171,7 @@ When voice is unavailable the orb dims, shows a crossed mic, and a tap moves foc
 ```
 Nav             wordmark · anchors · GitHub + version · Try it   sticky
 Hero            headline, lead, Try the demo │ tilted showcase watch on a pastel stage
-                                             │ floating question and Body Battery preview
+                                             │ floating question, signal tiles and Body Battery preview
 Demo            indigo block: watch (sticky) │ demo control, Body Battery, conversation
 How it works    three pastel cards: Ask, Understand, Answer
 Benefits        bento grid, four tiles

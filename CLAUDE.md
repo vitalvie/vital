@@ -39,7 +39,7 @@ public/                 # Static assets used by README.md
 | 8 | Final call to action | `final-cta.tsx` | |
 | 9 | Footer with the medical disclaimer | `site-footer.tsx` | |
 
-Product components: `watch`, `orb`, `body-battery-card`, `battery-preview`, `energy-gauge`, `level-pill`, `conversation`, `ask-bar`, `notice-card`, `scenario-control`, `demo-data-panel`, `release-footer`. Building blocks: `section-heading`, `reveal`, `logo`, `icons`.
+Product components: `watch`, `orb`, `signal-sources`, `body-battery-card`, `battery-preview`, `energy-gauge`, `level-pill`, `conversation`, `ask-bar`, `notice-card`, `scenario-control`, `demo-data-panel`, `release-footer`. Building blocks: `section-heading`, `reveal`, `logo`, `icons`.
 
 ## Commands
 

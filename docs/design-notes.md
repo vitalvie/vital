@@ -30,7 +30,7 @@ Same family as the French health products it was built alongside, with its own i
 
 **The watch answers on its own screen.** While thinking it shows the question; then the orb shrinks to the bottom and the answer takes the screen in large type. The conversation panel stays in the demo as the written record and the place to type.
 
-**The hero sells, the demo plays.** A first version made the hero watch interactive. It was honest but flat: a control, not a product shot. The hero watch now sits at an angle on a pastel stage and loops a scripted exchange (ask, think, answer) using the real UI. The headline carries the promise: "Talk to your body — it talks back." One button leads to the demo, where the same watch is live.
+**The hero sells, the demo plays.** A first version made the hero watch interactive. It was honest but flat: a control, not a product shot. The hero watch now sits at an angle on a pastel stage and loops a scripted exchange (ask, think, answer) using the real UI. The headline carries the promise: "Talk to your body — it talks back." One button leads to the demo, where the same watch is live. Four app-style tiles (Sleep, Heart rate, HRV, Activity) float around it to say that the signals already live on the wrist. They are drawn for Vital: Apple's own app icons are not ours to use, and the data is a sample, so the hero says "shaped like Apple Health" rather than implying an integration.
 
 **Demo controls are labeled as demo controls.** The sample-day picker is a segmented control inside a "Demo data" strip that collapses. Sliders stay behind "Adjust numbers".
 

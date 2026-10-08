@@ -2,6 +2,7 @@ import type { Energy } from "#/lib/energy";
 import { SHOWCASE_QUESTION, showcaseLevel, useShowcase } from "#/lib/showcase";
 import { BatteryPreview } from "./battery-preview";
 import { ArrowDownIcon, MicIcon } from "./icons";
+import { SignalSources } from "./signal-sources";
 import { Watch } from "./watch";
 
 const noop = () => {};
@@ -29,8 +30,8 @@ export function Hero({ energy }: { energy: Energy }) {
 					<span className="block text-indigo-500">it talks back.</span>
 				</h1>
 				<p className="animate-fade-up max-w-[38ch] text-lead text-pretty [animation-delay:80ms]">
-					Ask out loud how you're doing today. Vital answers in two or three
-					short sentences, grounded in your own sleep and heart numbers.
+					Sleep, heart and activity already live on your wrist. Ask out loud how
+					you're doing, and Vital answers in two or three short sentences.
 				</p>
 				<div className="animate-fade-up flex flex-wrap justify-center gap-3 [animation-delay:160ms] lg:justify-start">
 					<a
@@ -48,7 +49,8 @@ export function Hero({ energy }: { energy: Energy }) {
 					</a>
 				</div>
 				<p className="animate-fade-up text-sm leading-5 text-caption [animation-delay:240ms]">
-					Open source. Runs on sample data. Not a medical device.
+					Open source. Sample data shaped like Apple Health. Not a medical
+					device.
 				</p>
 			</div>
 
@@ -76,6 +78,7 @@ export function Hero({ energy }: { energy: Energy }) {
 							</div>
 						</div>
 					</div>
+					<SignalSources />
 					<p
 						aria-hidden="true"
 						className="animate-fade-up absolute top-8 -left-6 hidden items-center gap-2 rounded-full bg-white py-2 pr-4 pl-2 text-sm font-medium text-heading shadow-lift [animation-delay:500ms] lg:flex"
