@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Alan Sans (SIL Open Font License), latin subset, one variable file for 400 to 700. */
+@font-face {
+	font-family: "Alan Sans";
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url("/fonts/alan-sans-latin.woff2") format("woff2");
+}
+
 /* Design tokens — see docs/design-system.mdx. Palette and type inspired by alan.com. */
 @theme {
 	--font-sans: "Alan Sans", Helvetica, Arial, sans-serif;
@@ -31,6 +40,7 @@
 	--color-good: #367940;
 	--color-good-bg: #ecf7e9;
 	--color-warn: #ff9359;
+	--color-warn-ink: #8f4310;
 	--color-bad: #c9202e;
 	--color-bad-bg: #ffe8e9;
 
@@ -43,6 +53,7 @@
 	/* Elevation */
 	--shadow-soft: 0 8px 24px rgba(40, 40, 48, 0.06);
 	--shadow-brand: 0 16px 40px rgba(92, 89, 243, 0.35);
+	--shadow-device: 0 30px 60px rgba(40, 40, 48, 0.25);
 
 	/* Motion */
 	--ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
@@ -61,6 +72,18 @@
 }
 
 @layer base {
+	html {
+		color-scheme: light;
+		-webkit-text-size-adjust: 100%;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	/* One focus ring everywhere. Dark surfaces override the color. */
+	:focus-visible {
+		outline: 2px solid var(--color-indigo-500);
+		outline-offset: 2px;
+	}
+
 	button:not(:disabled),
 	[role="button"]:not([aria-disabled="true"]) {
 		cursor: pointer;
@@ -87,6 +110,24 @@ body {
 		transition: transform 120ms ease-out;
 	}
 
+	.orb:focus-visible {
+		outline: 3px solid var(--color-white);
+		outline-offset: 6px;
+	}
+
+	/* Idle invitation: a ring that drifts out of the orb. */
+	.orb-ring {
+		position: absolute;
+		inset: 0;
+		border-radius: 9999px;
+		border: 2px solid var(--color-indigo-300);
+		opacity: 0;
+	}
+
+	.orb[data-status="idle"]:not([data-muted]) .orb-ring {
+		animation: orb-ring 3.2s var(--ease-smooth) infinite;
+	}
+
 	.orb-glow {
 		position: absolute;
 		inset: -18%;
@@ -110,13 +151,27 @@ body {
 		border-radius: 9999px;
 		background: radial-gradient(
 			circle at 32% 28%,
-			#ffffff 0%,
+			var(--color-white) 0%,
 			var(--color-indigo-100) 22%,
 			var(--color-indigo-500) 62%,
 			var(--color-indigo-700) 100%
 		);
 		box-shadow: var(--shadow-brand);
 		animation: orb-breathe 4s var(--ease-smooth) infinite;
+		transition: scale 200ms var(--ease-smooth);
+	}
+
+	.orb:active .orb-core {
+		scale: 0.96;
+	}
+
+	.orb[data-muted] .orb-glow {
+		opacity: 0.2;
+	}
+
+	.orb[data-muted] .orb-core {
+		opacity: 0.55;
+		animation: none;
 	}
 
 	.orb[data-status="listening"] .orb-glow {
@@ -147,13 +202,60 @@ body {
 			transform: scale(1.04);
 		}
 	}
+
+	@keyframes orb-ring {
+		0% {
+			opacity: 0.7;
+			transform: scale(1);
+		}
+		70%,
+		100% {
+			opacity: 0;
+			transform: scale(1.4);
+		}
+	}
+
+	/* Woven watch band. */
+	.watch-band {
+		background-color: var(--color-band);
+		background-image: repeating-linear-gradient(
+			0deg,
+			transparent 0 6px,
+			color-mix(in srgb, var(--color-black) 6%, transparent) 6px 8px
+		);
+	}
+
+	/* Mic meter bars on the watch, shown while listening. */
+	.level-bar {
+		transform: scaleY(0.35);
+		animation: level-bar 900ms var(--ease-smooth) infinite;
+	}
+
+	@keyframes level-bar {
+		50% {
+			transform: scaleY(1);
+		}
+	}
 }
 
+/* Motion is decoration here: with reduced motion, everything lands on its end state. */
 @media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		animation-duration: 0.01ms !important;
+		animation-delay: 0s !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
 	.orb,
 	.orb-glow,
-	.orb-core {
-		animation: none;
+	.orb-core,
+	.orb-ring,
+	.level-bar {
+		animation: none !important;
 		transition: none;
 	}
 }

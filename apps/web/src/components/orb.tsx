@@ -1,12 +1,20 @@
 import { useEffect, useRef } from "react";
-import { MicIcon, StopIcon } from "./icons";
+import { ArrowUpIcon, MicIcon, MicOffIcon, StopIcon } from "./icons";
 
 export type Status = "idle" | "listening" | "thinking" | "speaking";
+
+const LABEL: Record<Status, string> = {
+	idle: "Start talking",
+	listening: "Send your question",
+	thinking: "Vital is thinking",
+	speaking: "Stop speaking",
+};
 
 type Props = {
 	status: Status;
 	level?: () => number;
-	disabled?: boolean;
+	// Voice is unavailable: the orb dims and sends people to the text input.
+	muted?: boolean;
 	className?: string;
 	onClick: () => void;
 };
@@ -15,7 +23,7 @@ type Props = {
 export function Orb({
 	status,
 	level,
-	disabled,
+	muted,
 	className = "size-40",
 	onClick,
 }: Props) {
@@ -38,23 +46,43 @@ export function Orb({
 		};
 	}, [level]);
 
-	const busy = status === "listening" || status === "speaking";
+	const quiet = muted && status === "idle";
 
 	return (
 		<button
 			ref={ref}
 			type="button"
 			data-status={status}
+			data-muted={quiet || undefined}
 			onClick={onClick}
-			disabled={disabled}
-			aria-label={busy ? "Stop" : "Ask Vital"}
-			className={`orb relative rounded-full text-white outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 disabled:opacity-40 ${className}`}
+			aria-disabled={status === "thinking"}
+			aria-label={quiet ? "Type your question instead" : LABEL[status]}
+			className={`orb relative rounded-full text-white ${className}`}
 		>
 			<span className="orb-glow" />
+			<span className="orb-ring" />
 			<span className="orb-core" />
 			<span className="relative flex items-center justify-center">
-				{busy ? <StopIcon size={28} /> : <MicIcon size={32} />}
+				<OrbIcon status={status} quiet={quiet} />
 			</span>
 		</button>
+	);
+}
+
+function OrbIcon({ status, quiet }: { status: Status; quiet?: boolean }) {
+	if (quiet) return <MicOffIcon size={32} />;
+	if (status === "listening") return <ArrowUpIcon size={32} />;
+	if (status === "speaking") return <StopIcon size={28} />;
+	if (status === "idle") return <MicIcon size={32} />;
+	return (
+		<span className="flex gap-1.5">
+			{[0, 1, 2].map((i) => (
+				<span
+					key={i}
+					className="size-2 animate-pulse rounded-full bg-white"
+					style={{ animationDelay: `${i * 180}ms` }}
+				/>
+			))}
+		</span>
 	);
 }

@@ -16,6 +16,15 @@ export function MicIcon({ size = 24 }: { size?: number }) {
 	);
 }
 
+export function MicOffIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M9 9v2a3 3 0 0 0 5 2.2M15 9.5V6a3 3 0 0 0-5.7-1.3" />
+			<path d="M5 11a7 7 0 0 0 11 5.7M19 11a7 7 0 0 1-.6 2.8M12 18v3M4 4l16 16" />
+		</svg>
+	);
+}
+
 export function StopIcon({ size = 24 }: { size?: number }) {
 	return (
 		<svg width={size} height={size} aria-hidden="true" {...base}>

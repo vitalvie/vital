@@ -16,7 +16,7 @@ const CI_DOT: Record<CiState, string> = {
 };
 
 const chip =
-	"inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-xs font-medium shadow-soft transition hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-indigo-500";
+	"inline-flex min-h-8 items-center gap-1.5 rounded-full bg-white px-3.5 text-xs pointer-coarse:min-h-11 font-medium shadow-soft transition duration-200 ease-smooth hover:bg-indigo-50 active:scale-[0.97]";
 
 export function ReleaseFooter({ release }: { release: ReleaseStatus }) {
 	return (

@@ -22,7 +22,8 @@ export function PresetList({
 	onChange: (today: TodaySignals) => void;
 }) {
 	return (
-		<div className="flex flex-wrap gap-2">
+		<fieldset className="flex flex-wrap gap-2">
+			<legend className="sr-only">Sample day</legend>
 			{PRESETS.map((p) => {
 				const active = SIGNALS.every(({ key }) => p.today[key] === today[key]);
 				return (
@@ -31,7 +32,7 @@ export function PresetList({
 						type="button"
 						aria-pressed={active}
 						onClick={() => onChange(p.today)}
-						className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-indigo-500 ${
+						className={`min-h-9 rounded-full px-3.5 text-sm pointer-coarse:min-h-11 font-medium transition duration-200 ease-smooth active:scale-[0.97] ${
 							active
 								? "bg-indigo-500 text-white"
 								: "bg-indigo-50 text-heading hover:bg-indigo-100"
@@ -41,7 +42,7 @@ export function PresetList({
 					</button>
 				);
 			})}
-		</div>
+		</fieldset>
 	);
 }
 
@@ -65,15 +66,15 @@ export function DemoDataPanel({ id, days, today, onChange, onClose }: Props) {
 					type="button"
 					onClick={onClose}
 					aria-label="Close number adjustments"
-					className="grid size-8 shrink-0 place-items-center rounded-full text-caption transition hover:bg-cream hover:text-heading focus-visible:outline-2 focus-visible:outline-indigo-500"
+					className="-mt-2 -mr-2 grid size-11 shrink-0 place-items-center rounded-full text-caption transition duration-200 ease-smooth hover:bg-cream hover:text-heading active:scale-95"
 				>
 					<CloseIcon size={16} />
 				</button>
 			</div>
 
-			<div className="mt-5 flex flex-col gap-5">
+			<div className="mt-3 flex flex-col gap-4">
 				{SIGNALS.map((s) => (
-					<div key={s.key} className="flex flex-col gap-2">
+					<div key={s.key} className="flex flex-col">
 						<div className="flex items-baseline justify-between gap-2">
 							<label
 								htmlFor={`${id}-${s.key}`}
@@ -81,7 +82,7 @@ export function DemoDataPanel({ id, days, today, onChange, onClose }: Props) {
 							>
 								{s.label}
 							</label>
-							<span className="text-sm font-medium text-heading">
+							<span className="text-sm font-medium text-heading tabular-nums">
 								{today[s.key]}
 								<span className="text-xs text-caption"> {s.unit}</span>
 							</span>
@@ -96,7 +97,7 @@ export function DemoDataPanel({ id, days, today, onChange, onClose }: Props) {
 							onChange={(e) =>
 								onChange({ ...today, [s.key]: Number(e.target.value) })
 							}
-							className="w-full cursor-pointer accent-indigo-500"
+							className="h-11 w-full cursor-pointer accent-indigo-500"
 						/>
 						<History days={days} signal={s} />
 					</div>
@@ -126,11 +127,11 @@ function History({
 				<span
 					key={d.date}
 					title={`${d.date}: ${d[signal.key]} ${signal.unit}`}
-					className={`flex-1 rounded-sm transition-[height] duration-300 ease-smooth ${
+					className={`h-full flex-1 origin-bottom rounded-sm transition-transform duration-300 ease-smooth ${
 						i === days.length - 1 ? "bg-indigo-500" : "bg-indigo-100"
 					}`}
 					style={{
-						height: `${25 + ((d[signal.key] - lo) / span) * 75}%`,
+						transform: `scaleY(${0.25 + ((d[signal.key] - lo) / span) * 0.75})`,
 					}}
 				/>
 			))}
