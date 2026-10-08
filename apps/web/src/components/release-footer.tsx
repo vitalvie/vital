@@ -15,12 +15,14 @@ const CI_DOT: Record<CiState, string> = {
 	unknown: "bg-caption",
 };
 
-const chip = "chip bg-white shadow-soft hover:bg-indigo-50";
+// The two chips share the width of whatever sits above them.
+const chip =
+	"chip flex-1 justify-center bg-white shadow-soft hover:bg-indigo-50";
 
 // Latest GitHub release and CI status on main, as two linked chips.
 export function ReleaseFooter({ release }: { release: ReleaseStatus }) {
 	return (
-		<p className="flex flex-wrap items-center gap-2">
+		<p className="flex items-center gap-2">
 			<a
 				href={release.releaseUrl}
 				className={`${chip} text-heading`}

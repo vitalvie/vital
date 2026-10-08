@@ -35,7 +35,7 @@ export function OpenSource({ release }: { release: ReleaseStatus }) {
 							</>
 						}
 					/>
-					<div className="flex flex-col items-start gap-4 lg:items-end">
+					<div className="flex w-fit shrink-0 flex-col gap-3">
 						<a href={REPO_URL} className="btn btn-primary">
 							<GithubIcon size={18} />
 							View on GitHub
