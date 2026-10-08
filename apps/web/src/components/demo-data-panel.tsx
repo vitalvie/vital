@@ -48,7 +48,7 @@ export function DemoDataPanel({ id, days, today, onChange }: Props) {
 							onChange={(e) =>
 								onChange({ ...today, [s.key]: Number(e.target.value) })
 							}
-							className="h-11 w-full cursor-pointer accent-indigo-500"
+							className="range"
 						/>
 						<History days={days} signal={s} />
 					</div>

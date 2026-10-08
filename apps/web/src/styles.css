@@ -213,6 +213,53 @@ body {
 		@apply inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-sm font-medium text-indigo-700 shadow-soft;
 	}
 
+	/* Slider for the demo numbers: a soft track and a round indigo thumb, 44 px tall to touch. */
+	.range {
+		width: 100%;
+		height: 2.75rem;
+		cursor: pointer;
+		appearance: none;
+		background: transparent;
+		accent-color: var(--color-indigo-500);
+	}
+
+	.range::-webkit-slider-runnable-track {
+		height: 0.5rem;
+		border-radius: 9999px;
+		background: var(--color-indigo-100);
+	}
+
+	.range::-moz-range-track {
+		height: 0.5rem;
+		border-radius: 9999px;
+		background: var(--color-indigo-100);
+	}
+
+	.range::-webkit-slider-thumb {
+		appearance: none;
+		width: 1.5rem;
+		height: 1.5rem;
+		margin-top: -0.5rem;
+		border: 3px solid var(--color-white);
+		border-radius: 9999px;
+		background: var(--color-indigo-500);
+		box-shadow: var(--shadow-soft);
+		transition: scale var(--duration-press) var(--ease-smooth);
+	}
+
+	.range::-moz-range-thumb {
+		width: 1.125rem;
+		height: 1.125rem;
+		border: 3px solid var(--color-white);
+		border-radius: 9999px;
+		background: var(--color-indigo-500);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.range:active::-webkit-slider-thumb {
+		scale: 1.12;
+	}
+
 	/* The hero watch, shown at an angle. It straightens a little on hover. */
 	.hero-tilt {
 		transform: perspective(1400px) rotateY(-12deg) rotateX(6deg) rotate(4deg);

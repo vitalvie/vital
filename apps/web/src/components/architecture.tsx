@@ -49,7 +49,7 @@ export function Architecture() {
 						{STAGES.map((s, i) => (
 							<li
 								key={`${s.name}-${s.role}`}
-								className="flex flex-1 flex-col lg:flex-row"
+								className="relative flex flex-1 basis-0 flex-col pt-6 first:pt-0 lg:flex-row lg:pt-0 lg:pl-6 lg:first:pl-0"
 							>
 								{i > 0 && <Link index={i} />}
 								<div className="flex flex-1 items-center gap-4 rounded-3xl bg-night-soft p-4 text-white lg:flex-col lg:items-start lg:p-5">
@@ -82,12 +82,13 @@ export function Architecture() {
 	);
 }
 
-// The track between two stages. Vertical in a column, horizontal in a row.
+// The track leading into a stage, drawn in its gutter so every card keeps the same width.
+// Vertical in a column, horizontal in a row.
 function Link({ index }: { index: number }) {
 	return (
 		<span
 			aria-hidden="true"
-			className="relative mx-auto h-6 w-0.5 shrink-0 rounded-full bg-night-soft lg:mx-0 lg:mt-11 lg:h-0.5 lg:w-6"
+			className="absolute top-0 left-1/2 h-6 w-0.5 rounded-full bg-night-soft lg:top-11 lg:left-0 lg:h-0.5 lg:w-6"
 		>
 			<span
 				className="animate-travel absolute -top-1 -left-[3px] size-2 rounded-full bg-teal-300 [--travel-to-y:1.5rem] lg:-top-[3px] lg:-left-1 lg:[--travel-to-x:1.5rem] lg:[--travel-to-y:0]"
