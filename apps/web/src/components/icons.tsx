@@ -16,6 +16,15 @@ export function MicIcon({ size = 24 }: { size?: number }) {
 	);
 }
 
+export function MicOffIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M9 9v2a3 3 0 0 0 5 2.2M15 9.5V6a3 3 0 0 0-5.7-1.3" />
+			<path d="M5 11a7 7 0 0 0 11 5.7M19 11a7 7 0 0 1-.6 2.8M12 18v3M4 4l16 16" />
+		</svg>
+	);
+}
+
 export function StopIcon({ size = 24 }: { size?: number }) {
 	return (
 		<svg width={size} height={size} aria-hidden="true" {...base}>
@@ -40,6 +49,14 @@ export function ArrowUpIcon({ size = 20 }: { size?: number }) {
 	);
 }
 
+export function ArrowDownIcon({ size = 20 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M12 5v14M5 12l7 7 7-7" />
+		</svg>
+	);
+}
+
 export function GithubIcon({ size = 14 }: { size?: number }) {
 	return (
 		<svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
@@ -58,6 +75,103 @@ export function SlidersIcon({ size = 16 }: { size?: number }) {
 			<circle cx="16" cy="6" r="2" />
 			<circle cx="10" cy="12" r="2" />
 			<circle cx="18" cy="18" r="2" />
+		</svg>
+	);
+}
+
+export function MenuIcon({ size = 20 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M4 8h16M4 16h16" />
+		</svg>
+	);
+}
+
+export function ChevronDownIcon({ size = 16 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M6 9l6 6 6-6" />
+		</svg>
+	);
+}
+
+export function ArrowRightIcon({ size = 18 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M5 12h14M13 6l6 6-6 6" />
+		</svg>
+	);
+}
+
+export function ShieldIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M12 3l7 3v5c0 4.5-2.9 8.3-7 10-4.1-1.7-7-5.5-7-10V6l7-3z" />
+			<path d="M9 12l2.2 2.2L15 10" />
+		</svg>
+	);
+}
+
+export function HandshakeIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<circle cx="12" cy="8" r="4" />
+			<path d="M4 21a8 8 0 0 1 16 0M12 13v4M10 15h4" />
+		</svg>
+	);
+}
+
+export function TargetIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<circle cx="12" cy="12" r="9" />
+			<circle cx="12" cy="12" r="4" />
+			<path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+		</svg>
+	);
+}
+
+export function CheckCircleIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<circle cx="12" cy="12" r="9" />
+			<path d="M8 12.5l2.7 2.7L16 9.5" />
+		</svg>
+	);
+}
+
+export function TextIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M5 7h14M5 12h14M5 17h8" />
+		</svg>
+	);
+}
+
+export function GraphIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<circle cx="6" cy="6" r="2.5" />
+			<circle cx="18" cy="12" r="2.5" />
+			<circle cx="6" cy="18" r="2.5" />
+			<path d="M8.5 6H12a3.5 3.5 0 0 1 3.5 3.5M8.5 18H12a3.5 3.5 0 0 0 3.5-3.5" />
+		</svg>
+	);
+}
+
+export function SparkIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M12 4l1.8 5.2L19 11l-5.2 1.8L12 18l-1.8-5.2L5 11l5.2-1.8L12 4z" />
+		</svg>
+	);
+}
+
+export function SpeakerIcon({ size = 24 }: { size?: number }) {
+	return (
+		<svg width={size} height={size} aria-hidden="true" {...base}>
+			<path d="M4 10v4h3l5 4V6L7 10H4z" />
+			<path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" />
 		</svg>
 	);
 }

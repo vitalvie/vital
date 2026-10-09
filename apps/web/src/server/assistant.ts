@@ -50,11 +50,25 @@ export function cleanAnswer(text: string): string {
 export async function answerQuestion(
 	question: string,
 	days: DailyHealth[],
+	prior?: { question: string; answer: string },
 ): Promise<string> {
-	const text = await completeChat([
+	const messages: {
+		role: "system" | "user" | "assistant";
+		content: string;
+	}[] = [
 		{ role: "system", content: SYSTEM_PROMPT },
 		{ role: "system", content: `User health data: ${healthContext(days)}` },
-		{ role: "user", content: question.slice(0, MAX_QUESTION_LENGTH) },
-	]);
+	];
+	if (prior) {
+		messages.push(
+			{ role: "user", content: prior.question },
+			{ role: "assistant", content: prior.answer },
+		);
+	}
+	messages.push({
+		role: "user",
+		content: question.slice(0, MAX_QUESTION_LENGTH),
+	});
+	const text = await completeChat(messages);
 	return cleanAnswer(text);
 }
