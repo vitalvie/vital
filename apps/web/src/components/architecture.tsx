@@ -8,8 +8,8 @@ const STAGES: { icon: ReactNode; name: string; role: string }[] = [
 	{ icon: <TextIcon />, name: "Voxtral", role: "Speech to text" },
 	{
 		icon: <GraphIcon />,
-		name: "LangGraph agent",
-		role: "Calls one tool: sleep or energy",
+		name: "Your day",
+		role: "Today, compared with your usual",
 	},
 	{
 		icon: <SparkIcon />,
@@ -21,7 +21,6 @@ const STAGES: { icon: ReactNode; name: string; role: string }[] = [
 
 const STACK = [
 	"TanStack Start on Cloudflare Workers",
-	"FastAPI and Pydantic",
 	"OpenRouter",
 	"Live evals in CI",
 ];
@@ -41,7 +40,7 @@ export function Architecture() {
 						tone="dark"
 						eyebrow="Under the hood"
 						title="From your voice to an answer."
-						lead="One question makes one trip through the pipeline. The model key never leaves the API."
+						lead="One question makes one trip through the pipeline. The model key stays on the server."
 					/>
 				</Reveal>
 				<Reveal delay={120}>

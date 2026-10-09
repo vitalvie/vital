@@ -24,7 +24,7 @@ const RULES: { icon: ReactNode; title: string; text: string }[] = [
 	{
 		icon: <TargetIcon />,
 		title: "Grounded, not guessed",
-		text: "The model asks a tool for one day of data and answers from that, next to your baseline.",
+		text: "The answer uses today's sample numbers, compared with your usual.",
 	},
 	{
 		icon: <CheckCircleIcon />,

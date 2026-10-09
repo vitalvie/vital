@@ -56,29 +56,10 @@ Same shape every time. Write them by hand. The tag name is `vX.Y.Z`.
 ```bash
 cd apps/web
 pnpm exec wrangler login
+pnpm exec wrangler secret put OPENROUTER_API_KEY
 ```
 
-The Worker serves the web app and forwards `/api` to the Python API (`apps/api`), which this script does not deploy. Locally, `pnpm dev` reads `OPENROUTER_API_KEY` from `apps/web/.env`. Set a spending limit in the [OpenRouter console](https://openrouter.ai/settings/credits).
-
-## Host the API
-
-The API ships as a container. Run it on any host that gives it an HTTPS address.
-
-```bash
-docker build -f apps/api/Dockerfile -t vital-api apps/api
-```
-
-Set these on the API host: `OPENROUTER_API_KEY`, `PROXY_SECRET` (a long random string), and optionally `OPENROUTER_MODEL`, `VOXTRAL_VOICE`, the Langfuse keys and the rate limits. The host provides `PORT`.
-
-Then tell the Worker where the API is, once:
-
-```bash
-cd apps/web
-pnpm exec wrangler secret put API_URL        # https://your-api-host
-pnpm exec wrangler secret put PROXY_SECRET   # the same value as on the API host
-```
-
-Check `https://<site>/api/health` after a deploy. It answers `{"ok": true}` when the Worker reaches the API.
+The URL is public and every question uses your OpenRouter key, so set a spending limit in the [OpenRouter console](https://openrouter.ai/settings/credits).
 
 ## Roll back
 

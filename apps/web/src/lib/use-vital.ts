@@ -1,3 +1,4 @@
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Status } from "#/components/orb";
 import {
@@ -6,7 +7,6 @@ import {
 	type TodaySignals,
 	withToday,
 } from "#/data/mock-health";
-import { askVital, synthesize, transcribe } from "#/lib/api";
 import {
 	canRecord,
 	playMp3,
@@ -24,6 +24,8 @@ import {
 	noticeKind,
 	VitalError,
 } from "#/lib/notice";
+import { askVital } from "#/server/ask";
+import { synthesize, transcribe } from "#/server/voice";
 
 // The text input that takes over when voice is unavailable.
 export const ASK_INPUT_ID = "ask-input";
@@ -34,6 +36,9 @@ export function focusAskInput() {
 
 // The voice session behind the demo: recording, asking, speaking, and what went wrong.
 export function useVital() {
+	const askServer = useServerFn(askVital);
+	const toText = useServerFn(transcribe);
+	const toSpeech = useServerFn(synthesize);
 	const recording = useRef<Recording | null>(null);
 	const [level, setLevel] = useState<(() => number) | undefined>();
 	const [status, setStatus] = useState<Status>("idle");
@@ -76,16 +81,18 @@ export function useVital() {
 		setQuestion(text);
 		setAnswer("");
 		setStatus("thinking");
-		const reply = await askVital({
-			question: text,
-			today,
-			...(previous ? { prior: previous } : {}),
+		const reply = await askServer({
+			data: {
+				question: text,
+				today,
+				...(previous ? { prior: previous } : {}),
+			},
 		});
 		prior.current = { question: text, answer: reply };
 		setAnswer(reply);
 		setStatus("speaking");
 		try {
-			await playMp3(await synthesize(reply));
+			await playMp3(await toSpeech({ data: reply }));
 		} catch (e) {
 			// The written answer is already on screen; losing the voice is not an error.
 			console.warn(e);
@@ -106,7 +113,7 @@ export function useVital() {
 				setStatus("thinking");
 				const form = new FormData();
 				form.append("audio", await rec.stop());
-				const heard = await transcribe(form);
+				const heard = await toText({ data: form });
 				if (!heard) throw new VitalError("unheard");
 				await respond(heard);
 			});
