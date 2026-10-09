@@ -42,7 +42,7 @@ export function HowItWorks() {
 					n={2}
 					color="bg-pink-50"
 					title="Vital reads today against your usual"
-					text="It looks up one day of sleep or energy and compares it with your own baseline."
+					text="It compares today with your usual, from the sample day on screen."
 				>
 					<UnderstandVisual />
 				</Step>

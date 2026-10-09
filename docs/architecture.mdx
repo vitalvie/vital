@@ -1,6 +1,6 @@
 ---
 title: Architecture
-description: "One monorepo: a React app and a Python API."
+description: "One monorepo, one web app, a few server functions."
 ---
 
 ## Repository layout
@@ -11,10 +11,9 @@ apps/
     src/
       components/      UI components (Watch, Orb, BodyBatteryCard, Conversation, AskBar, DemoDataPanel, Logo, icons)
       data/            Mocked HealthKit data, demo presets
-      lib/             Body Battery score, audio helpers, client for the API
-      server/          Release footer
+      lib/             Body Battery score, audio record/playback helpers
+      server/          Server functions and the assistant prompt (OpenRouter: Mistral chat, Voxtral STT and TTS)
       routes/          Pages (file-based routing)
-  api/                 FastAPI (Python). LangGraph, Pydantic tools, Voxtral speech
 docs/                  This Mintlify site
 public/                Static assets used by the README
 ```
@@ -29,38 +28,34 @@ The repo is a pnpm workspace. New apps go under `apps/`.
 sequenceDiagram
   participant U as User
   participant B as Browser
-  participant A as Python API
+  participant S as Server functions
   participant M as OpenRouter
-  participant Lf as Langfuse
   U->>B: Speaks a question
   B->>B: MediaRecorder captures audio
-  B->>A: POST /transcribe
-  A->>M: Voxtral Mini Transcribe
-  M-->>A: Question text
-  A-->>B: Question text
-  B->>A: POST /ask
-  A->>M: LangGraph chat, with sleep and energy tools
-  M-->>A: Tool choice, or a short answer
-  A->>A: Pydantic tool reads one day versus the usual
-  A->>M: Final answer
-  M-->>A: Short answer
-  A-->>Lf: Trace of the steps
-  A-->>B: Answer text
-  B->>A: POST /synthesize
-  A->>M: Voxtral TTS
-  M-->>A: MP3 audio
-  A-->>B: MP3 audio
+  B->>S: transcribe(audio)
+  S->>M: Voxtral Mini Transcribe
+  M-->>S: Question text
+  S-->>B: Question text
+  B->>S: askVital(question, demo values)
+  S->>S: Mock data + Body Battery to context
+  S->>M: Chat completion
+  M-->>S: Short answer
+  S-->>B: Answer text
+  B->>S: synthesize(answer)
+  S->>M: Voxtral TTS
+  M-->>S: MP3 audio
+  S-->>B: MP3 audio
   B->>U: Plays the answer
 ```
 
 ## Decisions
 
-- **Python API.** FastAPI in `apps/api` keeps the OpenRouter key off the browser. Pydantic validates the `sleep` and `energy` tool inputs. The browser only calls `/api` on its own origin. The web server (`apps/web/src/routes/api/$.ts`) forwards those calls to `API_URL` (default `http://127.0.0.1:8000`), adds the visitor's address and the `PROXY_SECRET`, and never exposes either to the client.
-- **Mistral through OpenRouter.** Voxtral for speech in and out, Mistral chat for the answer, all via `https://openrouter.ai/api/v1`. The answer is a short LangGraph loop: the model may call `sleep` or `energy`, and the API returns one day's summary, not the 14-day history.
+- **No separate backend.** TanStack Start server functions keep the OpenRouter key on the server, with no extra service to run.
+- **Mistral through OpenRouter.** Voxtral for speech in and out, Mistral chat for the answer, all via `https://openrouter.ai/api/v1`.
 - **Mocked data.** Browsers can't read HealthKit, so the data is synthetic but shaped like HealthKit types.
 - **Alan-inspired design system.** Alan Sans, pastel tokens, and a voice orb as the main control. See [Design system](/design-system).
-- **Server builds the context.** The client sends the question, three demo values, and the previous turn if there is one. The server clamps them, loads the rest of the data itself, and applies the guardrails in [Safety and evals](/safety).
-- **Cloudflare Workers.** The web app and the release footer deploy to Workers. Chat, transcription and speech run in the Python API, which `pnpm dev` starts locally. The Worker deploy does not host that API.
+- **Server builds the context.** The client sends the question and three demo values. The server clamps them, loads the rest of the data itself, and applies the guardrails in [Safety and evals](/safety).
+- **Cloudflare Workers.** `@cloudflare/vite-plugin` runs dev, preview and production in the Workers runtime.
 
 ## Environment variables
 
@@ -69,16 +64,7 @@ sequenceDiagram
 | `OPENROUTER_API_KEY` | Yes | |
 | `OPENROUTER_MODEL` | No | `mistralai/mistral-small-3.2-24b-instruct` |
 | `VOXTRAL_VOICE` | No | `gb_jane_neutral` |
-| `LANGFUSE_PUBLIC_KEY` | No | |
-| `LANGFUSE_SECRET_KEY` | No | |
-| `LANGFUSE_BASE_URL` | No | `https://cloud.langfuse.com` |
 | `TYPESAFE_API_KEY` | Evals only | |
 | `JEV_MODEL` | No | `jev-latest` |
-| `API_URL` | In production | `http://127.0.0.1:8000`. Where the web server forwards `/api` |
-| `PROXY_SECRET` | In production | None. Shared by the web server and the API; when set, the API only answers the web server |
-| `RATE_LIMIT_PER_MINUTE` | No | `30` calls per visitor |
-| `RATE_LIMIT_GLOBAL_PER_MINUTE` | No | `300` calls in total |
-| `ALLOWED_ORIGINS` | No | None. Extra origins allowed to call the API directly |
-| `VITE_API_URL` | No | `/api`. Makes the browser call another base |
 
-Set them in `apps/web/.env` locally. The Python API reads that file. `API_URL` and `PROXY_SECRET` are read by the web server at request time; in production set them as Worker secrets and on the API host. `VITE_API_URL` is read by the browser build. `TYPESAFE_API_KEY` is only for `pnpm eval` and CI. Never commit `.env`.
+Set them in `apps/web/.env` locally. In production, add `OPENROUTER_API_KEY` as a Worker secret (`wrangler secret put OPENROUTER_API_KEY`). `TYPESAFE_API_KEY` is only for `pnpm eval` and CI, not the deployed app. Never commit `.env`.

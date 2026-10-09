@@ -3,11 +3,11 @@
 	"private": true,
 	"packageManager": "pnpm@10.33.0",
 	"scripts": {
-		"dev": "bash scripts/dev.sh",
+		"dev": "pnpm --filter web dev",
 		"build": "pnpm --filter web build",
 		"check": "pnpm --filter web check && pnpm --filter web typecheck",
-		"test": "pnpm --filter web test && cd apps/api && uv sync --extra dev --frozen && uv run pytest",
-		"eval": "cd apps/api && uv sync --extra dev --frozen && uv run pytest -m live --override-ini addopts=",
+		"test": "pnpm --filter web test",
+		"eval": "pnpm --filter web eval",
 		"deploy": "pnpm --filter web run deploy",
 		"docs": "cd docs && npx -y -p node@22 -p mint@latest -- mint dev",
 		"docs:check": "cd docs && npx -y -p node@22 -p mint@latest -- mint broken-links"
