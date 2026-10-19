@@ -5,6 +5,7 @@ import {
 	mockHealth,
 	PRESETS,
 	parseToday,
+	presetIndex,
 	withToday,
 } from "./mock-health";
 
@@ -48,5 +49,17 @@ describe("presets", () => {
 			hrvMs: 58,
 			restingHr: 53,
 		});
+	});
+});
+
+describe("presetIndex", () => {
+	it("returns a preset's index", () => {
+		for (const [i, preset] of PRESETS.entries()) {
+			expect(presetIndex(preset.today)).toBe(i);
+		}
+	});
+
+	it("returns -1 when the numbers do not match a preset", () => {
+		expect(presetIndex({ ...PRESETS[0].today, sleepHours: 6 })).toBe(-1);
 	});
 });
