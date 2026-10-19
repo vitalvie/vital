@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
 	type DailyHealth,
 	PRESETS,
-	SIGNALS,
+	presetIndex,
 	type TodaySignals,
 } from "#/data/mock-health";
 import { DemoDataPanel } from "./demo-data-panel";
@@ -18,9 +18,7 @@ type Props = {
 export function ScenarioControl({ days, today, onChange }: Props) {
 	const [open, setOpen] = useState(true);
 	const [editing, setEditing] = useState(false);
-	const active = PRESETS.findIndex((p) =>
-		SIGNALS.every(({ key }) => p.today[key] === today[key]),
-	);
+	const active = presetIndex(today);
 
 	return (
 		<section
@@ -80,6 +78,11 @@ export function ScenarioControl({ days, today, onChange }: Props) {
 							</button>
 						))}
 					</fieldset>
+					{active < 0 && (
+						<span className="chip whitespace-nowrap bg-white text-heading shadow-soft">
+							Custom
+						</span>
+					)}
 					<button
 						type="button"
 						aria-expanded={editing}

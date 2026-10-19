@@ -171,6 +171,12 @@ export const PRESETS: { label: string; today: TodaySignals }[] = [
 export const DEFAULT_TODAY =
 	PRESETS.find((p) => p.label === "Well rested")?.today ?? PRESETS[0].today;
 
+export function presetIndex(today: TodaySignals): number {
+	return PRESETS.findIndex((p) =>
+		SIGNALS.every(({ key }) => p.today[key] === today[key]),
+	);
+}
+
 // Clamps untrusted input to realistic ranges; missing values fall back to the demo story.
 export function parseToday(input: unknown): TodaySignals {
 	const raw = (input ?? {}) as Record<string, unknown>;
